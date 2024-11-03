@@ -10,6 +10,7 @@ export type TasksType = {
 type PropsType = {
     title: string
     tasks: Array<TasksType>
+    removeTask: (id: number) => void;
 }
 
 export function InputHeader(props: PropsType) {
@@ -22,8 +23,9 @@ export function InputHeader(props: PropsType) {
             </div>
             <div>
                 <ul>
-                    {props.tasks.map(item => <li> <input type="checkbox" checked={item.isDone}/>
+                    {props.tasks.map(item => <li><input type="checkbox" checked={item.isDone}/>
                             <span>{item.title}</span>
+                            <button onClick = {()=> {props.removeTask(item.id)}}>X</button>
                         </li>
                     )
                     }
