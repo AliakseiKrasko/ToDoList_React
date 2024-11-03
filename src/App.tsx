@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {InputHeader, TasksType} from "./InputHeader";
+
+let tasks1 = [
+    { id: 1, title: 'HTML&CSS', isDone: true },
+    { id: 2, title: 'JavaScript', isDone: true },
+    { id: 3, title: 'React', isDone: false },
+]
+
+let tasks2: Array<TasksType> = [
+    { id: 1, title: 'Troja', isDone: true },
+    { id: 2, title: 'XXX', isDone: false },
+    { id: 3, title: 'Terminator', isDone: true },
+]
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+        <InputHeader title="Wath to learn" tasks={tasks1} />
+        <InputHeader title="Movies" tasks={tasks2} />
+
+        </div>
+    );
+
 }
 
 export default App;
