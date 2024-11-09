@@ -13,6 +13,7 @@ type PropsType = {
     tasks: Array<TasksType>
     removeTask: (id: string) => void;
     changeFilter: (value: FilterValueType) => void;
+    addTask: () => void;
 }
 
 export function InputHeader(props: PropsType) {
@@ -21,11 +22,11 @@ export function InputHeader(props: PropsType) {
             <h3>{props.title}</h3>
             <div>
                 <input/>
-                <button>+</button>
+                <button onClick={props.addTask}>+</button>
             </div>
             <div>
                 <ul>
-                    {props.tasks.map(item => <li><input type="checkbox" checked={item.isDone}/>
+                    {props.tasks.map(item => <li key={item.id}><input type="checkbox" checked={item.isDone} />
                             <span>{item.title}</span>
                             <button onClick = {()=> {props.removeTask(item.id)}}>X</button>
                         </li>

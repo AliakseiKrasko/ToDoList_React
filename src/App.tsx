@@ -13,6 +13,7 @@ function App() {
         {id: v1(), title: 'React', isDone: false},
         {id: v1(), title: 'Redus', isDone: false},
     ]);
+
     let [filter, setFilter] = useState<FilterValueType>("all");
 
 
@@ -21,6 +22,12 @@ function App() {
         let filterTasks = tasks.filter(t => t.id !== id)
         setTasks(filterTasks);
 
+    }
+
+    function addTask () {
+        let newTask = {id: v1(), title: 'newTask', isDone: false};
+        let newTasks = [newTask, ...tasks];
+        setTasks(newTasks);
     }
 
     function changeFilter(value: FilterValueType) {
@@ -42,6 +49,7 @@ function App() {
                          tasks={tasksForTodoList}
                          removeTask={removeTask}
                          changeFilter={changeFilter}
+                         addTask={addTask}
             />
         </div>
     );
