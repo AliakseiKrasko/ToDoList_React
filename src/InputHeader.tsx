@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {FilterValueType} from './App';
 
 export type TasksType = {
@@ -13,16 +13,18 @@ type PropsType = {
     tasks: Array<TasksType>
     removeTask: (id: string) => void;
     changeFilter: (value: FilterValueType) => void;
-    addTask: () => void;
+    addTask: (title: string) => void;
 }
 
 export function InputHeader(props: PropsType) {
+    const [tilleNewTask, setTilleNewTask] = useState('');
+
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input/>
-                <button onClick={props.addTask}>+</button>
+                <input value={tilleNewTask} onChange={(e) => setTilleNewTask(e.currentTarget.value)} />
+                <button onClick={()=> props.addTask(tilleNewTask) }>+</button>
             </div>
             <div>
                 <ul>
