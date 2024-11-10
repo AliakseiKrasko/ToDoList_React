@@ -46,6 +46,12 @@ function App() {
         tasksForTodoList = tasks.filter(t => t.isDone === false)
     }
 
+    const toggleTaskStatus = (id: string) => {
+        setTasks((prewTasks =>
+            prewTasks.map(task =>
+                task.id === id ? {...task, isDone: !task.isDone } : task))
+        )
+    }
 
     return (
         <div className="App">
@@ -54,6 +60,7 @@ function App() {
                          removeTask={removeTask}
                          changeFilter={changeFilter}
                          addTask={addTask}
+                         toggleTaskStatus={toggleTaskStatus}
             />
         </div>
     );
