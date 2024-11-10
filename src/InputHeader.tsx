@@ -17,14 +17,25 @@ type PropsType = {
 }
 
 export function InputHeader(props: PropsType) {
-    const [tilleNewTask, setTilleNewTask] = useState('');
+    const [titleNewTask, setTilleNewTask] = useState('');
 
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value={tilleNewTask} onChange={(e) => setTilleNewTask(e.currentTarget.value)} />
-                <button onClick={()=> props.addTask(tilleNewTask) }>+</button>
+                <input value={titleNewTask} onChange={
+                    (e) => setTilleNewTask(e.currentTarget.value)
+                }
+                       onKeyDown={(e)=> {
+                           if(e.key === 'Enter') {
+                               props.addTask(titleNewTask);
+                               setTilleNewTask('');
+                           }
+                       }}/>
+                <button onClick={
+                    ()=> {props.addTask(titleNewTask);
+                        setTilleNewTask('');
+                    }}>+</button>
             </div>
             <div>
                 <ul>
