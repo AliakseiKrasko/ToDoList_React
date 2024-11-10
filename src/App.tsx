@@ -3,7 +3,7 @@ import './App.css';
 import {InputHeader, TasksType} from "./InputHeader";
 import {v1} from 'uuid';
 
-export type FilterValueType = "all" | "active" | "completed"
+export type FilterValueType = "all" | "active" | "completed" | "firstThree"
 
 
 function App() {
@@ -45,12 +45,19 @@ function App() {
     if (filter === "active") {
         tasksForTodoList = tasks.filter(t => t.isDone === false)
     }
+    if (filter === "firstThree") {
+        tasksForTodoList = tasks.slice(0, 3)
+    }
 
     const toggleTaskStatus = (id: string) => {
         setTasks((prewTasks =>
             prewTasks.map(task =>
                 task.id === id ? {...task, isDone: !task.isDone } : task))
         )
+    }
+
+    const onAllClickHundler = () => {
+        setTasks([])
     }
 
     return (
@@ -61,6 +68,7 @@ function App() {
                          changeFilter={changeFilter}
                          addTask={addTask}
                          toggleTaskStatus={toggleTaskStatus}
+                         onAllClickHundler={onAllClickHundler}
             />
         </div>
     );

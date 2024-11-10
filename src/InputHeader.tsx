@@ -15,6 +15,7 @@ type PropsType = {
     changeFilter: (value: FilterValueType) => void;
     addTask: (title: string) => void;
     toggleTaskStatus: (id: string) => void;
+    onAllClickHundler: () => void;
 }
 
 export function InputHeader(props: PropsType) {
@@ -36,6 +37,7 @@ export function InputHeader(props: PropsType) {
     const onAllClickHundler = () => props.changeFilter("all")
     const onActiveClickHundler = () => props.changeFilter("active")
     const onCompletedClickHundler = () => props.changeFilter("completed")
+    const onFirstThreeClickHundler = () => props.changeFilter("firstThree")
 
 
     return (
@@ -46,6 +48,7 @@ export function InputHeader(props: PropsType) {
                        onKeyDown={onKeyDownHundler}/>
                 <button onClick={onClickHundler}>+</button>
             </div>
+            <button onClick={props.onAllClickHundler}>Delete All Tasks</button>
             <div>
                 <ul>
                     {props.tasks.map(item => {
@@ -67,6 +70,7 @@ export function InputHeader(props: PropsType) {
                 <button onClick={onAllClickHundler}>All</button>
                 <button onClick={onActiveClickHundler}>Active</button>
                 <button onClick={onCompletedClickHundler}>Completed</button>
+                <button onClick={onFirstThreeClickHundler}>First Three</button>
             </div>
         </div>
     )
