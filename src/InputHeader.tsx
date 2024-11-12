@@ -1,5 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {FilterValueType} from './App';
+import {Simulate} from 'react-dom/test-utils';
+import error = Simulate.error;
 
 export type TasksType = {
     id: string
@@ -16,23 +18,35 @@ type PropsType = {
     addTask: (title: string) => void;
     toggleTaskStatus: (id: string) => void;
     onAllClickHundler: () => void;
+
 }
 
 export function InputHeader(props: PropsType) {
     const [titleNewTask, setTitlleNewTask] = useState('');
+    let [error, setError] = useState<string | null>(null);
 
     const onChangeHundler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitlleNewTask(e.currentTarget.value)
     }
     const onKeyDownHundler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null)
         if (e.key === 'Enter') {
-            props.addTask(titleNewTask);
-            setTitlleNewTask('');
+            if(titleNewTask.trim() !== '') {
+                props.addTask(titleNewTask);
+                setTitlleNewTask('')
+            } else {
+                setError("Title is required");
+            }
         }
     }
     const onClickHundler = () => {
-        props.addTask(titleNewTask);
-        setTitlleNewTask('')
+        if(titleNewTask.trim() !== '') {
+            props.addTask(titleNewTask);
+            setTitlleNewTask('')
+        } else {
+            setError("Title is required");
+        }
+
     }
     const onAllClickHundler = () => props.changeFilter("all")
     const onActiveClickHundler = () => props.changeFilter("active")
@@ -45,8 +59,9 @@ export function InputHeader(props: PropsType) {
             <h3>{props.title}</h3>
             <div>
                 <input value={titleNewTask} onChange={onChangeHundler}
-                       onKeyDown={onKeyDownHundler}/>
+                       onKeyDown={onKeyDownHundler} className={error ? "error" : ""}/>
                 <button onClick={onClickHundler}>+</button>
+                {error && <div className="error-message">{error}</div>}
             </div>
             <button onClick={props.onAllClickHundler}>Delete All Tasks</button>
             <div>
