@@ -49,11 +49,12 @@ function App() {
         tasksForTodoList = tasks.slice(0, 3)
     }
 
-    const toggleTaskStatus = (id: string) => {
-        setTasks((prewTasks =>
-            prewTasks.map(task =>
-                task.id === id ? {...task, isDone: !task.isDone } : task))
-        )
+    const toggleTaskStatus = (taskId: string, isDone: boolean) => {
+        let task = tasks.find(t => t.id === taskId)
+        if (task) {
+            task.isDone = isDone;
+        }
+        setTasks([...tasks]);
     }
 
     const onAllClickHundler = () => {
@@ -69,6 +70,7 @@ function App() {
                          addTask={addTask}
                          toggleTaskStatus={toggleTaskStatus}
                          onAllClickHundler={onAllClickHundler}
+                         filter={filter}
             />
         </div>
     );

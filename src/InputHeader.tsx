@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from "react";
 import {FilterValueType} from './App';
 import {Simulate} from 'react-dom/test-utils';
 import error = Simulate.error;
@@ -16,9 +16,9 @@ type PropsType = {
     removeTask: (id: string) => void;
     changeFilter: (value: FilterValueType) => void;
     addTask: (title: string) => void;
-    toggleTaskStatus: (id: string) => void;
+    toggleTaskStatus: (id: string, isDone: boolean) => void;
     onAllClickHundler: () => void;
-
+    filter: FilterValueType
 }
 
 export function InputHeader(props: PropsType) {
@@ -68,11 +68,13 @@ export function InputHeader(props: PropsType) {
                 <ul>
                     {props.tasks.map(item => {
                         const onRemoveHandler = () => props.removeTask(item.id)
+                        const toggleTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+                            props.toggleTaskStatus(item.id, e.target.checked)
+                        }
 
-
-                        return <li key={item.id}>
+                        return <li key={item.id} className={item.isDone ? "is-done" : ""}>
                             <input type="checkbox" checked={item.isDone}
-                                   onChange={() => props.toggleTaskStatus(item.id)}/>
+                                   onChange={toggleTaskStatus}/>
                             <span>{item.title}</span>
                             <button onClick={onRemoveHandler}
                             >X
@@ -82,10 +84,10 @@ export function InputHeader(props: PropsType) {
                 </ul>
             </div>
             <div>
-                <button onClick={onAllClickHundler}>All</button>
-                <button onClick={onActiveClickHundler}>Active</button>
-                <button onClick={onCompletedClickHundler}>Completed</button>
-                <button onClick={onFirstThreeClickHundler}>First Three</button>
+                <button className={props.filter === "all" ? "filter-button" : ""} onClick={onAllClickHundler}>All</button>
+                <button className={props.filter === "active" ? "filter-button" : ""} onClick={onActiveClickHundler}>Active</button>
+                <button className={props.filter === "completed" ? "filter-button" : ""} onClick={onCompletedClickHundler}>Completed</button>
+                <button className={props.filter === "firstThree" ? "filter-button" : ""} onClick={onFirstThreeClickHundler}>First Three</button>
             </div>
         </div>
     )
