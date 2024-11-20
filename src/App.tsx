@@ -42,16 +42,7 @@ function App() {
         setFilter(value);
     }
 
-    let tasksForTodoList = tasks;
-    if (filter === "completed") {
-        tasksForTodoList = tasks.filter(t => t.isDone === true)
-    }
-    if (filter === "active") {
-        tasksForTodoList = tasks.filter(t => t.isDone === false)
-    }
-    if (filter === "firstThree") {
-        tasksForTodoList = tasks.slice(0, 3)
-    }
+
 
     const toggleTaskStatus = (taskId: string, isDone: boolean) => {
         let task = tasks.find(t => t.id === taskId)
@@ -70,10 +61,22 @@ function App() {
         {id: v1(), title: "Wath to buy", filter: "completed"},
     ]
 
+
+
     return (
         <div className="App">
             {
                 todoLists.map((el) => {
+                    let tasksForTodoList = tasks;
+                    if (el.filter === "completed") {
+                        tasksForTodoList = tasks.filter(t => t.isDone === true)
+                    }
+                    if (el.filter === "active") {
+                        tasksForTodoList = tasks.filter(t => t.isDone === false)
+                    }
+                    if (filter === "firstThree") {
+                        tasksForTodoList = tasks.slice(0, 3)
+                    }
                     return <InputHeader title={el.title}
                                         tasks={tasksForTodoList}
                                         removeTask={removeTask}
