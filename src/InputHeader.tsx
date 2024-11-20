@@ -2,6 +2,7 @@ import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from "r
 import {FilterValueType} from './App';
 import {Simulate} from 'react-dom/test-utils';
 import error = Simulate.error;
+import {Button} from './Button';
 
 export type TasksType = {
     id: string
@@ -60,7 +61,8 @@ export function InputHeader(props: PropsType) {
             <div>
                 <input value={titleNewTask} onChange={onChangeHundler}
                        onKeyDown={onKeyDownHundler} className={error ? "error" : ""}/>
-                <button onClick={onClickHundler}>+</button>
+                {/*<button onClick={onClickHundler}>+</button>*/}
+                <Button title={'+'} onClick={onClickHundler} />
                 {error && <div className="error-message">{error}</div>}
             </div>
             <button onClick={props.onAllClickHundler}>Delete All Tasks</button>
