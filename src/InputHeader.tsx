@@ -12,10 +12,11 @@ export type TasksType = {
 
 
 type PropsType = {
+    id: string
     title: string
     tasks: Array<TasksType>
     removeTask: (id: string) => void;
-    changeFilter: (value: FilterValueType) => void;
+    changeFilter: (value: FilterValueType, todoListId: string) => void;
     addTask: (title: string) => void;
     toggleTaskStatus: (id: string, isDone: boolean) => void;
     onAllClickHundler: () => void;
@@ -49,10 +50,10 @@ export function InputHeader(props: PropsType) {
         }
 
     }
-    const onAllClickHundler = () => props.changeFilter("all")
-    const onActiveClickHundler = () => props.changeFilter("active")
-    const onCompletedClickHundler = () => props.changeFilter("completed")
-    const onFirstThreeClickHundler = () => props.changeFilter("firstThree")
+    const onAllClickHundler = () => props.changeFilter("all", props.id)
+    const onActiveClickHundler = () => props.changeFilter("active", props.id)
+    const onCompletedClickHundler = () => props.changeFilter("completed", props.id)
+    const onFirstThreeClickHundler = () => props.changeFilter("firstThree", props.id)
 
 
     return (
