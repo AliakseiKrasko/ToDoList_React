@@ -4,7 +4,11 @@ import {InputHeader, TasksType} from "./InputHeader";
 import {v1} from 'uuid';
 
 export type FilterValueType = "all" | "active" | "completed" | "firstThree"
-
+type TodoListsPropsType = {
+    id: string
+    title: string
+    filter: FilterValueType
+}
 
 function App() {
     let [tasks, setTasks] = useState<Array<TasksType>>([
@@ -24,7 +28,7 @@ function App() {
 
     }
 
-    function addTask (title: string): void {
+    function addTask(title: string): void {
         let newTask = {
             id: v1(),
             title: title,
@@ -61,19 +65,30 @@ function App() {
         setTasks([])
     }
 
+    let todoLists: Array<TodoListsPropsType> = [
+        {id: v1(), title: "Wath to learn", filter: "active"},
+        {id: v1(), title: "Wath to buy", filter: "completed"},
+    ]
+
     return (
         <div className="App">
-            <InputHeader title="Wath to learn"
-                         tasks={tasksForTodoList}
-                         removeTask={removeTask}
-                         changeFilter={changeFilter}
-                         addTask={addTask}
-                         toggleTaskStatus={toggleTaskStatus}
-                         onAllClickHundler={onAllClickHundler}
-                         filter={filter}
-            />
+            {
+                todoLists.map((el) => {
+                    return <InputHeader title={el.title}
+                                        tasks={tasksForTodoList}
+                                        removeTask={removeTask}
+                                        changeFilter={changeFilter}
+                                        addTask={addTask}
+                                        toggleTaskStatus={toggleTaskStatus}
+                                        onAllClickHundler={onAllClickHundler}
+                                        filter={el.filter}
+                    />
+                })
+            }
+
         </div>
-    );
+    )
+        ;
 
 }
 
