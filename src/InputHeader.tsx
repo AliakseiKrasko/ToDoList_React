@@ -61,8 +61,8 @@ export function InputHeader(props: PropsType) {
             <div>
                 <input value={titleNewTask} onChange={onChangeHundler}
                        onKeyDown={onKeyDownHundler} className={error ? "error" : ""}/>
-                {/*<button onClick={onClickHundler}>+</button>*/}
-                <Button title={'+'} onClick={onClickHundler} />
+                <button onClick={onClickHundler}>+</button>
+                {/*<Button title={'+'} onClick={onClickHundler} />*/}
                 {error && <div className="error-message">{error}</div>}
             </div>
             <button onClick={props.onAllClickHundler}>Delete All Tasks</button>
@@ -78,6 +78,7 @@ export function InputHeader(props: PropsType) {
                             <input type="checkbox" checked={item.isDone}
                                    onChange={toggleTaskStatus}/>
                             <span>{item.title}</span>
+                            {/*<Button title={'X'} onClick={onRemoveHandler} />*/}
                             <button onClick={onRemoveHandler}
                             >X
                             </button>
