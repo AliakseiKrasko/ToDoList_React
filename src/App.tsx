@@ -12,11 +12,15 @@ type TodoListsPropsType = {
     filter: FilterValueType;
 };
 
+type TasksStateType = {
+    [key: string]: Array<TasksType>;
+}
+
 function App() {
     const tasksId1 = v1();
     const tasksId2 = v1();
 
-    let [tasksObj, setTasksObj] = useState({
+    let [tasksObj, setTasksObj] = useState<TasksStateType>({
         [tasksId1]: [
             { id: v1(), title: 'HTML&CSS', isDone: true },
             { id: v1(), title: 'JavaScript', isDone: true },
