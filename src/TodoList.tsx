@@ -21,6 +21,8 @@ type PropsType = {
     onAllClickHundler: (todoListId: string) => void;
     filter: FilterValueType;
     onDeletTodoList: (todoListId: string) => void
+    ChangeTaskTitle: (id: string, newTitle: string, todoListId: string) => void;
+    changeTodoLiistTitle: (id: string, newTitle: string) => void
 };
 
 export function TodoList(props: PropsType) {
@@ -35,10 +37,16 @@ export function TodoList(props: PropsType) {
         props.addTask(title, props.id);
     }
 
+    const changeTodoLiistTitle = (newTitle: string) => {
+        props.changeTodoLiistTitle(props.id, newTitle)
+    }
+
     return (
         <div>
             <div style={{display: 'flex', alignItems: 'center'}}>
-                <h3>{props.title}</h3>
+                <h3>
+                    <EditableSpan title={props.title} onChange={changeTodoLiistTitle} />
+                </h3>
                 <Button title={"X"} onClick={onDeletTodoListHandler}/>
             </div>
 
@@ -50,12 +58,15 @@ export function TodoList(props: PropsType) {
                     const onToggleTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
                         props.toggleTaskStatus(task.id, e.currentTarget.checked, props.id);
                     };
+                    const onChangeTitle = (newTitle: string) => {
+                        props.ChangeTaskTitle(task.id, newTitle, props.id);
+                    }
 
                     return (
                         <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                             <input type="checkbox" checked={task.isDone} onChange={onToggleTaskStatus}/>
 
-                            <EditableSpan title={task.title} />
+                            <EditableSpan title={task.title} onChange={onChangeTitle}/>
                             <button onClick={onRemoveHandler}>X</button>
                         </li>
                     );
