@@ -53,7 +53,8 @@ export function TodoList(props: PropsType) {
                     return (
                         <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                             <input type="checkbox" checked={task.isDone} onChange={onToggleTaskStatus}/>
-                            <span>{task.title}</span>
+
+                            <EditableSpan title={task.title}/>
                             <button onClick={onRemoveHandler}>X</button>
                         </li>
                     );
@@ -89,3 +90,10 @@ export function TodoList(props: PropsType) {
     );
 }
 
+type EditableSpanPropsType = {
+    title: string;
+}
+
+function EditableSpan (props: EditableSpanPropsType) {
+    return <span>{props.title}</span>
+}
