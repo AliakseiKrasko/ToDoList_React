@@ -21,34 +21,7 @@ type PropsType = {
     onDeletTodoList: (todoListId: string) => void
 };
 
-export function InputHeader(props: PropsType) {
-    const [titleNewTask, setTitleNewTask] = useState('');
-    const [error, setError] = useState<string | null>(null);
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitleNewTask(e.currentTarget.value);
-    };
-
-    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
-        if (e.key === 'Enter') {
-            if (titleNewTask.trim() !== '') {
-                props.addTask(titleNewTask, props.id);
-                setTitleNewTask('');
-            } else {
-                setError('Title is required');
-            }
-        }
-    };
-
-    const onClickHandler = () => {
-        if (titleNewTask.trim() !== '') {
-            props.addTask(titleNewTask, props.id);
-            setTitleNewTask('');
-        } else {
-            setError('Title is required');
-        }
-    };
+export function TodoList(props: PropsType) {
 
     const onAllClickHandler = () => props.onAllClickHundler(props.id);
     const onActiveClickHandler = () => props.changeFilter('active', props.id);
@@ -63,16 +36,7 @@ export function InputHeader(props: PropsType) {
                 <Button title={"X"} onClick={onDeletTodoListHandler}/>
             </div>
 
-            <div>
-                <input
-                    value={titleNewTask}
-                    onChange={onChangeHandler}
-                    onKeyDown={onKeyDownHandler}
-                    className={error ? 'error' : ''}
-                />
-                <button onClick={onClickHandler}>+</button>
-                {error && <div className="error-message">{error}</div>}
-            </div>
+            <AddItemForm id={props.id} addTask={props.addTask} />
             <button onClick={onAllClickHandler}>Delete All Tasks</button>
             <ul>
                 {props.tasks.map(task => {
@@ -120,4 +84,52 @@ export function InputHeader(props: PropsType) {
     );
 }
 
+type AddItemFormPropsType = {
+    addTask: (title: string, todoListId: string) => void;
+    id: string
+}
+
+function AddItemForm(props: AddItemFormPropsType) {
+    const [titleNewTask, setTitleNewTask] = useState('');
+    const [error, setError] = useState<string | null>(null);
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitleNewTask(e.currentTarget.value);
+
+
+    };
+
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.key === 'Enter') {
+            if (titleNewTask.trim() !== '') {
+                props.addTask(titleNewTask, props.id);
+                setTitleNewTask('');
+            } else {
+                setError('Title is required');
+            }
+        }
+    };
+
+    const onClickHandler = () => {
+        if (titleNewTask.trim() !== '') {
+            props.addTask(titleNewTask, props.id);
+            setTitleNewTask('');
+        } else {
+            setError('Title is required');
+        }
+    };
+    return (
+        <div>
+            <input
+                value={titleNewTask}
+                onChange={onChangeHandler}
+                onKeyDown={onKeyDownHandler}
+                className={error ? 'error' : ''}
+            />
+            <button onClick={onClickHandler}>+</button>
+            {error && <div className="error-message">{error}</div>}
+        </div>
+    )
+}
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { InputHeader, TasksType } from './InputHeader';
+import { TodoList, TasksType } from './TodoList';
 import { v1 } from 'uuid';
 
 export type FilterValueType = 'all' | 'active' | 'completed' | 'firstThree';
@@ -78,6 +78,7 @@ function App() {
 
     return (
         <div className="App">
+            <input/><button>+</button>
             {todoLists.map(tl => {
                 let tasksForTodoList = tasksObj[tl.id];
                 if (tl.filter === 'completed') {
@@ -90,7 +91,7 @@ function App() {
                     tasksForTodoList = tasksObj[tl.id].slice(0, 3);
                 }
                 return (
-                    <InputHeader
+                    <TodoList
                         key={tl.id}
                         id={tl.id}
                         title={tl.title}
