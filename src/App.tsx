@@ -31,8 +31,8 @@ function App() {
     });
 
     let [todoLists, setTodoLists] = useState<Array<TodoListsPropsType>>([
-        { id: tasksId1, title: 'What to learn', filter: 'active' },
-        { id: tasksId2, title: 'What to buy', filter: 'completed' },
+        { id: tasksId1, title: 'What to learn', filter: 'all' },
+        { id: tasksId2, title: 'What to buy', filter: 'all' },
     ]);
 
     function removeTask(id: string, todoListId: string): void {
@@ -71,6 +71,10 @@ function App() {
             tl.id === todoListId ? { ...tl, filter: value } : tl
         ));
     }
+    function onDeletTodoList(todoListId: string) {
+        setTodoLists(todoLists.filter(tl => tl.id !== todoListId))
+
+    }
 
     return (
         <div className="App">
@@ -96,7 +100,9 @@ function App() {
                         addTask={addTask}
                         toggleTaskStatus={toggleTaskStatus}
                         onAllClickHundler={onAllClickHundler}
+                        onDeletTodoList={onDeletTodoList}
                         filter={tl.filter}
+
                     />
                 );
             })}

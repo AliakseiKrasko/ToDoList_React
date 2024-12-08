@@ -1,5 +1,6 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { FilterValueType } from './App';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {FilterValueType} from './App';
+import {Button} from './Button';
 
 export type TasksType = {
     id: string;
@@ -17,6 +18,7 @@ type PropsType = {
     toggleTaskStatus: (id: string, isDone: boolean, todoListId: string) => void;
     onAllClickHundler: (todoListId: string) => void;
     filter: FilterValueType;
+    onDeletTodoList: (todoListId: string) => void
 };
 
 export function InputHeader(props: PropsType) {
@@ -52,10 +54,15 @@ export function InputHeader(props: PropsType) {
     const onActiveClickHandler = () => props.changeFilter('active', props.id);
     const onCompletedClickHandler = () => props.changeFilter('completed', props.id);
     const onFirstThreeClickHandler = () => props.changeFilter('firstThree', props.id);
+    const onDeletTodoListHandler = () => props.onDeletTodoList(props.id)
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <h3>{props.title}</h3>
+                <Button title={"X"} onClick={onDeletTodoListHandler}/>
+            </div>
+
             <div>
                 <input
                     value={titleNewTask}
@@ -76,7 +83,7 @@ export function InputHeader(props: PropsType) {
 
                     return (
                         <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-                            <input type="checkbox" checked={task.isDone} onChange={onToggleTaskStatus} />
+                            <input type="checkbox" checked={task.isDone} onChange={onToggleTaskStatus}/>
                             <span>{task.title}</span>
                             <button onClick={onRemoveHandler}>X</button>
                         </li>
