@@ -3,7 +3,7 @@ import {FilterValueType} from './App';
 // import {Button} from './Button';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import {Button, IconButton} from '@mui/material';
+import {Button, Checkbox, IconButton} from '@mui/material';
 import {Delete} from '@mui/icons-material';
 
 export type TasksType = {
@@ -69,7 +69,7 @@ export function TodoList(props: PropsType) {
 
                     return (
                         <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-                            <input type="checkbox" checked={task.isDone} onChange={onToggleTaskStatus}/>
+                            <Checkbox checked={task.isDone} onChange={onToggleTaskStatus} color={'secondary'}/>
 
                             <EditableSpan title={task.title} onChange={onChangeTitle}/>
                             <IconButton onClick={onRemoveHandler} size={'small'}>
