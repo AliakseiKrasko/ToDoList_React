@@ -3,7 +3,7 @@ import './App.css';
 import {TodoList, TasksType} from './TodoList';
 import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
-import {AppBar, Button, Container, Grid, Grid2, IconButton, Toolbar} from '@mui/material';
+import {AppBar, Button, Container, Grid, Grid2, IconButton, Paper, Toolbar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu'
 
 export type FilterValueType = 'all' | 'active' | 'completed' | 'firstThree';
@@ -123,10 +123,10 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid2 container spacing={2}>
+                <Grid2 container spacing={3} style={{padding:'20px'}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid2>
-                <Grid2 container spacing={2}>
+                <Grid2 container spacing={3}>
                     {todoLists.map(tl => {
                         let tasksForTodoList = tasksObj[tl.id];
                         if (tl.filter === 'completed') {
@@ -139,29 +139,37 @@ function App() {
                             tasksForTodoList = tasksObj[tl.id].slice(0, 3);
                         }
                         return (
-                            <TodoList
-                                key={tl.id}
-                                id={tl.id}
-                                title={tl.title}
-                                tasks={tasksForTodoList}
-                                removeTask={removeTask}
-                                changeFilter={changeFilter}
-                                addTask={addTask}
-                                toggleTaskStatus={toggleTaskStatus}
-                                onAllClickHundler={onAllClickHundler}
-                                onDeletTodoList={onDeletTodoList}
-                                filter={tl.filter}
-                                ChangeTaskTitle={ChangeTaskTitle}
-                                changeTodoLiistTitle={changeTodoLiistTitle}
-                            />
+                            <Grid2>
+                                <Paper style={{padding: '10px'}}>
+                                    <TodoList
+                                        key={tl.id}
+                                        id={tl.id}
+                                        title={tl.title}
+                                        tasks={tasksForTodoList}
+                                        removeTask={removeTask}
+                                        changeFilter={changeFilter}
+                                        addTask={addTask}
+                                        toggleTaskStatus={toggleTaskStatus}
+                                        onAllClickHundler={onAllClickHundler}
+                                        onDeletTodoList={onDeletTodoList}
+                                        filter={tl.filter}
+                                        ChangeTaskTitle={ChangeTaskTitle}
+                                        changeTodoLiistTitle={changeTodoLiistTitle}
+                                    />
+                                </Paper>
+
+                            </Grid2>
+
                         );
                     })}
                 </Grid2>
 
+
             </Container>
 
         </div>
-    );
+    )
+        ;
 }
 
 export default App;
