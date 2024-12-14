@@ -10,9 +10,11 @@ export type TasksType = {
     id: string;
     title: string;
     isDone: boolean;
+
 };
 
 type PropsType = {
+
     id: string;
     title: string;
     tasks: Array<TasksType>;
@@ -56,7 +58,8 @@ export function TodoList(props: PropsType) {
             </div>
 
             <AddItemForm addItem={addTask} />
-            <button onClick={onAllClickHandler}>Delete All Tasks</button>
+
+            <Button onClick={onAllClickHandler} variant={'outlined'} style={{marginTop: '10px'}}>Delete All Tasks</Button>
             <ul>
                 {props.tasks.map(task => {
                     const onRemoveHandler = () => props.removeTask(task.id, props.id);

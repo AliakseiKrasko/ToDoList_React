@@ -3,6 +3,8 @@ import './App.css';
 import { TodoList, TasksType } from './TodoList';
 import { v1 } from 'uuid';
 import {AddItemForm} from './AddItemForm';
+import {AppBar, Button, IconButton, Toolbar} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu'
 
 export type FilterValueType = 'all' | 'active' | 'completed' | 'firstThree';
 
@@ -110,7 +112,15 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <div>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton color="inherit">
+                        <MenuIcon />
+                    </IconButton>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
             <AddItemForm addItem={addTodoList} />
             {todoLists.map(tl => {
                 let tasksForTodoList = tasksObj[tl.id];
