@@ -40,6 +40,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
     return (
         <div>
             <TextField
+                style={{marginTop: '10px'}}
                 label={'Type value'}
                 value={titleNewTask}
                 onChange={onChangeHandler}
@@ -48,7 +49,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
                 helperText={error}
             />
 
-            <IconButton onClick={onClickHandler}  color={'primary'}>
+            <IconButton onClick={onClickHandler}  color={'primary'} style={{marginTop: '15px'}}>
                 <AddCircleOutline/>
             </IconButton>
 
