@@ -32,7 +32,7 @@ export function TodoList(props: PropsType) {
     const onAllClickHandler = () => props.onAllClickHundler(props.id);
     const onActiveClickHandler = () => props.changeFilter('active', props.id);
     const onCompletedClickHandler = () => props.changeFilter('completed', props.id);
-    const onFirstThreeClickHandler = () => props.changeFilter('firstThree', props.id);
+    // const onFirstThreeClickHandler = () => props.changeFilter('firstThree', props.id);
     const onDeletTodoListHandler = () => props.onDeletTodoList(props.id)
 
     const addTask = (title: string) => {
