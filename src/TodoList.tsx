@@ -102,13 +102,13 @@ export function TodoList(props: PropsType) {
                 >
                     Completed
                 </Button>
-                <Button
-                    color={'success'}
-                    variant={props.filter === 'firstThree' ? 'contained' : 'text'}
-                    onClick={onFirstThreeClickHandler}
-                >
-                    First Three
-                </Button>
+                {/*<Button*/}
+                {/*    color={'success'}*/}
+                {/*    variant={props.filter === 'firstThree' ? 'contained' : 'text'}*/}
+                {/*    onClick={onFirstThreeClickHandler}*/}
+                {/*>*/}
+                {/*    First Three*/}
+                {/*</Button>*/}
             </div>
         </div>
     );
