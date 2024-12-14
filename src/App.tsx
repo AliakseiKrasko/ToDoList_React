@@ -135,9 +135,7 @@ function App() {
                         if (tl.filter === 'active') {
                             tasksForTodoList = tasksObj[tl.id].filter(t => !t.isDone);
                         }
-                        if (tl.filter === 'firstThree') {
-                            tasksForTodoList = tasksObj[tl.id].slice(0, 3);
-                        }
+
                         return (
                             <Grid2>
                                 <Paper style={{padding: '10px'}}>

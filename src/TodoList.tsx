@@ -49,39 +49,42 @@ export function TodoList(props: PropsType) {
         <div>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <h3>
-                    <EditableSpan title={props.title} onChange={changeTodoLiistTitle} />
+                    <EditableSpan title={props.title} onChange={changeTodoLiistTitle}/>
                 </h3>
-                <IconButton onClick={onDeletTodoListHandler} >
-                    <Delete />
+                <IconButton onClick={onDeletTodoListHandler}>
+                    <Delete/>
                 </IconButton>
 
             </div>
 
-            <AddItemForm addItem={addTask} />
+            <AddItemForm addItem={addTask}/>
 
-            <Button onClick={onAllClickHandler} variant={'outlined'} style={{marginTop: '10px'}}>Delete All Tasks</Button>
+            <Button onClick={onAllClickHandler} variant={'outlined'} style={{marginTop: '10px'}}>Delete All
+                Tasks</Button>
             <div>
-                {props.tasks.map(task => {
-                    const onRemoveHandler = () => props.removeTask(task.id, props.id);
-                    const onToggleTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                        props.toggleTaskStatus(task.id, e.currentTarget.checked, props.id);
-                    };
-                    const onChangeTitle = (newTitle: string) => {
-                        props.ChangeTaskTitle(task.id, newTitle, props.id);
-                    }
+                {props.tasks.length === 0 ? (
+                    <p style={{textAlign: 'center', color: '#999'}}>No tasks</p>
+                ) : (
+                    props.tasks.map(task => {
+                        const onRemoveHandler = () => props.removeTask(task.id, props.id);
+                        const onToggleTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+                            props.toggleTaskStatus(task.id, e.currentTarget.checked, props.id);
+                        };
+                        const onChangeTitle = (newTitle: string) => {
+                            props.ChangeTaskTitle(task.id, newTitle, props.id);
+                        };
 
-                    return (
-                        <div key={task.id} className={task.isDone ? 'is-done' : ''}>
-                            <Checkbox checked={task.isDone} onChange={onToggleTaskStatus} color={'secondary'}/>
-
-                            <EditableSpan title={task.title} onChange={onChangeTitle}/>
-                            <IconButton onClick={onRemoveHandler} size={'small'}>
-                                <Delete />
-                            </IconButton>
-
-                        </div>
-                    );
-                })}
+                        return (
+                            <div key={task.id} className={task.isDone ? 'is-done' : ''}>
+                                <Checkbox checked={task.isDone} onChange={onToggleTaskStatus} color={'secondary'}/>
+                                <EditableSpan title={task.title} onChange={onChangeTitle}/>
+                                <IconButton onClick={onRemoveHandler} size={'small'}>
+                                    <Delete/>
+                                </IconButton>
+                            </div>
+                        );
+                    })
+                )}
             </div>
             <div>
                 <Button
