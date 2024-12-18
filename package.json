@@ -1,5 +1,6 @@
 {
   "name": "my-app",
+  "homepage": "https://AliakseiKrasko.github.io/ToDoList_React/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -25,7 +26,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +52,7 @@
     "eslint": "^9.14.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-jest": "^28.9.0",
+    "gh-pages": "^6.2.0",
     "semver": "^7.6.3"
   }
 }
