@@ -1,6 +1,12 @@
 import {FilterValueType, TodoListsPropsType} from '../App'
 import {v1} from 'uuid'
-import {ChangeTodolistFilterActionType, ChangeTodolistTitleActionType, todolistsReducer} from './todolists-reducer.tx';
+import {
+    addTodolistAC, changeTodolistAC, changeTodolistFilterAC,
+    ChangeTodolistFilterActionType, changeTodolistTitleAC,
+    ChangeTodolistTitleActionType,
+    removeTodolistAC,
+    todolistsReducer
+} from './todolists-reducer.tx';
 
 test('correct should be removed', () => {
     let todolistID1 = v1()
@@ -11,12 +17,7 @@ test('correct should be removed', () => {
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ]
 
-    const endState = todolistsReducer(startState, {
-        type: 'REMOVE-TODOLIST',
-        payload: {
-            id: todolistID1
-        }
-    });
+    const endState = todolistsReducer(startState, removeTodolistAC(todolistID1));
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistID2);
@@ -34,13 +35,7 @@ test('correct todolist should be added', () => {
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ]
 
-    const endState = todolistsReducer(startState, {
-        type: 'ADD-TODOLIST',
-        payload: {
-            title: newTodolistTitle
-        }
-
-    });
+    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle));
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);
@@ -60,14 +55,7 @@ test('correct todolist should change its name', () => {
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ]
 
-    const action: ChangeTodolistTitleActionType = {
-        type: 'CHANGE-TODOLIST-TITLE',
-        payload: {
-            id: todolistID2,
-            title: newTodolistTitle
-        }
-
-    };
+    const action = changeTodolistTitleAC(todolistID2, newTodolistTitle);
 
     const endState = todolistsReducer(startState, action);
 
@@ -87,14 +75,7 @@ test('correct filter of todolist should be changed', () => {
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ]
 
-    const action: ChangeTodolistFilterActionType = {
-        type: 'CHANGE-TODOLIST-FILTER',
-        payload: {
-            id: todolistID2,
-            filter: newFilter
-        }
-
-    };
+    const action = changeTodolistFilterAC(todolistID2, newFilter);
 
     const endState = todolistsReducer(startState, action);
 

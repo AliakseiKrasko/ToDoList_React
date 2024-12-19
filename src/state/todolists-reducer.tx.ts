@@ -74,3 +74,19 @@ export const todolistsReducer = (state: Array<TodoListsPropsType>, action: Actio
             throw new Error("I don't understand action type");
     }
 }
+
+export const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => {
+    return { type: 'REMOVE-TODOLIST', payload: { id: todolistId } }
+}
+
+export const addTodolistAC = (title: string): AddTodolistActionType => {
+    return { type: 'ADD-TODOLIST', payload: { title: title } }
+}
+
+export const changeTodolistTitleAC = (id: string, title: string): ChangeTodolistTitleActionType => {
+    return { type: 'CHANGE-TODOLIST-TITLE', payload: { id: id, title: title } }
+}
+
+export const changeTodolistFilterAC = (id: string, filter: FilterValueType): ChangeTodolistFilterActionType => {
+    return { type: 'CHANGE-TODOLIST-FILTER', payload: { id: id, filter: filter } }
+}
