@@ -10,8 +10,9 @@ type ActionType = {
 
 export const todolistsReducer = (state: Array<TodoListsPropsType>, action: ActionType): Array<TodoListsPropsType> => {
     switch (action.type) {
-        case 'REMOVE-TODOLIST':
+        case 'REMOVE-TODOLIST': {
             return state.filter(t => t.id !== action.id)
+        }
         case 'ADDED-TODOLIST': {
             return [...state, {
                 id: v1(),
@@ -19,6 +20,14 @@ export const todolistsReducer = (state: Array<TodoListsPropsType>, action: Actio
                 filter: 'all',
 
             }]
+        }
+        case 'CHANGE-TODOLIST-TITLE': {
+            const todolist = state.find(tl => tl.id === action.id);
+            if (todolist) {
+                todolist.title = action.title;
+
+            }
+            return [...state]
         }
 
         default:
