@@ -1,4 +1,5 @@
 import {TodoListsPropsType} from '../App';
+import {v1} from 'uuid';
 
 
 type ActionType = {
@@ -11,6 +12,15 @@ export const todolistsReducer = (state: Array<TodoListsPropsType>, action: Actio
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(t => t.id !== action.id)
+        case 'ADDED-TODOLIST': {
+            return [...state, {
+                id: v1(),
+                title: action.title,
+                filter: 'all',
+
+            }]
+        }
+
         default:
             throw new Error("I don't understand action type");
     }
