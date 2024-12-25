@@ -14,7 +14,7 @@ export type TodoListsPropsType = {
     filter: FilterValueType;
 };
 
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TasksType>;
 }
 
