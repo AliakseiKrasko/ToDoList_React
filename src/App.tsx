@@ -66,6 +66,15 @@ function App() {
         }));
     };
 
+    function ChangeTaskTitle(taskId: string, newTitle: string, todoListId: string): void {
+        setTasksObj(prevState => ({
+            ...prevState,
+            [todoListId]: prevState[todoListId].map(task =>
+                task.id === taskId ? {...task, title: newTitle} : task
+            ),
+        }));
+    }
+
 
     const onAllClickHundler = (todoListId: string): void => {
         setTasksObj(prevState => ({
@@ -95,14 +104,7 @@ function App() {
         setTasksObj({...tasksObj, [todolist.id]: []})
     }
 
-    function ChangeTaskTitle(taskId: string, newTitle: string, todoListId: string): void {
-        setTasksObj(prevState => ({
-            ...prevState,
-            [todoListId]: prevState[todoListId].map(task =>
-                task.id === taskId ? {...task, title: newTitle} : task
-            ),
-        }));
-    }
+
 
     function changeTodoLiistTitle(id: string, newTitle: string) {
         const todolist = todoLists.find(tl => tl.id === id);
