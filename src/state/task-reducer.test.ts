@@ -14,7 +14,7 @@ test('correct twask should be deleted from correct array', () => {
             {id: '3', title: 'tea', isDone: false},
         ],
     }
-    const endState = taskReducer(startState, removeTaskAC('todolistId2', '2'))
+    const endState = taskReducer(startState, removeTaskAC({id: '2', todolistId: 'todolistId2'}))
 
     expect(endState).toEqual({
         todolistId1: [
