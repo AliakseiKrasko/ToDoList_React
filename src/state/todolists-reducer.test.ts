@@ -1,7 +1,7 @@
 import {FilterValueType, TodoListsPropsType} from '../App'
 import {v1} from 'uuid'
 import {
-    addTodolistAC, changeTodolistAC, changeTodolistFilterAC,
+    addTodolistAC, changeTodolistFilterAC,
     ChangeTodolistFilterActionType, changeTodolistTitleAC,
     ChangeTodolistTitleActionType,
     removeTodolistAC,
