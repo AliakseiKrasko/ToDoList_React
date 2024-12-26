@@ -89,7 +89,7 @@ function App() {
         ));
     }
 
-    function onDeletTodoList(todoListId: string) {
+    function removeTodoList(todoListId: string) {
         setTodoLists(todoLists.filter(tl => tl.id !== todoListId))
 
     }
@@ -149,9 +149,9 @@ function App() {
                                         removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
-                                        toggleTaskStatus={toggleTaskStatus}
-                                        onAllClickHundler={onAllClickHundler}
-                                        onDeletTodoList={onDeletTodoList}
+                                        changeTaskStatus={toggleTaskStatus}
+                                        // onAllClickHundler={onAllClickHundler}
+                                        removeTodoList={removeTodoList}
                                         filter={tl.filter}
                                         ChangeTaskTitle={ChangeTaskTitle}
                                         changeTodoLiistTitle={changeTodoLiistTitle}

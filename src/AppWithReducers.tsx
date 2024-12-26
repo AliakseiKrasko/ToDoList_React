@@ -5,8 +5,20 @@ import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
 import {AppBar, Button, Container, Grid2, IconButton, Paper, Toolbar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu'
-import {removeTodolistAC, todolistsReducer} from './state/todolists-reducer.tx';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/task-reducer';
+import {
+    changeTodolistFilterAC,
+    changeTodolistTitleAC, removeTodolistsAC,
+    todolistsReducer
+} from './state/todolists-reducer.tx';
+import {
+    addTaskAC,
+    addTodolistAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC, removeTodolistAC,
+    tasksReducer
+
+} from './state/task-reducer';
 
 export type FilterValueType = 'all' | 'active' | 'completed' | 'firstThree';
 
@@ -45,68 +57,61 @@ function AppWithReducers() {
     ]);
 
     function removeTask(id: string, todolistId: string): void {
-        const action = removeTaskAC(todolistId, id);
+        const action = removeTaskAC({todolistId, id});
         dispatchToTasksReducer(action);
 
     }
 
     function addTask(title: string, todolistId: string): void {
-        const action = addTaskAC(title, todolistId);
+        const action = addTaskAC({title, todolistId});
         dispatchToTasksReducer(action);
 
     }
 
-    const toggleTaskStatus = (taskId: string, isDone: boolean, todolistId: string): void => {
-        const action = changeTaskStatusAC(taskId, isDone, todolistId);
+    const changeTaskStatus = (id: string, isDone: boolean, todolistId: string): void => {
+        const action = changeTaskStatusAC({id, isDone, todolistId});
         dispatchToTasksReducer(action);
 
     };
 
-    function ChangeTaskTitle(taskId: string, newTitle: string, todolistId: string): void {
-        const action = changeTaskTitleAC(taskId, newTitle, todolistId);
+    function ChangeTaskTitle(id: string, newTitle: string, todolistId: string): void {
+        const action = changeTaskTitleAC({id, newTitle, todolistId});
         dispatchToTasksReducer(action);
 
     }
 
 
-    const onAllClickHundler = (todolistId: string): void => {
+   /* const onAllClickHundler = (todolistId: string): void => {
 
         setTasks(prevState => ({
             ...prevState,
             [todoListId]: [],
         }));
-    };
+    };*/
 
     function changeFilter(value: FilterValueType, todolistId: string): void {
-        setTodoLists(todolistId.map(tl =>
-            tl.id === todolistId ? {...tl, filter: value} : tl
-        ));
+        dispatchToTodolistsReducer(changeTodolistFilterAC(value, todolistId));
     }
 
     function removeTodoList(todolistId: string) {
-        const action = removeTodolistAC(todolistId)
-        dispatchToTodolistsReducer(action)
-        dispatchToTasksReducer(action);
+        const actionTodolist = removeTodolistsAC(todolistId)
+        const actionTask = removeTodolistAC(todolistId)
+        dispatchToTodolistsReducer(actionTodolist)
+        dispatchToTasksReducer(actionTask);
     }
 
     function addTodoList(title: string) {
-        let todolist: TodoListsPropsType = {
-            id: v1(),
-            title: title,
-            filter: "all"
-        }
-        setTodoLists([todolist, ...todoLists])
-        setTasks({...tasks, [todolist.id]: []})
+        const action = addTodolistAC(title)
+        dispatchToTodolistsReducer(action)
+        dispatchToTasksReducer(action);
+
     }
 
 
 
     function changeTodoLiistTitle(id: string, newTitle: string) {
-        const todolist = todoLists.find(tl => tl.id === id);
-        if (todolist) {
-            todolist.title = newTitle;
-            setTodoLists([...todoLists])
-        }
+        dispatchToTodolistsReducer(changeTodolistTitleAC(id, newTitle))
+
     }
 
     return (
@@ -144,8 +149,8 @@ function AppWithReducers() {
                                         removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
-                                        toggleTaskStatus={toggleTaskStatus}
-                                        onAllClickHundler={onAllClickHundler}
+                                        changeTaskStatus={changeTaskStatus}
+                                        // onAllClickHundler={onAllClickHundler}
                                         removeTodoList={removeTodoList}
                                         filter={tl.filter}
                                         ChangeTaskTitle={ChangeTaskTitle}

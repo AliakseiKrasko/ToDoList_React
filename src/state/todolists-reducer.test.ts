@@ -4,7 +4,7 @@ import {
     addTodolistAC, changeTodolistFilterAC,
     ChangeTodolistFilterActionType, changeTodolistTitleAC,
     ChangeTodolistTitleActionType,
-    removeTodolistAC,
+    removeTodolistsAC,
     todolistsReducer
 } from './todolists-reducer.tx';
 
@@ -24,7 +24,7 @@ beforeEach(() => {
 
 test('correct should be removed', () => {
 
-    const endState = todolistsReducer(startState, removeTodolistAC(todolistId1));
+    const endState = todolistsReducer(startState, removeTodolistsAC(todolistId1));
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistId2);
@@ -61,7 +61,7 @@ test('correct todolist should change its name', () => {
 test('correct filter of todolist should be changed', () => {
     let newFilter: FilterValueType = 'completed'
 
-    const action = changeTodolistFilterAC(todolistId2, newFilter);
+    const action = changeTodolistFilterAC(newFilter, todolistId2);
 
     const endState = todolistsReducer(startState, action);
 

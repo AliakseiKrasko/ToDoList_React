@@ -2,7 +2,7 @@ import {TodoListsPropsType} from '../App';
 import {v1} from 'uuid';
 import {FilterValueType} from '../App';
 
-export type RemoveTodolistActionType = {
+export type RemoveTodolistsActionType = {
     type: 'REMOVE-TODOLIST'
     payload: {
         id: string
@@ -34,7 +34,7 @@ export type ChangeTodolistFilterActionType = {
 }
 
 type ActionsType =
-    | RemoveTodolistActionType
+    | RemoveTodolistsActionType
     | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
@@ -76,7 +76,7 @@ export const todolistsReducer = (state: Array<TodoListsPropsType>, action: Actio
     }
 }
 
-export const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => {
+export const removeTodolistsAC = (todolistId: string): RemoveTodolistsActionType => {
     return { type: 'REMOVE-TODOLIST', payload: { id: todolistId } }
 }
 
@@ -88,6 +88,6 @@ export const changeTodolistTitleAC = (id: string, title: string): ChangeTodolist
     return { type: 'CHANGE-TODOLIST-TITLE', payload: { id: id, title: title } }
 }
 
-export const changeTodolistFilterAC = (id: string, filter: FilterValueType): ChangeTodolistFilterActionType => {
-    return { type: 'CHANGE-TODOLIST-FILTER', payload: { id: id, filter: filter } }
+export const changeTodolistFilterAC = (filter: FilterValueType, id: string): ChangeTodolistFilterActionType => {
+    return { type: 'CHANGE-TODOLIST-FILTER', payload: { filter: filter, id: id } }
 }

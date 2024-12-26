@@ -21,8 +21,8 @@ type PropsType = {
     removeTask: (id: string, todoListId: string) => void;
     changeFilter: (value: FilterValueType, todoListId: string) => void;
     addTask: (title: string, todoListId: string) => void;
-    toggleTaskStatus: (id: string, isDone: boolean, todoListId: string) => void;
-    onAllClickHundler: (todoListId: string) => void;
+    changeTaskStatus: (id: string, isDone: boolean, todoListId: string) => void;
+    // onAllClickHundler: (todoListId: string) => void;
     filter: FilterValueType;
     removeTodoList: (todoListId: string) => void
     ChangeTaskTitle: (id: string, newTitle: string, todoListId: string) => void;
@@ -31,7 +31,7 @@ type PropsType = {
 
 export function TodoList(props: PropsType) {
 
-    const onAllClickHandler = () => props.onAllClickHundler(props.id);
+    // const onAllClickHandler = () => props.onAllClickHundler(props.id);
     const onActiveClickHandler = () => props.changeFilter('active', props.id);
     const onCompletedClickHandler = () => props.changeFilter('completed', props.id);
     // const onFirstThreeClickHandler = () => props.changeFilter('firstThree', props.id);
@@ -59,8 +59,8 @@ export function TodoList(props: PropsType) {
 
             <AddItemForm addItem={addTask}/>
 
-            <Button onClick={onAllClickHandler} variant={'outlined'} style={{marginTop: '10px'}}>Delete All
-                Tasks</Button>
+            {/*<Button onClick={onAllClickHandler} variant={'outlined'} style={{marginTop: '10px'}}>Delete All*/}
+            {/*    Tasks</Button>*/}
             <div>
                 {props.tasks.length === 0 ? (
                     <p style={{textAlign: 'center', color: '#999'}}>No tasks</p>
@@ -68,7 +68,7 @@ export function TodoList(props: PropsType) {
                     props.tasks.map(task => {
                         const onRemoveHandler = () => props.removeTask(task.id, props.id);
                         const onToggleTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                            props.toggleTaskStatus(task.id, e.currentTarget.checked, props.id);
+                            props.changeTaskStatus(task.id, e.currentTarget.checked, props.id);
                         };
                         const onChangeTitle = (newTitle: string) => {
                             props.ChangeTaskTitle(task.id, newTitle, props.id);

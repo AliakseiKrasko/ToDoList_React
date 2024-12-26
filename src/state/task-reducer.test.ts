@@ -65,7 +65,7 @@ test('status of specified task should be changed', () => {
         changeTaskStatusAC({
             id: '2',
             isDone: false,
-            todoListId: 'todolistId2',
+            todolistId: 'todolistId2',
         })
     )
 
@@ -80,7 +80,7 @@ test('title of specified task should be changed', () => {
         changeTaskTitleAC({
             id: '2',
             newTitle: 'coffee',
-            todoListId: 'todolistId2',
+            todolistId: 'todolistId2',
         })
     )
 
