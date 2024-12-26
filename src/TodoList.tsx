@@ -24,7 +24,7 @@ type PropsType = {
     toggleTaskStatus: (id: string, isDone: boolean, todoListId: string) => void;
     onAllClickHundler: (todoListId: string) => void;
     filter: FilterValueType;
-    onDeletTodoList: (todoListId: string) => void
+    removeTodoList: (todoListId: string) => void
     ChangeTaskTitle: (id: string, newTitle: string, todoListId: string) => void;
     changeTodoLiistTitle: (id: string, newTitle: string) => void
 };
@@ -35,7 +35,7 @@ export function TodoList(props: PropsType) {
     const onActiveClickHandler = () => props.changeFilter('active', props.id);
     const onCompletedClickHandler = () => props.changeFilter('completed', props.id);
     // const onFirstThreeClickHandler = () => props.changeFilter('firstThree', props.id);
-    const onDeletTodoListHandler = () => props.onDeletTodoList(props.id)
+    const removeTodoListHandler = () => props.removeTodoList(props.id)
 
     const addTask = (title: string) => {
         props.addTask(title, props.id);
@@ -51,7 +51,7 @@ export function TodoList(props: PropsType) {
                 <h3>
                     <EditableSpan title={props.title} onChange={changeTodoLiistTitle}/>
                 </h3>
-                <IconButton onClick={onDeletTodoListHandler}>
+                <IconButton onClick={removeTodoListHandler}>
                     <Delete/>
                 </IconButton>
 
