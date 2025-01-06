@@ -42,37 +42,37 @@ function App() {
     const tasks = useSelector<RootState, TasksStateType>(state => state.tasks)
 
 
-    function removeTask(id: string, todolistId: string): void {
+    const removeTask = useCallback( function(id: string, todolistId: string): void {
         const action = removeTaskAC({todolistId, id});
         dispatch(action);
 
-    }
+    },[] );
 
-    function addTask(title: string, todolistId: string): void {
+    const addTask = useCallback (function(title: string, todolistId: string): void {
         dispatch(addTaskAC({title, todolistId}));
 
-    }
+    },[] );
 
-    const changeTaskStatus = (id: string, isDone: boolean, todolistId: string): void => {
+    const changeTaskStatus = useCallback(function(id: string, isDone: boolean, todolistId: string): void  {
         const action = changeTaskStatusAC({id, isDone, todolistId});
         dispatch(action);
 
-    };
+    },[] );
 
-    function ChangeTaskTitle(id: string, newTitle: string, todolistId: string): void {
+    const ChangeTaskTitle = useCallback (function(id: string, newTitle: string, todolistId: string): void {
         const action = changeTaskTitleAC({id, newTitle, todolistId});
         dispatch(action);
 
-    }
+    }, [] );
 
-    function changeFilter(value: FilterValueType, todolistId: string): void {
+    const changeFilter = useCallback (function(value: FilterValueType, todolistId: string): void {
         dispatch(changeTodolistFilterAC(value, todolistId));
-    }
+    },[] );
 
-    function removeTodoList(todolistId: string) {
+    const removeTodoList = useCallback (function(todolistId: string) {
         dispatch(removeTodolistsAC(todolistId))
 
-    }
+    },[] );
 
     const addTodoList = useCallback ((title: string) => {
         const action = addTodolistAC(title)
@@ -80,7 +80,7 @@ function App() {
     }, []);
 
 
-    function changeTodoLiistTitle(id: string, newTitle: string) {
+    const changeTodoLiistTitle = function (id: string, newTitle: string) {
         dispatch(changeTodolistTitleAC(id, newTitle))
 
     }
