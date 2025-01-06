@@ -22,7 +22,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from './state/store';
 
-export type FilterValueType = 'all' | 'active' | 'completed' | 'firstThree';
+export type FilterValueType = 'all' | 'active' | 'completed';
 
 export type TodoListsPropsType = {
     id: string;
@@ -102,12 +102,6 @@ function App() {
                 <Grid2 container spacing={3}>
                     {todolists.map(tl => {
                         let tasksForTodoList = tasks[tl.id];
-                        if (tl.filter === 'completed') {
-                            tasksForTodoList = tasks[tl.id].filter(t => t.isDone);
-                        }
-                        if (tl.filter === 'active') {
-                            tasksForTodoList = tasks[tl.id].filter(t => !t.isDone);
-                        }
 
                         return (
                             <Grid2>

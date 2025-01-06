@@ -5,6 +5,7 @@ import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import {Button, Checkbox, IconButton} from '@mui/material';
 import {Delete} from '@mui/icons-material';
+import {log} from 'node:util';
 
 export type TasksType = {
     id: string;
@@ -30,6 +31,7 @@ type PropsType = {
 };
 
 export const TodoList = React.memo( function(props: PropsType) {
+    console.log('todolist')
 
     // const onAllClickHandler = () => props.onAllClickHundler(props.id);
     const onActiveClickHandler = () => props.changeFilter('active', props.id);
@@ -43,6 +45,17 @@ export const TodoList = React.memo( function(props: PropsType) {
 
     const changeTodoLiistTitle = (newTitle: string) => {
         props.changeTodoLiistTitle(props.id, newTitle)
+    }
+
+    let tasksForTodoList = props.tasks
+
+    if (props.filter === 'completed') {
+        console.log('completed')
+        tasksForTodoList = props.tasks.filter(t => t.isDone);
+    }
+    if (props.filter === 'active') {
+        console.log('active')
+        tasksForTodoList = props.tasks.filter(t => !t.isDone);
     }
 
     return (
@@ -65,7 +78,7 @@ export const TodoList = React.memo( function(props: PropsType) {
                 {props.tasks.length === 0 ? (
                     <p style={{textAlign: 'center', color: '#999'}}>No tasks</p>
                 ) : (
-                    props.tasks.map(task => {
+                    tasksForTodoList.map(task => {
                         const onRemoveHandler = () => props.removeTask(task.id, props.id);
                         const onToggleTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
                             props.changeTaskStatus(task.id, e.currentTarget.checked, props.id);
