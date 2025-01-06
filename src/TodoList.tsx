@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValueType} from './App';
 // import {Button} from './Button';
 import {AddItemForm} from './AddItemForm';
@@ -37,9 +37,9 @@ export function TodoList(props: PropsType) {
     // const onFirstThreeClickHandler = () => props.changeFilter('firstThree', props.id);
     const removeTodoListHandler = () => props.removeTodoList(props.id)
 
-    const addTask = (title: string) => {
+    const addTask = useCallback ( (title: string) => {
         props.addTask(title, props.id);
-    }
+    }, []);
 
     const changeTodoLiistTitle = (newTitle: string) => {
         props.changeTodoLiistTitle(props.id, newTitle)
