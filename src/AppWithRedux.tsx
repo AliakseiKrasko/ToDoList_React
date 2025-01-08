@@ -33,7 +33,7 @@ export type TasksStateType = {
     [key: string]: Array<TasksType>;
 }
 
-function App() {
+function AppWithRedux() {
 
     const dispatch = useDispatch()
 
@@ -135,5 +135,5 @@ function App() {
         ;
 }
 
-export default App;
+export default AppWithRedux;
 
