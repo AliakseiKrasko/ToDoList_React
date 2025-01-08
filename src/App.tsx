@@ -116,8 +116,8 @@ function App() {
                                         changeTaskStatus={changeTaskStatus}
                                         removeTodoList={removeTodoList}
                                         filter={tl.filter}
-                                        ChangeTaskTitle={ChangeTaskTitle}
-                                        changeTodoLiistTitle={changeTodoLiistTitle}
+                                        changeTaskTitle={ChangeTaskTitle}
+                                        changeTodoListTitle={changeTodoLiistTitle}
                                     />
                                 </Paper>
 
