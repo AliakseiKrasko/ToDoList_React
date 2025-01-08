@@ -8,7 +8,7 @@ type AddItemFormPropsType = {
 }
 
 export const AddItemForm = React.memo ( (props: AddItemFormPropsType) => {
-    console.log('hello')
+
     const [titleNewTask, setTitleNewTask] = useState('');
     const [error, setError] = useState<string | null>(null);
 
