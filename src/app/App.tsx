@@ -21,6 +21,8 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from './store';
 import {useAppDispatch, useAppSelector} from './hook';
+import {selectTask} from '../model/tasks-selectors';
+import {selectTodolists} from '../model/todolists-selectors';
 
 export type FilterValueType = 'all' | 'active' | 'completed';
 
@@ -38,8 +40,10 @@ function App() {
 
     const dispatch = useAppDispatch()
 
-    const todolists = useAppSelector(state => state.todolists)
-    const tasks = useAppSelector(state => state.tasks)
+
+
+    const todolists = useAppSelector(selectTodolists)
+    const tasks = useAppSelector(selectTask)
 
 
     const removeTask = useCallback( function(id: string, todolistId: string): void {
@@ -107,7 +111,6 @@ function App() {
                             <Grid2 key={tl.id}>
                                 <Paper style={{padding: '10px'}}>
                                     <TodoList
-                                        key={tl.id}
                                         id={tl.id}
                                         title={tl.title}
                                         tasks={tasksForTodoList}
