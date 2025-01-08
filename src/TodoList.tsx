@@ -30,7 +30,7 @@ type PropsType = {
 };
 
 export const TodoList = React.memo(function (props: PropsType) {
-
+    console.log('todolist')
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.id), [props.changeFilter, props.id]);
     const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.id), [props.changeFilter, props.id]);
     const removeTodoListHandler = useCallback(() => props.removeTodoList(props.id), [props.removeTodoList, props.id]);

@@ -1,4 +1,4 @@
-import {combineReducers, legacy_createStore} from 'redux';
+import {combineReducers, legacy_createStore as createStore} from 'redux';
 import {todolistsReducer} from '../model/todolists-reducer.tx';
 import {tasksReducer} from '../model/task-reducer';
 
@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
     todolists: todolistsReducer,
 })
 // непосредственно создаём store
-export const store = legacy_createStore(rootReducer)
+export const store = createStore(rootReducer)
 
 
 // определить автоматически тип всего объекта состояния
