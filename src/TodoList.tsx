@@ -71,7 +71,7 @@ export const TodoList = React.memo(function (props: PropsType) {
                 {tasksForTodoList.length === 0 ? (
                     <p style={{textAlign: 'center', color: '#999'}}>No tasks</p>
                 ) : (
-                    tasksForTodoList.map(task =>
+                    tasksForTodoList.map(task => (
                         <Task
                             key={task.id}
                             task={task}
@@ -79,7 +79,8 @@ export const TodoList = React.memo(function (props: PropsType) {
                             changeTaskTitle={props.changeTaskTitle}
                             removeTask={props.removeTask}
                             todolistId={props.id}
-                        />)
+                        />
+                    ))
                 )}
             </div>
             <div>
@@ -104,7 +105,6 @@ export const TodoList = React.memo(function (props: PropsType) {
                 >
                     Completed
                 </Button>
-
             </div>
         </div>
     );
