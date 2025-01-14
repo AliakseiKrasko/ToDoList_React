@@ -1,6 +1,7 @@
 import  { Provider } from 'react-redux';
 import App from '../../../src/app/App';
 import {store} from '../../../src/app/store';
+import {ReduxStoreProviderDecorator} from './ReduxStoreProviderDecorator';
 
 
 
@@ -8,7 +9,8 @@ import {store} from '../../../src/app/store';
 
 export default {
     title: "App Component",
-    component: App
+    component: App,
+    decorators: [ReduxStoreProviderDecorator]
 }
 
 

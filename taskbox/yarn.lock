@@ -852,6 +852,15 @@
     "@storybook/global" "^5.0.0"
     ts-dedent "^2.0.0"
 
+"@storybook/addon-storysource@^8.4.7":
+  version "8.4.7"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-storysource/-/addon-storysource-8.4.7.tgz#4e07961307752662c163cc2f713e4436dd4c69d0"
+  integrity sha512-ckMSiVf+8V3IVN3lTdzCdToXVoGhZ57pwMv0OpkdVIEn6sqHFHwHrOYiXpF3SXTicwayjylcL1JXTGoBFFDVOQ==
+  dependencies:
+    "@storybook/source-loader" "8.4.7"
+    estraverse "^5.2.0"
+    tiny-invariant "^1.3.1"
+
 "@storybook/addon-toolbars@8.3.2":
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/@storybook/addon-toolbars/-/addon-toolbars-8.3.2.tgz#4cb86b9d67fd23593d7b29d03fc8b780e73602ef"
@@ -1018,6 +1027,16 @@
     ts-dedent "^2.0.0"
     type-fest "~2.19"
     util-deprecate "^1.0.2"
+
+"@storybook/source-loader@8.4.7":
+  version "8.4.7"
+  resolved "https://registry.yarnpkg.com/@storybook/source-loader/-/source-loader-8.4.7.tgz#c41f213c8e6440a310d5e616353b3266d2b56b56"
+  integrity sha512-DrsYGGfNbbqlMzkhbLoNyNqrPa4QIkZ6O7FJ8Z/8jWb0cerQH2N6JW6k12ZnXgs8dO2Z33+iSEDIV8odh0E0PA==
+  dependencies:
+    "@storybook/csf" "^0.1.11"
+    es-toolkit "^1.22.0"
+    estraverse "^5.2.0"
+    prettier "^3.1.1"
 
 "@storybook/test@8.3.2", "@storybook/test@^8.3.2":
   version "8.3.2"
@@ -2117,6 +2136,11 @@ es-to-primitive@^1.2.1:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
+
+es-toolkit@^1.22.0:
+  version "1.31.0"
+  resolved "https://registry.yarnpkg.com/es-toolkit/-/es-toolkit-1.31.0.tgz#f4fc1382aea09cb239afa38f3c724a5658ff3163"
+  integrity sha512-vwS0lv/tzjM2/t4aZZRAgN9I9TP0MSkWuvt6By+hEXfG/uLs8yg2S1/ayRXH/x3pinbLgVJYT+eppueg3cM6tg==
 
 esbuild-register@^3.5.0:
   version "3.6.0"
@@ -3599,6 +3623,11 @@ prelude-ls@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
+
+prettier@^3.1.1:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.4.2.tgz#a5ce1fb522a588bf2b78ca44c6e6fe5aa5a2b13f"
+  integrity sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==
 
 pretty-format@^27.0.2:
   version "27.5.1"
