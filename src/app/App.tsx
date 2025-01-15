@@ -1,28 +1,15 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
-import {TodoList, TasksType} from '../TodoList';
+import {TasksType, TodoList} from '../TodoList';
 import {AddItemForm} from '../AddItemForm';
 import {AppBar, Button, Container, Grid2, IconButton, Paper, Toolbar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu'
-import {
-    changeTodolistFilterAC,
-    changeTodolistTitleAC, removeTodolistsAC,
-    todolistsReducer
-} from '../model/todolists-reducer.tx';
-import {
-    addTaskAC,
-    addTodolistAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC, removeTodolistAC,
-    tasksReducer
-
-} from '../model/task-reducer';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from './store';
+import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistsAC} from '../model/todolists-reducer.tx';
+import {addTaskAC, addTodolistAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from '../model/task-reducer';
 import {useAppDispatch, useAppSelector} from './hook';
 import {selectTask} from '../model/tasks-selectors';
 import {selectTodolists} from '../model/todolists-selectors';
+import Header from '../Header';
 
 export type FilterValueType = 'all' | 'active' | 'completed';
 
@@ -36,15 +23,13 @@ export type TasksStateType = {
     [key: string]: Array<TasksType>;
 }
 
+
 function App() {
 
     const dispatch = useAppDispatch()
 
-
-
     const todolists = useAppSelector(selectTodolists)
     const tasks = useAppSelector(selectTask)
-
 
     const removeTask = useCallback( function(id: string, todolistId: string): void {
         const action = removeTaskAC({todolistId, id});
@@ -91,14 +76,7 @@ function App() {
 
     return (
         <div>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton color="inherit">
-                        <MenuIcon/>
-                    </IconButton>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
+            <Header />
             <Container fixed>
                 <Grid2 container spacing={3} style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodoList}/>
