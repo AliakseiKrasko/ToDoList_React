@@ -1,29 +1,28 @@
 import {AddItemForm} from "./AddItemForm";
 import {TodolistTitle} from './TodolistTitle'
-import {FilterValuesType, TodolistType} from './model/todolists-reducer';
+import {TodolistType} from './model/todolists-reducer';
 import {FilterButtons} from './FilterButtons';
 import {Tasks} from './Tasks';
+import {addTaskAC} from './model/task-reducer';
+import {useAppDispatch} from './app/hook';
 
 type PropsType = {
     todolist: TodolistType
-    addTask: (title: string, todolistId: string) => void
+
 }
 
 export const Todolist = (props: PropsType) => {
-    const {
-        todolist,
-        addTask,
-    } = props
+    const dispatch = useAppDispatch()
+    const {todolist} = props
 
-
-    const addTaskCallback = (title: string) => {
-        addTask(title, todolist.id)
+    const addTask = (title: string) => {
+        dispatch(addTaskAC({title, todolistId: todolist.id}))
     }
 
     return (
         <div>
             <TodolistTitle todolist={todolist}/>
-            <AddItemForm addItem={addTaskCallback}/>
+            <AddItemForm addItem={addTask}/>
             <Tasks todolist={todolist}/>
             <FilterButtons todolist={todolist}/>
         </div>
