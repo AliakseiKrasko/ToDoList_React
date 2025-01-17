@@ -1,8 +1,12 @@
-import React from 'react';
 import './App.css';
+import CssBaseline from '@mui/material/CssBaseline';
+import {ThemeProvider} from '@mui/material/styles';
+import {getTheme} from '../common/theme/theme'
+import {Header} from '../Header'
+import {Main} from '../Main'
+import {selectThemeMode} from './app-selector'
+import {useAppSelector} from './hook'
 import {TasksType} from '../TodoList';
-import {Header} from '../Header';
-import Main from '../Main';
 
 export type FilterValueType = 'all' | 'active' | 'completed';
 
@@ -19,15 +23,17 @@ export type TasksStateType = {
 
 function App() {
 
+    const themeMode = useAppSelector(selectThemeMode)
 
+    const theme = getTheme(themeMode)
 
 
     return (
-        <div>
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
             <Header/>
             <Main/>
-
-        </div>
+        </ThemeProvider>
     )
         ;
 }

@@ -14,7 +14,7 @@ import {selectTask} from './model/tasks-selectors';
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './model/task-reducer';
 import {FilterValueType} from './app/App';
 
-const Header = () => {
+export const Main = () => {
 
     const dispatch = useAppDispatch()
 
@@ -99,4 +99,3 @@ const Header = () => {
     );
 };
 
-export default Header;
