@@ -12,6 +12,7 @@ import {filterButtonsContainerSx, getListItemSx} from "./Todolist.styles";
 import {TodolistTitle} from './TodolistTitle'
 import {TaskType} from './model/task-reducer';
 import {FilterValuesType, TodolistType} from './model/todolists-reducer';
+import {FilterButtons} from './FilterButtons';
 
 type PropsType = {
     todolist: TodolistType
@@ -34,9 +35,6 @@ export const Todolist = (props: PropsType) => {
         updateTask,
     } = props
 
-    const changeFilterTasksHandler = (filter: FilterValuesType) => {
-        changeFilter(filter, todolist.id)
-    }
 
     const addTaskCallback = (title: string) => {
         addTask(title, todolist.id)
@@ -76,26 +74,7 @@ export const Todolist = (props: PropsType) => {
                         })}
                     </List>
             }
-            <Box sx={filterButtonsContainerSx}>
-                <Button
-                    variant={todolist.filter === 'all' ? 'outlined' : 'text'}
-                    color={'inherit'}
-                    onClick={() => changeFilterTasksHandler('all')}>
-                    All
-                </Button>
-                <Button
-                    variant={todolist.filter === 'active' ? 'outlined' : 'text'}
-                    color={'primary'}
-                    onClick={() => changeFilterTasksHandler('active')}>
-                    Active
-                </Button>
-                <Button
-                    variant={todolist.filter === 'completed' ? 'outlined' : 'text'}
-                    color={'secondary'}
-                    onClick={() => changeFilterTasksHandler('completed')}>
-                    Completed
-                </Button>
-            </Box>
+            <FilterButtons todolist={todolist} changeFilter={changeFilter}/>
         </div>
     )
 }
