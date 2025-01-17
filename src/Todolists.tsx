@@ -14,7 +14,7 @@ import {selectTask} from './model/tasks-selectors';
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './model/task-reducer';
 import {FilterValueType} from './app/App';
 
-const Todolists = () => {
+export const Todolists = () => {
 
     const dispatch = useAppDispatch()
 
@@ -99,4 +99,3 @@ const Todolists = () => {
     );
 };
 
-export default Header;
