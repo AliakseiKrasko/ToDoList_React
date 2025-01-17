@@ -1,5 +1,5 @@
 import {RootState} from '../app/store';
-import {TodoListsPropsType} from '../app/App';
+import {TodolistType} from '../model/todolists-reducer';
 
 
-export const selectTodolists = (state: RootState): TodoListsPropsType[] => state.todolists
+export const selectTodolists = (state: RootState): TodolistType[] => state.todolists

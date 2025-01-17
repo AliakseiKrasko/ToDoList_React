@@ -1,27 +1,42 @@
-import React, {ChangeEvent, useState} from 'react';
-import {TextField} from '@mui/material';
+import {ChangeEvent, useState} from "react";
+import TextField from "@mui/material/TextField";
 
-type EditableSpanPropsType = {
-    title: string;
-    onChange: (value: string) => void;
-}
+type PropsType = {
+    value: string
+    onChange: (newTitle: string) => void
+};
 
-export const EditableSpan = React.memo (function(props: EditableSpanPropsType) {
-    let [editMode, setEditMode] = useState(false);
-    let [title, setTitle] = useState<string>('');
+export const EditableSpan = ({value, onChange}: PropsType) => {
+    const [editMode, setEditMode] = useState(false)
+    const [title, setTitle] = useState(value)
 
-    const activateEditMode = () => {
-        setEditMode(true);
-        setTitle(props.title);
-    }
-    const activateViewMode = () => {
-        setEditMode(false);
-        props.onChange(title);
+    const activateEditModeHandler = () => {
+        setEditMode(true)
     }
 
-    const onChangeTitleHundler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value);
+    const deactivateEditModeHandler = () => {
+        setEditMode(false)
+        onChange(title)
+    }
 
-    return editMode
-        ? <TextField variant={'standard'} value={title} onChange={onChangeTitleHundler} onBlur={activateViewMode} autoFocus/>
-        : <span onClick={activateEditMode}>{props.title}</span>
-});
+    const changeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.currentTarget.value)
+    }
+
+    return (
+        <>
+            {editMode
+                ?
+                <TextField
+                    variant={'outlined'}
+                    value={title}
+                    size={'small'}
+                    onChange={changeTitleHandler}
+                    onBlur={deactivateEditModeHandler}
+                    autoFocus
+                />
+                : <span onDoubleClick={activateEditModeHandler}>{value}</span>
+            }
+        </>
+    );
+};

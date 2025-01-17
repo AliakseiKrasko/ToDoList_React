@@ -1,4 +1,4 @@
 import {RootState} from '../app/store';
-import {TasksStateType} from '../app/App';
+import {TasksStateType} from '../model/task-reducer';
 
-export const selectTask = (state: RootState): TasksStateType => state.tasks
+export const selectTasks = (state: RootState): TasksStateType => state.tasks
