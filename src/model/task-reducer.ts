@@ -1,5 +1,5 @@
-import {TasksStateType} from '../app/App';
 import {v1} from 'uuid';
+import {TasksType} from '../TodoList';
 
 export type RemoveTaskActionsType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionsType = ReturnType<typeof addTaskAC>
@@ -7,6 +7,10 @@ export type ChangeTaskStatusActionsType = ReturnType<typeof changeTaskStatusAC>
 export type changeTaskTitleActionsType = ReturnType<typeof changeTaskTitleAC>
 export type AddTodolistActionsType = ReturnType<typeof addTodolistAC>
 export type RemoveTodolistActionsType = ReturnType<typeof removeTodolistAC>
+
+export type TasksStateType = {
+    [key: string]: Array<TasksType>;
+}
 
 type ActionsType =
     RemoveTaskActionsType

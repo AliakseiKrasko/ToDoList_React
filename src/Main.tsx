@@ -7,7 +7,7 @@ import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     removeTodolistsAC
-} from './model/todolists-reducer.tx';
+} from './model/todolists-reducer';
 import {useAppDispatch, useAppSelector} from './app/hook';
 import {selectTodolists} from './model/todolists-selectors';
 import {selectTask} from './model/tasks-selectors';

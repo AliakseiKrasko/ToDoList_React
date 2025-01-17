@@ -6,7 +6,7 @@ import {
     ChangeTodolistTitleActionType,
     removeTodolistsAC,
     todolistsReducer
-} from './todolists-reducer.tx';
+} from './todolists-reducer';
 
 let todolistId1: string
 let todolistId2: string

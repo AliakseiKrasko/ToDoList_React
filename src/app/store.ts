@@ -1,5 +1,5 @@
 import {combineReducers, legacy_createStore as createStore} from 'redux';
-import {todolistsReducer} from '../model/todolists-reducer.tx';
+import {todolistsReducer} from '../model/todolists-reducer';
 import {tasksReducer} from '../model/task-reducer';
 import {appReducer} from './app-reducer';
 
