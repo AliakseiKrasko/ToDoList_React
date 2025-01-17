@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import {Task} from '../../../src/Task';
+import {Task} from '../../../src/Tasks';
 
 
 
