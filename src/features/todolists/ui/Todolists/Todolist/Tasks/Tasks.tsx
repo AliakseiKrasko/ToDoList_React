@@ -1,10 +1,10 @@
 import React from 'react';
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './model/task-reducer';
-import {TodolistType} from './model/todolists-reducer';
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from '../../../../model/task-reducer';
+import {TodolistType} from '../../../../model/todolists-reducer';
 import List from '@mui/material/List';
-import {useAppDispatch, useAppSelector} from './app/hook';
-import {selectTasks} from './model/tasks-selectors';
-import {Task} from './Task';
+import {useAppDispatch, useAppSelector} from '../../../../../../app/hook';
+import {selectTasks} from '../../../../model/tasks-selectors';
+import {Task} from './Task/Task';
 
 type PropsType = {
     todolist: TodolistType

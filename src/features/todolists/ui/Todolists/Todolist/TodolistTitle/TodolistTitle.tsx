@@ -1,9 +1,10 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
-import type {TodolistType} from './model/todolists-reducer'
-import {useAppDispatch} from './app/hook'
-import {EditableSpan} from './EditableSpan'
-import {changeTodolistTitleAC, removeTodolistAC} from './model/todolists-reducer'
+import type {TodolistType} from '../../../../model/todolists-reducer'
+import {useAppDispatch} from '../../../../../../app/hook'
+import {EditableSpan} from '../../../../../../common/components/EditableSpan/EditableSpan'
+import {changeTodolistTitleAC, removeTodolistAC} from '../../../../model/todolists-reducer'
+import styles from './TodolistTitle.module.css'
 
 type Props = {
     todolist: TodolistType
@@ -21,7 +22,7 @@ export const TodolistTitle = ({todolist}: Props) => {
     }
 
     return (
-        <div className={"todolist-title-container"}>
+        <div className={styles.container}>
             <h3><EditableSpan value={todolist.title} onChange={updateTodolist}/></h3>
             <IconButton onClick={removeTodolist}>
                 <DeleteIcon/>

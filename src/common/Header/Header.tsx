@@ -3,11 +3,11 @@ import AppBar from '@mui/material/AppBar'
 import IconButton from '@mui/material/IconButton'
 import Switch from '@mui/material/Switch'
 import Toolbar from '@mui/material/Toolbar'
-import {changeThemeAC} from './app/app-reducer'
-import {selectThemeMode} from './app/app-selector'
-import {useAppDispatch, useAppSelector} from './app/hook'
-import {getTheme} from './common/theme/theme'
-import {MenuButton} from './MenuButton'
+import {changeThemeAC} from '../../app/app-reducer'
+import {selectThemeMode} from '../../app/app-selector'
+import {useAppDispatch, useAppSelector} from '../../app/hook'
+import {getTheme} from '../theme/theme'
+import {MenuButton} from '../Button/MenuButton'
 
 export const Header = () => {
     const themeMode = useAppSelector(selectThemeMode)

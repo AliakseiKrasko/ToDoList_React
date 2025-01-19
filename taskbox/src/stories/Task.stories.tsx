@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import {Task} from '../../../src/Tasks';
+import {Task} from '../../../src/features/todolists/ui/Todolists/Todolist/Tasks/Tasks';
 
 
 

@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import {EditableSpan} from '../../../src/EditableSpan';
+import {EditableSpan} from '../../../src/common/components/EditableSpan/EditableSpan';
 
 
 

@@ -4,9 +4,9 @@ import {
     changeTodolistTitleAC,
     removeTodolistAC,
     todolistsReducer
-} from './todolists-reducer'
+} from '../todolists-reducer'
 import {v1} from 'uuid'
-import {TodolistType} from "../model/todolists-reducer";
+import {TodolistType} from "../todolists-reducer";
 
 let todolistId1: string
 let todolistId2: string
