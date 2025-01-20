@@ -207,23 +207,72 @@ export const AppHttpRequests = () => {
 
     // Изменение статуса задачи
     const changeTaskStatusHandler = (taskId: string, todolistId: string, status: number) => {
-        axios
-            .put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, { status }, {
-                headers: {
-                    Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                    'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                },
-            })
-            .then(() => {
-                setTasks(prevTasks => ({
-                    ...prevTasks,
-                    [todolistId]: (prevTasks[todolistId] || []).map(task =>
-                        task.id === taskId ? { ...task, status } : task
-                    ),
-                }));
-            })
-            .catch(err => console.error('Failed to update task status:', err));
+        const taskToUpdate = tasks[todolistId]?.find(task => task.id === taskId);
+
+        if (taskToUpdate) {
+            const updatedTask = {
+                ...taskToUpdate,
+                status,
+            };
+
+            axios
+                .put(
+                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
+                    updatedTask,
+                    {
+                        headers: {
+                            Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
+                            'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
+                        },
+                    }
+                )
+                .then(() => {
+                    setTasks(prevTasks => ({
+                        ...prevTasks,
+                        [todolistId]: (prevTasks[todolistId] || []).map(task =>
+                            task.id === taskId ? { ...task, status } : task
+                        ),
+                    }));
+                })
+                .catch(err => console.error('Failed to update task status:', err));
+        }
     };
+
+
+    const changeTaskTitleHandler = (taskId: string, todolistId: string, newTitle: string) => {
+        const taskToUpdate = tasks[todolistId]?.find(task => task.id === taskId);
+
+        if (taskToUpdate) {
+            const updatedTask = {
+                ...taskToUpdate,
+                title: newTitle,
+            };
+
+            axios
+                .put(
+                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
+                    updatedTask,
+                    {
+                        headers: {
+                            Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
+                            'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
+                        },
+                    }
+                )
+                .then(() => {
+                    setTasks(prevTasks => ({
+                        ...prevTasks,
+                        [todolistId]: (prevTasks[todolistId] || []).map(task =>
+                            task.id === taskId ? { ...task, title: newTitle } : task
+                        ),
+                    }));
+                })
+                .catch(err => console.error('Failed to update task title:', err));
+        }
+    };
+
+
+
 
     return (
         <div style={{ margin: '20px' }}>
@@ -239,21 +288,14 @@ export const AppHttpRequests = () => {
                         tasks[tl.id].map(task => (
                             <div key={task.id}>
                                 <Checkbox
-                                    checked={task.status === 1}
-                                    onChange={e => changeTaskStatusHandler(task.id, tl.id, e.target.checked ? 1 : 0)}
+                                    checked={task.status === 2} // Предполагается, что 2 — статус "выполнено"
+                                    onChange={e => changeTaskStatusHandler(task.id, tl.id, e.target.checked ? 2 : 0)}
                                 />
                                 <EditableSpan
                                     value={task.title}
-                                    onChange={title =>
-                                        setTasks(prevTasks => ({
-                                            ...prevTasks,
-                                            [tl.id]: prevTasks[tl.id].map(t =>
-                                                t.id === task.id ? { ...t, title } : t
-                                            ),
-                                        }))
-                                    }
+                                    onChange={newTitle => changeTaskTitleHandler(task.id, tl.id, newTitle)}
                                 />
-                                <button onClick={() => removeTaskHandler(task.id, tl.id)}>x</button>
+                                <button onClick={() => removeTaskHandler(task.id, tl.id)}>Х</button>
                             </div>
                         ))}
                 </div>
