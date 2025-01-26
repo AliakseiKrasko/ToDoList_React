@@ -17,28 +17,12 @@ type FieldError = {
     field: string;
 };
 
-type CreateTodolistResponse = {
+export type BaseResponse<T = {}> = {
     resultCode: number;
     messages: string[];
     fieldsErrors: FieldError[];
-    data: {
-        item: Todolist;
-    };
-};
-
-export type RemoveTodolistResponse = {
-    resultCode: number;
-    messages: string[];
-    fieldsErrors: FieldError[];
-    data: {};
-};
-
-export type UpdateTodolistResponse = {
-    resultCode: number;
-    messages: string[];
-    fieldsErrors: FieldError[];
-    data: {};
-};
+    data: T;
+}
 
 export type GetTasksResponse = {
     error: string | null;
@@ -59,14 +43,7 @@ export type DomainTask = {
     addedDate: string;
 };
 
-export type CreateTaskResponse = {
-    resultCode: number;
-    messages: string[];
-    fieldsErrors: FieldError[];
-    data: {
-        item: DomainTask;
-    };
-};
+
 
 const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
 const apiKey = '519e09f9-9dad-4c6c-8d50-5948d8b0629c';
@@ -112,7 +89,7 @@ export const AppHttpRequests = () => {
     // Добавление нового списка задач
     const createTodolistHandler = (title: string) => {
         axios
-            .post<CreateTodolistResponse>(
+            .post<BaseResponse<{ item: Todolist }>>(
                 'https://social-network.samuraijs.com/api/1.1/todo-lists',
                 { title }, configs)
             .then(res => {
@@ -124,7 +101,7 @@ export const AppHttpRequests = () => {
     // Удаление списка задач
     const removeTodolistHandler = (id: string) => {
         axios
-            .delete<RemoveTodolistResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
+            .delete<BaseResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
             .then(() => {
                 setTodolists(todolists.filter(tl => tl.id !== id));
                 setTasks(prevTasks => {
@@ -138,7 +115,7 @@ export const AppHttpRequests = () => {
     // Обновление названия списка задач
     const updateTodolistHandler = (id: string, title: string) => {
         axios
-            .put<UpdateTodolistResponse>(
+            .put<BaseResponse>(
                 `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
                 { title }, configs)
             .then(() => {
@@ -150,7 +127,7 @@ export const AppHttpRequests = () => {
     // Создание задачи
     const createTaskHandler = (title: string, todolistId: string) => {
         axios
-            .post<CreateTaskResponse>(
+            .post<BaseResponse<{ item: DomainTask }>>(
                 `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
                 { title }, configs)
             .then(res => {
