@@ -68,6 +68,16 @@ export type CreateTaskResponse = {
     };
 };
 
+const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
+const apiKey = '519e09f9-9dad-4c6c-8d50-5948d8b0629c';
+
+const configs = {
+    headers: {
+        Authorization: `Bearer ${token}`,
+        'API-KEY': apiKey
+    }
+}
+
 // Компонент
 export const AppHttpRequests = () => {
     const [todolists, setTodolists] = useState<Todolist[]>([]);
@@ -76,11 +86,7 @@ export const AppHttpRequests = () => {
     // Получение данных при загрузке
     useEffect(() => {
         axios
-            .get<Todolist[]>('https://social-network.samuraijs.com/api/1.1/todo-lists', {
-                headers: {
-                    Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                },
-            })
+            .get<Todolist[]>('https://social-network.samuraijs.com/api/1.1/todo-lists', configs)
             .then(res => {
                 setTodolists(res.data);
                 res.data.forEach(tl => {
@@ -93,12 +99,7 @@ export const AppHttpRequests = () => {
     // Функция получения задач для конкретного списка
     const fetchTasks = (todolistId: string) => {
         axios
-            .get<GetTasksResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, {
-                headers: {
-                    Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                    'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                },
-            })
+            .get<GetTasksResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, configs)
             .then(res => {
                 setTasks(prevTasks => ({
                     ...prevTasks,
@@ -113,14 +114,7 @@ export const AppHttpRequests = () => {
         axios
             .post<CreateTodolistResponse>(
                 'https://social-network.samuraijs.com/api/1.1/todo-lists',
-                { title },
-                {
-                    headers: {
-                        Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                        'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                    },
-                }
-            )
+                { title }, configs)
             .then(res => {
                 setTodolists([res.data.data.item, ...todolists]);
             })
@@ -130,12 +124,7 @@ export const AppHttpRequests = () => {
     // Удаление списка задач
     const removeTodolistHandler = (id: string) => {
         axios
-            .delete<RemoveTodolistResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, {
-                headers: {
-                    Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                    'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                },
-            })
+            .delete<RemoveTodolistResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
             .then(() => {
                 setTodolists(todolists.filter(tl => tl.id !== id));
                 setTasks(prevTasks => {
@@ -151,14 +140,7 @@ export const AppHttpRequests = () => {
         axios
             .put<UpdateTodolistResponse>(
                 `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
-                { title },
-                {
-                    headers: {
-                        Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                        'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                    },
-                }
-            )
+                { title }, configs)
             .then(() => {
                 setTodolists(todolists.map(tl => (tl.id === id ? { ...tl, title } : tl)));
             })
@@ -170,14 +152,7 @@ export const AppHttpRequests = () => {
         axios
             .post<CreateTaskResponse>(
                 `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
-                { title },
-                {
-                    headers: {
-                        Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                        'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                    },
-                }
-            )
+                { title }, configs)
             .then(res => {
                 setTasks(prevTasks => ({
                     ...prevTasks,
@@ -190,12 +165,7 @@ export const AppHttpRequests = () => {
     // Удаление задачи
     const removeTaskHandler = (taskId: string, todolistId: string) => {
         axios
-            .delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, {
-                headers: {
-                    Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                    'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                },
-            })
+            .delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, configs)
             .then(() => {
                 setTasks(prevTasks => ({
                     ...prevTasks,
@@ -218,14 +188,7 @@ export const AppHttpRequests = () => {
             axios
                 .put(
                     `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
-                    updatedTask,
-                    {
-                        headers: {
-                            Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                            'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                        },
-                    }
-                )
+                    updatedTask, configs)
                 .then(() => {
                     setTasks(prevTasks => ({
                         ...prevTasks,
@@ -251,14 +214,7 @@ export const AppHttpRequests = () => {
             axios
                 .put(
                     `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
-                    updatedTask,
-                    {
-                        headers: {
-                            Authorization: 'Bearer 06921f9d-5d6a-4cde-b24a-02816749f900',
-                            'API-KEY': '519e09f9-9dad-4c6c-8d50-5948d8b0629c',
-                        },
-                    }
-                )
+                    updatedTask, configs)
                 .then(() => {
                     setTasks(prevTasks => ({
                         ...prevTasks,
