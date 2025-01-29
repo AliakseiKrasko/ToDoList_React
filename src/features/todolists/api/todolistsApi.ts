@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Todolist} from './todolistsApi.types';
+import {BaseResponse, Todolist} from './todolistsApi.types';
 
 
 const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
@@ -16,6 +16,12 @@ export const todolistsApi = {
     getTodolists() {
         const promise = axios.get<Todolist[]>('https://social-network.samuraijs.com/api/1.1/todo-lists', configs)
         return promise
-    }
+    },
 
+    updateTodolist(title: string) {
+        const promise = axios.post<BaseResponse<{ item: Todolist }>>(
+            'https://social-network.samuraijs.com/api/1.1/todo-lists',
+            {title}, configs)
+        return promise
+    }
 }

@@ -20,184 +20,180 @@ const configs = {
 
 // Компонент
 export const AppHttpRequests = () => {
-    const [todolists, setTodolists] = useState<Todolist[]>([]);
-    const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({});
+        const [todolists, setTodolists] = useState<Todolist[]>([]);
+        const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({});
 
-    // Получение данных при загрузке
-    useEffect(() => {
-        todolistsApi.getTodolists()
-            .then(res => {
-                setTodolists(res.data);
-                res.data.forEach(tl => {
-                    fetchTasks(tl.id);
-                });
-            })
-            .catch(err => console.error('Failed to fetch todolists:', err));
-    }, []);
+        // Получение данных при загрузке
+        useEffect(() => {
+            todolistsApi.getTodolists()
+                .then(res => {
+                    setTodolists(res.data);
+                    res.data.forEach(tl => {
+                        fetchTasks(tl.id);
+                    });
+                })
+                .catch(err => console.error('Failed to fetch todolists:', err));
+        }, []);
 
-    // Функция получения задач для конкретного списка
-    const fetchTasks = (todolistId: string) => {
-        axios
-            .get<GetTasksResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, configs)
-            .then(res => {
-                setTasks(prevTasks => ({
-                    ...prevTasks,
-                    [todolistId]: res.data.items,
-                }));
-            })
-            .catch(err => console.error(`Failed to fetch tasks for todolist ${todolistId}:`, err));
-    };
-
-    // Добавление нового списка задач
-    const createTodolistHandler = (title: string) => {
-        axios
-            .post<BaseResponse<{ item: Todolist }>>(
-                'https://social-network.samuraijs.com/api/1.1/todo-lists',
-                {title}, configs)
-            .then(res => {
-                setTodolists([res.data.data.item, ...todolists]);
-            })
-            .catch(err => console.error('Failed to create todolist:', err));
-    };
-
-    // Удаление списка задач
-    const removeTodolistHandler = (id: string) => {
-        axios
-            .delete<BaseResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
-            .then(() => {
-                setTodolists(todolists.filter(tl => tl.id !== id));
-                setTasks(prevTasks => {
-                    const {[id]: _, ...remainingTasks} = prevTasks;
-                    return remainingTasks;
-                });
-            })
-            .catch(err => console.error('Failed to remove todolist:', err));
-    };
-
-    // Обновление названия списка задач
-    const updateTodolistHandler = (id: string, title: string) => {
-        axios
-            .put<BaseResponse>(
-                `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
-                {title}, configs)
-            .then(() => {
-                setTodolists(todolists.map(tl => (tl.id === id ? {...tl, title} : tl)));
-            })
-            .catch(err => console.error('Failed to update todolist:', err));
-    };
-
-    // Создание задачи
-    const createTaskHandler = (title: string, todolistId: string) => {
-        axios
-            .post<BaseResponse<{ item: Task }>>(
-                `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
-                {title}, configs)
-            .then(res => {
-                setTasks(prevTasks => ({
-                    ...prevTasks,
-                    [todolistId]: [res.data.data.item, ...(prevTasks[todolistId] || [])],
-                }));
-            })
-            .catch(err => console.error('Failed to create task:', err));
-    };
-
-    // Удаление задачи
-    const removeTaskHandler = (taskId: string, todolistId: string) => {
-        axios
-            .delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, configs)
-            .then(() => {
-                setTasks(prevTasks => ({
-                    ...prevTasks,
-                    [todolistId]: (prevTasks[todolistId] || []).filter(task => task.id !== taskId),
-                }));
-            })
-            .catch(err => console.error('Failed to remove task:', err));
-    };
-
-    // Изменение статуса задачи
-    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: Task) => {
-
-        const model: UpdateTaskModel = {
-            description: task.description,
-            title: task.title,
-            deadline: task.deadline,
-            priority: task.priority,
-            startDate: task.startDate,
-            status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
-        }
-
-        axios
-            .put<BaseResponse>(
-                `https://social-network.samuraijs.com/api/1.1/todo-lists/${task.todoListId}/tasks/${task.id}`,
-                model, configs)
-            .then(() => {
-                setTasks(prevTasks => ({
-                    ...prevTasks,
-                    [task.todoListId]: (prevTasks[task.todoListId] || []).map(t =>
-                        t.id === task.id ? {...t, status: model.status} : t
-                    ),
-                }));
-            })
-            .catch(err => console.error('Failed to update task status:', err));
-    }
-
-
-
-const changeTaskTitleHandler = (taskId: string, todolistId: string, newTitle: string) => {
-    const taskToUpdate = tasks[todolistId]?.find(task => task.id === taskId);
-
-    if (taskToUpdate) {
-        const updatedTask = {
-            ...taskToUpdate,
-            title: newTitle,
+        // Функция получения задач для конкретного списка
+        const fetchTasks = (todolistId: string) => {
+            axios
+                .get<GetTasksResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, configs)
+                .then(res => {
+                    setTasks(prevTasks => ({
+                        ...prevTasks,
+                        [todolistId]: res.data.items,
+                    }));
+                })
+                .catch(err => console.error(`Failed to fetch tasks for todolist ${todolistId}:`, err));
         };
 
-        axios
-            .put(
-                `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
-                updatedTask, configs)
-            .then(() => {
-                setTasks(prevTasks => ({
-                    ...prevTasks,
-                    [todolistId]: (prevTasks[todolistId] || []).map(task =>
-                        task.id === taskId ? {...task, title: newTitle} : task
-                    ),
-                }));
-            })
-            .catch(err => console.error('Failed to update task title:', err));
-    }
-};
+        // Добавление нового списка задач
+        const createTodolistHandler = (title: string) => {
+            todolistsApi.updateTodolist(title)
+                .then(res => {
+                    setTodolists([res.data.data.item, ...todolists]);
+                })
+                .catch(err => console.error('Failed to create todolist:', err));
+        };
+
+        // Удаление списка задач
+        const removeTodolistHandler = (id: string) => {
+            axios
+                .delete<BaseResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
+                .then(() => {
+                    setTodolists(todolists.filter(tl => tl.id !== id));
+                    setTasks(prevTasks => {
+                        const {[id]: _, ...remainingTasks} = prevTasks;
+                        return remainingTasks;
+                    });
+                })
+                .catch(err => console.error('Failed to remove todolist:', err));
+        };
+
+        // Обновление названия списка задач
+        const updateTodolistHandler = (id: string, title: string) => {
+            axios
+                .put<BaseResponse>(
+                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
+                    {title}, configs)
+                .then(() => {
+                    setTodolists(todolists.map(tl => (tl.id === id ? {...tl, title} : tl)));
+                })
+                .catch(err => console.error('Failed to update todolist:', err));
+        };
+
+        // Создание задачи
+        const createTaskHandler = (title: string, todolistId: string) => {
+            axios
+                .post<BaseResponse<{ item: Task }>>(
+                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
+                    {title}, configs)
+                .then(res => {
+                    setTasks(prevTasks => ({
+                        ...prevTasks,
+                        [todolistId]: [res.data.data.item, ...(prevTasks[todolistId] || [])],
+                    }));
+                })
+                .catch(err => console.error('Failed to create task:', err));
+        };
+
+        // Удаление задачи
+        const removeTaskHandler = (taskId: string, todolistId: string) => {
+            axios
+                .delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, configs)
+                .then(() => {
+                    setTasks(prevTasks => ({
+                        ...prevTasks,
+                        [todolistId]: (prevTasks[todolistId] || []).filter(task => task.id !== taskId),
+                    }));
+                })
+                .catch(err => console.error('Failed to remove task:', err));
+        };
+
+        // Изменение статуса задачи
+        const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: Task) => {
+
+            const model: UpdateTaskModel = {
+                description: task.description,
+                title: task.title,
+                deadline: task.deadline,
+                priority: task.priority,
+                startDate: task.startDate,
+                status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
+            }
+
+            axios
+                .put<BaseResponse>(
+                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${task.todoListId}/tasks/${task.id}`,
+                    model, configs)
+                .then(() => {
+                    setTasks(prevTasks => ({
+                        ...prevTasks,
+                        [task.todoListId]: (prevTasks[task.todoListId] || []).map(t =>
+                            t.id === task.id ? {...t, status: model.status} : t
+                        ),
+                    }));
+                })
+                .catch(err => console.error('Failed to update task status:', err));
+        }
 
 
-return (
-    <div style={{margin: '20px'}}>
-        <AddItemForm addItem={createTodolistHandler}/>
-        {todolists.map(tl => (
-            <div key={tl.id} style={todolist}>
-                <div>
-                    <EditableSpan value={tl.title} onChange={title => updateTodolistHandler(tl.id, title)}/>
-                    <button onClick={() => removeTodolistHandler(tl.id)}>x</button>
-                </div>
-                <AddItemForm addItem={title => createTaskHandler(title, tl.id)}/>
-                {!!tasks[tl.id] &&
-                    tasks[tl.id].map(task => (
-                        <div key={task.id}>
-                            <Checkbox
-                                checked={task.status === TaskStatus.Completed} // Предполагается, что 2 — статус "выполнено"
-                                onChange={e => changeTaskStatusHandler(e, task)}
-                            />
-                            <EditableSpan
-                                value={task.title}
-                                onChange={newTitle => changeTaskTitleHandler(task.id, tl.id, newTitle)}
-                            />
-                            <button onClick={() => removeTaskHandler(task.id, tl.id)}>Х</button>
+        const changeTaskTitleHandler = (taskId: string, todolistId: string, newTitle: string) => {
+            const taskToUpdate = tasks[todolistId]?.find(task => task.id === taskId);
+
+            if (taskToUpdate) {
+                const updatedTask = {
+                    ...taskToUpdate,
+                    title: newTitle,
+                };
+
+                axios
+                    .put(
+                        `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
+                        updatedTask, configs)
+                    .then(() => {
+                        setTasks(prevTasks => ({
+                            ...prevTasks,
+                            [todolistId]: (prevTasks[todolistId] || []).map(task =>
+                                task.id === taskId ? {...task, title: newTitle} : task
+                            ),
+                        }));
+                    })
+                    .catch(err => console.error('Failed to update task title:', err));
+            }
+        };
+
+
+        return (
+            <div style={{margin: '20px'}}>
+                <AddItemForm addItem={createTodolistHandler}/>
+                {todolists.map(tl => (
+                    <div key={tl.id} style={todolist}>
+                        <div>
+                            <EditableSpan value={tl.title} onChange={title => updateTodolistHandler(tl.id, title)}/>
+                            <button onClick={() => removeTodolistHandler(tl.id)}>x</button>
                         </div>
-                    ))}
+                        <AddItemForm addItem={title => createTaskHandler(title, tl.id)}/>
+                        {!!tasks[tl.id] &&
+                            tasks[tl.id].map(task => (
+                                <div key={task.id}>
+                                    <Checkbox
+                                        checked={task.status === TaskStatus.Completed} // Предполагается, что 2 — статус "выполнено"
+                                        onChange={e => changeTaskStatusHandler(e, task)}
+                                    />
+                                    <EditableSpan
+                                        value={task.title}
+                                        onChange={newTitle => changeTaskTitleHandler(task.id, tl.id, newTitle)}
+                                    />
+                                    <button onClick={() => removeTaskHandler(task.id, tl.id)}>Х</button>
+                                </div>
+                            ))}
+                    </div>
+                ))}
             </div>
-        ))}
-    </div>
-);
-}
+        );
+    }
 ;
 
 export enum TaskStatus {
