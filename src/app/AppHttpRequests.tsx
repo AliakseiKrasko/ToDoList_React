@@ -6,6 +6,7 @@ import axios from 'axios';
 import {BaseResponse, Todolist} from '../features/todolists/api/todolistsApi.types';
 import {GetTasksResponse, Task, UpdateTaskModel} from '../features/todolists/api/tasksApi.types';
 import {todolistsApi} from '../features/todolists/api/todolistsApi';
+import {tasksApi} from '../features/todolists/api/tasksApi';
 
 
 const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
@@ -37,8 +38,7 @@ export const AppHttpRequests = () => {
 
         // Функция получения задач для конкретного списка
         const fetchTasks = (todolistId: string) => {
-            axios
-                .get<GetTasksResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, configs)
+            tasksApi.getTAsks(todolistId)
                 .then(res => {
                     setTasks(prevTasks => ({
                         ...prevTasks,
@@ -197,7 +197,6 @@ export enum TaskStatus {
     InProgress = 1,
     Completed = 2
 }
-
 
 // Стили
 const todolist: React.CSSProperties = {
