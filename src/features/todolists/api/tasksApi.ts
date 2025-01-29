@@ -24,5 +24,10 @@ export const tasksApi = {
             `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
             {title}, configs)
         return promise
-    }
+    },
+
+    removeTasks(taskId: string, todolistId: string) {
+        const promise = axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, configs)
+        return promise
+    },
 }

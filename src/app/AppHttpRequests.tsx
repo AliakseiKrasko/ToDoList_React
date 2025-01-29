@@ -93,8 +93,7 @@ export const AppHttpRequests = () => {
 
         // Удаление задачи
         const removeTaskHandler = (taskId: string, todolistId: string) => {
-            axios
-                .delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, configs)
+            tasksApi.removeTasks(taskId, todolistId)
                 .then(() => {
                     setTasks(prevTasks => ({
                         ...prevTasks,
