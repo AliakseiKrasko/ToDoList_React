@@ -81,10 +81,7 @@ export const AppHttpRequests = () => {
 
         // Создание задачи
         const createTaskHandler = (title: string, todolistId: string) => {
-            axios
-                .post<BaseResponse<{ item: Task }>>(
-                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
-                    {title}, configs)
+            tasksApi.createTask(title, todolistId)
                 .then(res => {
                     setTasks(prevTasks => ({
                         ...prevTasks,
