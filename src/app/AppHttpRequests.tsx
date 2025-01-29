@@ -50,7 +50,7 @@ export const AppHttpRequests = () => {
 
         // Добавление нового списка задач
         const createTodolistHandler = (title: string) => {
-            todolistsApi.updateTodolist(title)
+            todolistsApi.createTodolist(title)
                 .then(res => {
                     setTodolists([res.data.data.item, ...todolists]);
                 })
@@ -59,8 +59,7 @@ export const AppHttpRequests = () => {
 
         // Удаление списка задач
         const removeTodolistHandler = (id: string) => {
-            axios
-                .delete<BaseResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
+            todolistsApi.deleteTodolist(id)
                 .then(() => {
                     setTodolists(todolists.filter(tl => tl.id !== id));
                     setTasks(prevTasks => {

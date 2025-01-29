@@ -18,10 +18,15 @@ export const todolistsApi = {
         return promise
     },
 
-    updateTodolist(title: string) {
+    createTodolist(title: string) {
         const promise = axios.post<BaseResponse<{ item: Todolist }>>(
             'https://social-network.samuraijs.com/api/1.1/todo-lists',
             {title}, configs)
+        return promise
+    },
+
+    deleteTodolist(id: string) {
+        const promise = axios.delete<BaseResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
         return promise
     }
 }
