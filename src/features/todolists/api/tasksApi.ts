@@ -45,5 +45,15 @@ export const tasksApi = {
             `https://social-network.samuraijs.com/api/1.1/todo-lists/${task.todoListId}/tasks/${task.id}`,
             model, configs)
         return promise
+    },
+
+    changeTaskTitle(taskId: string, todolistId: string, newTitle: string) {
+
+            /*return axios.put<BaseResponse>(
+                `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
+                updatedTask, configs
+            );
+        });*/
+
     }
 }
