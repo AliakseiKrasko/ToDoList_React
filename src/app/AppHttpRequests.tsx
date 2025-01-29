@@ -4,6 +4,7 @@ import {AddItemForm} from '../common/components/AddItemForm/AddItemForm';
 import {EditableSpan} from '../common/components/EditableSpan/EditableSpan';
 import axios from 'axios';
 import {BaseResponse, Todolist} from '../features/todolists/api/todolistsApi.types';
+import {GetTasksResponse, Task, UpdateTaskModel} from '../features/todolists/api/tasksApi.types';
 
 
 const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
@@ -199,39 +200,7 @@ return (
 }
 ;
 
-// Типы
-
-
-export type GetTasksResponse = {
-    error: string | null;
-    totalCount: number;
-    items: Task[];
-};
-
-export type Task = {
-    description: string | null;
-    title: string;
-    status: TaskStatus;
-    priority: number;
-    startDate: string | null;
-    deadline: string | null;
-    id: string;
-    todoListId: string;
-    order: number;
-    addedDate: string;
-};
-
-type UpdateTaskModel = {
-    description: string | null;
-    title: string;
-    status: TaskStatus;
-    priority: number;
-    startDate: string | null;
-    deadline: string | null;
-
-}
-
-enum TaskStatus {
+export enum TaskStatus {
     New = 0,
     InProgress = 1,
     Completed = 2
