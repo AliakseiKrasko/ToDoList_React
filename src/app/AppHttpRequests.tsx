@@ -105,25 +105,13 @@ export const AppHttpRequests = () => {
 
         // Изменение статуса задачи
         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: Task) => {
-
-            const model: UpdateTaskModel = {
-                description: task.description,
-                title: task.title,
-                deadline: task.deadline,
-                priority: task.priority,
-                startDate: task.startDate,
-                status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
-            }
-
-            axios
-                .put<BaseResponse>(
-                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${task.todoListId}/tasks/${task.id}`,
-                    model, configs)
+            const newStatus = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
+            tasksApi.changeTaskStatus(task, newStatus)
                 .then(() => {
                     setTasks(prevTasks => ({
                         ...prevTasks,
                         [task.todoListId]: (prevTasks[task.todoListId] || []).map(t =>
-                            t.id === task.id ? {...t, status: model.status} : t
+                            t.id === task.id ? {...t, status: newStatus} : t
                         ),
                     }));
                 })
