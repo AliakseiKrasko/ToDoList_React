@@ -5,6 +5,7 @@ import {EditableSpan} from '../common/components/EditableSpan/EditableSpan';
 import axios from 'axios';
 import {BaseResponse, Todolist} from '../features/todolists/api/todolistsApi.types';
 import {GetTasksResponse, Task, UpdateTaskModel} from '../features/todolists/api/tasksApi.types';
+import {todolistsApi} from '../features/todolists/api/todolistsApi';
 
 
 const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
@@ -24,8 +25,7 @@ export const AppHttpRequests = () => {
 
     // Получение данных при загрузке
     useEffect(() => {
-        axios
-            .get<Todolist[]>('https://social-network.samuraijs.com/api/1.1/todo-lists', configs)
+        todolistsApi.getTodolists()
             .then(res => {
                 setTodolists(res.data);
                 res.data.forEach(tl => {
