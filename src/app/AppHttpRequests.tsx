@@ -3,6 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import {AddItemForm} from '../common/components/AddItemForm/AddItemForm';
 import {EditableSpan} from '../common/components/EditableSpan/EditableSpan';
 import axios from 'axios';
+import {BaseResponse, Todolist} from '../features/todolists/api/todolistsApi.types';
 
 
 const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
@@ -199,24 +200,7 @@ return (
 ;
 
 // Типы
-export type Todolist = {
-    id: string;
-    title: string;
-    addedDate: string;
-    order: number;
-};
 
-type FieldError = {
-    error: string;
-    field: string;
-};
-
-export type BaseResponse<T = {}> = {
-    resultCode: number;
-    messages: string[];
-    fieldsErrors: FieldError[];
-    data: T;
-}
 
 export type GetTasksResponse = {
     error: string | null;
