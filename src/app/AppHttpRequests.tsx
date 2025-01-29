@@ -227,7 +227,7 @@ export type GetTasksResponse = {
 export type Task = {
     description: string | null;
     title: string;
-    status: number;
+    status: TaskStatus;
     priority: number;
     startDate: string | null;
     deadline: string | null;
@@ -240,7 +240,7 @@ export type Task = {
 type UpdateTaskModel = {
     description: string | null;
     title: string;
-    status: number;
+    status: TaskStatus;
     priority: number;
     startDate: string | null;
     deadline: string | null;
