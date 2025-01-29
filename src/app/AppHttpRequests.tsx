@@ -72,10 +72,7 @@ export const AppHttpRequests = () => {
 
         // Обновление названия списка задач
         const updateTodolistHandler = (id: string, title: string) => {
-            axios
-                .put<BaseResponse>(
-                    `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
-                    {title}, configs)
+            todolistsApi.updateTodolist(id, title)
                 .then(() => {
                     setTodolists(todolists.map(tl => (tl.id === id ? {...tl, title} : tl)));
                 })

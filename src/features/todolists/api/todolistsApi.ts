@@ -28,5 +28,12 @@ export const todolistsApi = {
     deleteTodolist(id: string) {
         const promise = axios.delete<BaseResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
         return promise
+    },
+
+    updateTodolist(id: string, title: string) {
+        const promise = axios.put<BaseResponse>(
+            `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
+            {title}, configs)
+        return promise
     }
 }
