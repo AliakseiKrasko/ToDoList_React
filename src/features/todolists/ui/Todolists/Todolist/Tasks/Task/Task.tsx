@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from "react"
 import { Checkbox, IconButton } from "@mui/material"
-import { EditableSpan } from "../../../../../../../common/components/EditableSpan/EditableSpan"
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType } from "../../../../../model/task-reducer"
 import ListItem from "@mui/material/ListItem"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { useAppDispatch } from "../../../../../../../app/hook"
 import { getListItemSx } from "./Task.styles"
+import { EditableSpan } from "common/components/EditableSpan"
 
 type PropsType = {
   task: TaskType
