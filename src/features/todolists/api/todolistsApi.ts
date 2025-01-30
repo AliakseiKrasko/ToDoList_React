@@ -1,39 +1,20 @@
-import axios from 'axios';
-import {BaseResponse, Todolist} from './todolistsApi.types';
-
-
-const token = '06921f9d-5d6a-4cde-b24a-02816749f900';
-const apiKey = '519e09f9-9dad-4c6c-8d50-5948d8b0629c';
-
-const configs = {
-    headers: {
-        Authorization: `Bearer ${token}`,
-        'API-KEY': apiKey
-    }
-}
+import { BaseResponse, Todolist } from "./todolistsApi.types"
+import { instance } from "../../../common/instance/instance"
 
 export const todolistsApi = {
-    getTodolists() {
-        const promise = axios.get<Todolist[]>('https://social-network.samuraijs.com/api/1.1/todo-lists', configs)
-        return promise
-    },
+  getTodolists() {
+    return instance.get<Todolist[]>("todo-lists")
+  },
 
-    createTodolist(title: string) {
-        const promise = axios.post<BaseResponse<{ item: Todolist }>>(
-            'https://social-network.samuraijs.com/api/1.1/todo-lists',
-            {title}, configs)
-        return promise
-    },
+  createTodolist(title: string) {
+    return instance.post<BaseResponse<{ item: Todolist }>>("todo-lists", { title })
+  },
 
-    deleteTodolist(id: string) {
-        const promise = axios.delete<BaseResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, configs)
-        return promise
-    },
+  deleteTodolist(id: string) {
+    return instance.delete<BaseResponse>(`1.1/todo-lists/${id}`)
+  },
 
-    updateTodolist(id: string, title: string) {
-        const promise = axios.put<BaseResponse>(
-            `https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,
-            {title}, configs)
-        return promise
-    }
+  updateTodolist(id: string, title: string) {
+    return instance.put<BaseResponse>(`todo-lists/${id}`, { title })
+  },
 }

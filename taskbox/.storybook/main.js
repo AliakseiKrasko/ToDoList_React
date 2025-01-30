@@ -6,11 +6,11 @@ const config = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    '@storybook/addon-storysource',
+    "@storybook/addon-storysource",
   ],
   framework: {
     name: "@storybook/react-vite",
     options: {},
   },
-};
-export default config;
+}
+export default config
