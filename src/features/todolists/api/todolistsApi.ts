@@ -11,7 +11,7 @@ export const todolistsApi = {
   },
 
   deleteTodolist(id: string) {
-    return instance.delete<BaseResponse>(`1.1/todo-lists/${id}`)
+    return instance.delete<BaseResponse>(`todo-lists/${id}`)
   },
 
   updateTodolist(id: string, title: string) {

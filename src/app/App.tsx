@@ -1,10 +1,10 @@
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
-import { getTheme } from "../common/theme/theme"
-import { Header } from "../common/Header/Header"
+import { getTheme } from "common/theme/theme"
+import { Header } from "common/Header/Header"
 import { Main } from "./Main"
 import { selectThemeMode } from "./app-selector"
-import { useAppSelector } from "./hook"
+import { useAppSelector } from "common/hooks/useAppSelector"
 
 function App() {
   const themeMode = useAppSelector(selectThemeMode)

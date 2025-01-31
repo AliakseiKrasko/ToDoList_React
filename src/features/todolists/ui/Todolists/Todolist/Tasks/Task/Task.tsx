@@ -3,9 +3,9 @@ import { Checkbox, IconButton } from "@mui/material"
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType } from "../../../../../model/task-reducer"
 import ListItem from "@mui/material/ListItem"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { useAppDispatch } from "../../../../../../../app/hook"
 import { getListItemSx } from "./Task.styles"
 import { EditableSpan } from "common/components/EditableSpan"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
 
 type PropsType = {
   task: TaskType
