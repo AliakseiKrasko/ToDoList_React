@@ -129,28 +129,24 @@ export const AppHttpRequests = () => {
   const changeTaskTitleHandler = (taskId: string, todolistId: string, newTitle: string) => {
     const taskToUpdate = tasks[todolistId]?.find((task) => task.id === taskId)
 
-    if (taskToUpdate) {
-      const updatedTask = {
-        ...taskToUpdate,
-        title: newTitle,
-      }
-
-      axios
-        .put(
-          `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
-          updatedTask,
-          configs,
-        )
-        .then(() => {
-          setTasks((prevTasks) => ({
-            ...prevTasks,
-            [todolistId]: (prevTasks[todolistId] || []).map((task) =>
-              task.id === taskId ? { ...task, title: newTitle } : task,
-            ),
-          }))
-        })
-        .catch((err) => console.error("Failed to update task title:", err))
+    if (!taskToUpdate) {
+      console.error(`Task with ID ${taskId} not found in todolist ${todolistId}`)
+      return
     }
+
+    console.log(`Updating task ID ${taskId} in todolist ${todolistId} with title:`, newTitle)
+
+    tasksApi
+      .changeTaskTitle(todolistId, taskId, newTitle) // Теперь taskId передается правильно
+      .then(() => {
+        setTasks((prevTasks) => ({
+          ...prevTasks,
+          [todolistId]: (prevTasks[todolistId] || []).map((task) =>
+            task.id === taskId ? { ...task, title: newTitle } : task,
+          ),
+        }))
+      })
+      .catch((err) => console.error("Failed to update task title:", err))
   }
 
   return (
