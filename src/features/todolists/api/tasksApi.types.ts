@@ -1,5 +1,6 @@
 // Типы
-import { TaskStatus } from "../../../app/AppHttpRequests"
+
+import { TaskPriority, TaskStatus } from "../lib/enams"
 
 export type GetTasksResponse = {
   error: string | null
@@ -11,7 +12,7 @@ export type Task = {
   description: string | null
   title: string
   status: TaskStatus
-  priority: number
+  priority: TaskPriority
   startDate: string | null
   deadline: string | null
   id: string
@@ -24,7 +25,7 @@ export type UpdateTaskModel = {
   description: string | null
   title: string
   status: TaskStatus
-  priority: number
+  priority: TaskPriority
   startDate: string | null
   deadline: string | null
 }

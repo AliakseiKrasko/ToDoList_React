@@ -1,12 +1,13 @@
 import Checkbox from "@mui/material/Checkbox"
 import React, { ChangeEvent, useEffect, useState } from "react"
-import { AddItemForm } from "../common/components/AddItemForm/AddItemForm"
-import { EditableSpan } from "../common/components/EditableSpan/EditableSpan"
+import { AddItemForm } from "common/components/AddItemForm/AddItemForm"
+import { EditableSpan } from "common/components/EditableSpan"
 import axios from "axios"
-import { BaseResponse, Todolist } from "../features/todolists/api/todolistsApi.types"
 import { GetTasksResponse, Task, UpdateTaskModel } from "../features/todolists/api/tasksApi.types"
 import { todolistsApi } from "../features/todolists/api/todolistsApi"
 import { tasksApi } from "../features/todolists/api/tasksApi"
+import { Todolist } from "../features/todolists/api/todolistsApi.types"
+import { TaskStatus } from "../features/todolists/lib/enams"
 
 const token = "06921f9d-5d6a-4cde-b24a-02816749f900"
 const apiKey = "519e09f9-9dad-4c6c-8d50-5948d8b0629c"
@@ -180,12 +181,6 @@ export const AppHttpRequests = () => {
       ))}
     </div>
   )
-}
-
-export enum TaskStatus {
-  New = 0,
-  InProgress = 1,
-  Completed = 2,
 }
 
 // Стили
