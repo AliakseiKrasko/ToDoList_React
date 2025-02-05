@@ -3,15 +3,18 @@ import { Todolist } from "../api/todolistsApi.types"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
-export type TodolistType = {
+/*export type DomainTodolist = {
   id: string
   title: string
   filter: FilterValuesType
+}*/
+export type DomainTodolist = Todolist & {
+  filter: FilterValuesType
 }
 
-const initialState: TodolistType[] = []
+const initialState: DomainTodolist[] = []
 
-export const todolistsReducer = (state: TodolistType[] = initialState, action: ActionsType): TodolistType[] => {
+export const todolistsReducer = (state: DomainTodolist[] = initialState, action: ActionsType): DomainTodolist[] => {
   switch (action.type) {
     case "SET-TODOLISTS": {
       return action.todolists.map((tl) => ({ ...tl, filter: "all" }))
@@ -21,10 +24,12 @@ export const todolistsReducer = (state: TodolistType[] = initialState, action: A
     }
 
     case "ADD-TODOLIST": {
-      const newTodolist: TodolistType = {
+      const newTodolist: DomainTodolist = {
         id: action.payload.todolistId,
         title: action.payload.title,
         filter: "all",
+        addedDate: "",
+        order: 0,
       }
       return [...state, newTodolist]
     }

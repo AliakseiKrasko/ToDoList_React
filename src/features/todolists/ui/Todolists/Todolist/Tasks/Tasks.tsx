@@ -1,6 +1,6 @@
 import React from "react"
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "../../../../model/task-reducer"
-import { TodolistType } from "../../../../model/todolists-reducer"
+import { DomainTodolist } from "../../../../model/todolists-reducer"
 import List from "@mui/material/List"
 import { selectTasks } from "../../../../model/tasks-selectors"
 import { Task } from "./Task/Task"
@@ -8,7 +8,7 @@ import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { useAppSelector } from "common/hooks/useAppSelector"
 
 type PropsType = {
-  todolist: TodolistType
+  todolist: DomainTodolist
 }
 export const Tasks = ({ todolist }: PropsType) => {
   const dispatch = useAppDispatch()
@@ -34,11 +34,11 @@ export const Tasks = ({ todolist }: PropsType) => {
 
   return (
     <>
-      {tasksForTodolist.length === 0 ? (
+      {tasksForTodolist?.length === 0 ? (
         <p>No tasks</p>
       ) : (
         <List>
-          {tasksForTodolist.map((task) => {
+          {tasksForTodolist?.map((task) => {
             return <Task key={task.id} task={task} todolistId={todolist.id} />
           })}
         </List>

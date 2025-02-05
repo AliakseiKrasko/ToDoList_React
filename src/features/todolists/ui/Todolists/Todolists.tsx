@@ -5,14 +5,16 @@ import { Todolist } from "./Todolist/Todolist"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { useEffect } from "react"
 import { todolistsApi } from "../../api/todolistsApi"
+import { setTodolistsAC } from "../../model/todolists-reducer"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
 
 export const Todolists = () => {
   const todolists = useAppSelector(selectTodolists)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     todolistsApi.getTodolists().then((res) => {
-      const todolists = res.data
-      console.log(todolists)
+      dispatch(setTodolistsAC(res.data))
     })
   }, [])
 
