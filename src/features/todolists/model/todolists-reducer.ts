@@ -1,13 +1,11 @@
 import { v1 } from "uuid"
 import { Todolist } from "../api/todolistsApi.types"
+import { Dispatch } from "redux"
+import { RootState } from "../../../app/store"
+import { todolistsApi } from "../api/todolistsApi"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
-/*export type DomainTodolist = {
-  id: string
-  title: string
-  filter: FilterValuesType
-}*/
 export type DomainTodolist = Todolist & {
   filter: FilterValuesType
 }
@@ -65,6 +63,16 @@ export const changeTodolistFilterAC = (payload: { id: string; filter: FilterValu
 }
 export const setTodolistsAC = (todolists: Todolist[]) => {
   return { type: "SET-TODOLISTS", todolists } as const
+}
+
+//Thunk
+
+export const fetchTodolistsThunk = (dispatch: Dispatch, getState: () => RootState) => {
+  // внутри санки можно делать побочные эффекты (запросы на сервер)
+  todolistsApi.getTodolists().then((res) => {
+    // и диспатчить экшены (action) или другие санки (thunk)
+    dispatch(setTodolistsAC(res.data))
+  })
 }
 
 // Actions types
