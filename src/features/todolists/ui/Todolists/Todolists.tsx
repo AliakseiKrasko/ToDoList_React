@@ -3,9 +3,18 @@ import Grid2 from "@mui/material/Grid2"
 import { selectTodolists } from "../../model/todolists-selectors"
 import { Todolist } from "./Todolist/Todolist"
 import { useAppSelector } from "common/hooks/useAppSelector"
+import { useEffect } from "react"
+import { todolistsApi } from "../../api/todolistsApi"
 
 export const Todolists = () => {
   const todolists = useAppSelector(selectTodolists)
+
+  useEffect(() => {
+    todolistsApi.getTodolists().then((res) => {
+      const todolists = res.data
+      console.log(todolists)
+    })
+  }, [])
 
   return (
     <>
