@@ -17,8 +17,10 @@ export const tasksApi = {
     )
   },
 
-  removeTasks(taskId: string, todolistId: string) {
-    return instance.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`)
+  removeTasks(age: { taskId: string; todolistId: string }) {
+    return instance.delete(
+      `https://social-network.samuraijs.com/api/1.1/todo-lists/${age.todolistId}/tasks/${age.taskId}`,
+    )
   },
 
   changeTaskStatus(task: DomianTask, newStatus: TaskStatus) {

@@ -100,7 +100,7 @@ export const AppHttpRequests = () => {
   // Удаление задачи
   const removeTaskHandler = (taskId: string, todolistId: string) => {
     tasksApi
-      .removeTasks(taskId, todolistId)
+      .removeTasks({ taskId, todolistId })
       .then(() => {
         setTasks((prevTasks) => ({
           ...prevTasks,

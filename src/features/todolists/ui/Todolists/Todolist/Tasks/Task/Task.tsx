@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react"
 import { Checkbox, IconButton } from "@mui/material"
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "../../../../../model/task-reducer"
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, removeTaskTC } from "../../../../../model/task-reducer"
 import ListItem from "@mui/material/ListItem"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { getListItemSx } from "./Task.styles"
@@ -16,7 +16,7 @@ type PropsType = {
 export const Task = ({ task, todolistId }: PropsType) => {
   const dispatch = useAppDispatch()
   const removeTaskHandler = () => {
-    dispatch(removeTaskAC({ taskId: task.id, todolistId }))
+    dispatch(removeTaskTC({ taskId: task.id, todolistId }))
   }
 
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {

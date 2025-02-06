@@ -94,6 +94,12 @@ export const fetchTasksTC = (id: string) => {
   }
 }
 
+export const removeTaskTC = (arg: { taskId: string; todolistId: string }) => (dispatch: Dispatch) => {
+  tasksApi.removeTasks(arg).then((res) => {
+    dispatch(removeTaskAC(arg))
+  })
+}
+
 // Action creators
 
 export const setTasksAC = (payload: { todolistId: string; tasks: DomianTask[] }) => {
