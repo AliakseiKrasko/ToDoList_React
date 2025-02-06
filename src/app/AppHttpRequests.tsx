@@ -40,7 +40,7 @@ export const AppHttpRequests = () => {
   // Функция получения задач для конкретного списка
   const fetchTasks = (todolistId: string) => {
     tasksApi
-      .getTAsks(todolistId)
+      .getTasks(todolistId)
       .then((res) => {
         setTasks((prevTasks) => ({
           ...prevTasks,

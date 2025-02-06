@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { changeTaskStatusAC, changeTaskTitleAC, fetchTasksThunk, removeTaskAC } from "../../../../model/task-reducer"
+import { changeTaskStatusAC, changeTaskTitleAC, fetchTasksTC, removeTaskAC } from "../../../../model/task-reducer"
 import { DomainTodolist } from "../../../../model/todolists-reducer"
 import List from "@mui/material/List"
 import { selectTasks } from "../../../../model/tasks-selectors"
@@ -17,7 +17,7 @@ export const Tasks = ({ todolist }: PropsType) => {
   const tasks = useAppSelector(selectTasks)
 
   useEffect(() => {
-    dispatch(fetchTasksThunk)
+    dispatch(fetchTasksTC(todolist.id))
   }, [])
 
   const allTodolistTasks = tasks[todolist.id]

@@ -4,6 +4,7 @@ import { tasksApi } from "../api/tasksApi"
 import { Dispatch } from "redux"
 import { TaskStatus } from "../lib/enams"
 import { DomianTask } from "../api/tasksApi.types"
+import { AppDispatch } from "../../../app/store"
 
 export type TasksStateType = {
   [key: string]: Array<DomianTask>
@@ -85,12 +86,12 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 
 //Thunk
 
-export const fetchTasksThunk = (dispatch: Dispatch) => {
-  const id = "xxx"
-  tasksApi.getTasks(id).then((res) => {
-    const tasks = res.data.items
-    dispatch(setTasksAC({ todolistId: id, tasks }))
-  })
+export const fetchTasksTC = (id: string) => {
+  return (dispatch: AppDispatch) => {
+    tasksApi.getTasks(id).then((res) => {
+      dispatch(setTasksAC({ todolistId: id, tasks: res.data.items }))
+    })
+  }
 }
 
 // Action creators
