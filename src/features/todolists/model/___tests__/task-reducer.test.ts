@@ -1,15 +1,22 @@
-import { TasksStateType } from "../task-reducer"
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "../task-reducer"
+import {
+  addTaskAC,
+  changeTaskStatusAC,
+  changeTaskTitleAC,
+  removeTaskAC,
+  tasksReducer,
+  TasksStateType,
+} from "../task-reducer"
 import { addTodolistAC, removeTodolistAC } from "../todolists-reducer"
+import { TaskStatus } from "../../lib/enams"
 
 let startState: TasksStateType
 
 beforeEach(() => {
   startState = {
     todolistId1: [
-      { id: "1", title: "CSS", isDone: false },
-      { id: "2", title: "JS", isDone: true },
-      { id: "3", title: "React", isDone: false },
+      { id: "1", title: "CSS", status: TaskStatus.New },
+      { id: "2", title: "JS", status: TaskStatus.New },
+      { id: "3", title: "React", status: TaskStatus.Completed },
     ],
     todolistId2: [
       { id: "1", title: "bread", isDone: false },

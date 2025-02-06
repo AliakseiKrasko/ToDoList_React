@@ -1,14 +1,16 @@
 import React, { ChangeEvent } from "react"
 import { Checkbox, IconButton } from "@mui/material"
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType } from "../../../../../model/task-reducer"
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "../../../../../model/task-reducer"
 import ListItem from "@mui/material/ListItem"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { getListItemSx } from "./Task.styles"
 import { EditableSpan } from "common/components/EditableSpan"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { DomianTask } from "../../../../../api/tasksApi.types"
+import { TaskStatus } from "../../../../../lib/enams"
 
 type PropsType = {
-  task: TaskType
+  task: DomianTask
   todolistId: string
 }
 export const Task = ({ task, todolistId }: PropsType) => {
@@ -27,9 +29,9 @@ export const Task = ({ task, todolistId }: PropsType) => {
   }
 
   return (
-    <ListItem sx={getListItemSx(task.isDone)}>
+    <ListItem sx={getListItemSx(task.status === TaskStatus.Completed)}>
       <div>
-        <Checkbox checked={task.isDone} onChange={changeTaskStatusHandler} />
+        <Checkbox checked={task.status === TaskStatus.Completed} onChange={changeTaskStatusHandler} />
         <EditableSpan value={task.title} onChange={changeTaskTitleHandler} />
       </div>
       <IconButton onClick={removeTaskHandler}>

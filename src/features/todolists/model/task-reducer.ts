@@ -1,20 +1,23 @@
 import { v1 } from "uuid"
-import { AddTodolistActionType, RemoveTodolistActionType } from "./todolists-reducer"
-
-export type TaskType = {
-  id: string
-  title: string
-  isDone: boolean
-}
+import { AddTodolistActionType, DomainTodolist, RemoveTodolistActionType } from "./todolists-reducer"
+import { tasksApi } from "../api/tasksApi"
+import { Dispatch } from "redux"
+import { TaskStatus } from "../lib/enams"
+import { DomianTask } from "../api/tasksApi.types"
 
 export type TasksStateType = {
-  [key: string]: Array<TaskType>
+  [key: string]: Array<DomianTask>
 }
 
 const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
   switch (action.type) {
+    case "SET-TASKS": {
+      const stateCopy = { ...state }
+      stateCopy[action.payload.todolistId] = action.payload.tasks
+      return stateCopy
+    }
     case "REMOVE-TASK": {
       return {
         ...state,
@@ -23,10 +26,17 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 
     case "ADD-TASK": {
-      const newTask: TaskType = {
+      const newTask: DomianTask = {
         title: action.payload.title,
-        isDone: false,
+        status: TaskStatus.New,
         id: v1(),
+        todoListId: action.payload.todolistId,
+        order: 0,
+        priority: 0,
+        addedDate: "",
+        deadline: "",
+        startDate: "",
+        description: "",
       }
       return { ...state, [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]] }
     }
@@ -73,7 +83,25 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
   }
 }
 
+//Thunk
+
+export const fetchTasksThunk = (dispatch: Dispatch) => {
+  const id = "xxx"
+  tasksApi.getTasks(id).then((res) => {
+    const tasks = res.data.items
+    dispatch(setTasksAC({ todolistId: id, tasks }))
+  })
+}
+
 // Action creators
+
+export const setTasksAC = (payload: { todolistId: string; tasks: DomianTask[] }) => {
+  return {
+    type: "SET-TASKS",
+    payload,
+  } as const
+}
+
 export const removeTaskAC = (payload: { taskId: string; todolistId: string }) => {
   return {
     type: "REMOVE-TASK",
@@ -107,6 +135,7 @@ export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
 export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
 export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
+export type SetTasksActionType = ReturnType<typeof setTasksAC>
 
 type ActionsType =
   | RemoveTaskActionType
@@ -115,3 +144,4 @@ type ActionsType =
   | ChangeTaskTitleActionType
   | AddTodolistActionType
   | RemoveTodolistActionType
+  | SetTasksActionType

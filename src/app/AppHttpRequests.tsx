@@ -3,7 +3,7 @@ import React, { ChangeEvent, useEffect, useState } from "react"
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm"
 import { EditableSpan } from "common/components/EditableSpan"
 import axios from "axios"
-import { GetTasksResponse, Task, UpdateTaskModel } from "../features/todolists/api/tasksApi.types"
+import { GetTasksResponse, DomianTask, UpdateTaskModel } from "../features/todolists/api/tasksApi.types"
 import { todolistsApi } from "../features/todolists/api/todolistsApi"
 import { tasksApi } from "../features/todolists/api/tasksApi"
 import { Todolist } from "../features/todolists/api/todolistsApi.types"
@@ -22,7 +22,7 @@ const configs = {
 // Компонент
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
-  const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({})
+  const [tasks, setTasks] = useState<{ [key: string]: DomianTask[] }>({})
 
   // Получение данных при загрузке
   useEffect(() => {
@@ -111,7 +111,7 @@ export const AppHttpRequests = () => {
   }
 
   // Изменение статуса задачи
-  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: Task) => {
+  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: DomianTask) => {
     const newStatus = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
     tasksApi
       .changeTaskStatus(task, newStatus)

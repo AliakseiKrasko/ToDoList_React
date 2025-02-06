@@ -5,10 +5,10 @@ import { TaskPriority, TaskStatus } from "../lib/enams"
 export type GetTasksResponse = {
   error: string | null
   totalCount: number
-  items: Task[]
+  items: DomianTask[]
 }
 
-export type Task = {
+export type DomianTask = {
   description: string | null
   title: string
   status: TaskStatus
