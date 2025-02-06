@@ -3,7 +3,7 @@ import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { DomainTodolist } from "../../../model/todolists-reducer"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
 import { Tasks } from "./Tasks/Tasks"
-import { addTaskAC } from "../../../model/task-reducer"
+import { addTaskAC, addTaskTC } from "../../../model/task-reducer"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 
 type PropsType = {
@@ -15,7 +15,7 @@ export const Todolist = (props: PropsType) => {
   const { todolist } = props
 
   const addTask = (title: string) => {
-    dispatch(addTaskAC({ title, todolistId: todolist.id }))
+    dispatch(addTaskTC({ title, todolistId: todolist.id }))
   }
 
   return (

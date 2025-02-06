@@ -87,7 +87,7 @@ export const AppHttpRequests = () => {
   // Создание задачи
   const createTaskHandler = (title: string, todolistId: string) => {
     tasksApi
-      .createTask(title, todolistId)
+      .createTask({ title, todolistId })
       .then((res) => {
         setTasks((prevTasks) => ({
           ...prevTasks,

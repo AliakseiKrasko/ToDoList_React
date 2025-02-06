@@ -10,10 +10,10 @@ export const tasksApi = {
     return instance.get<GetTasksResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`)
   },
 
-  createTask(title: string, todolistId: string) {
+  createTask(age: { title: string; todolistId: string }) {
     return instance.post<BaseResponse<{ item: DomianTask }>>(
-      `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
-      { title },
+      `https://social-network.samuraijs.com/api/1.1/todo-lists/${age.todolistId}/tasks`,
+      { title: age.title },
     )
   },
 

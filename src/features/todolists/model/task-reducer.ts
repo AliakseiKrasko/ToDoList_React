@@ -27,19 +27,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 
     case "ADD-TASK": {
-      const newTask: DomianTask = {
-        title: action.payload.title,
-        status: TaskStatus.New,
-        id: v1(),
-        todoListId: action.payload.todolistId,
-        order: 0,
-        priority: 0,
-        addedDate: "",
-        deadline: "",
-        startDate: "",
-        description: "",
-      }
-      return { ...state, [action.payload.todolistId]: [newTask, ...state[action.payload.todolistId]] }
+      const newTask = action.payload.task
+      return { ...state, [action.payload.task.todoListId]: [newTask, ...state[action.payload.task.todoListId]] }
     }
 
     case "CHANGE_TASK_STATUS": {
@@ -100,6 +89,12 @@ export const removeTaskTC = (arg: { taskId: string; todolistId: string }) => (di
   })
 }
 
+export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: Dispatch) => {
+  tasksApi.createTask(arg).then((res) => {
+    dispatch(addTaskAC({ task: res.data.data.item }))
+  })
+}
+
 // Action creators
 
 export const setTasksAC = (payload: { todolistId: string; tasks: DomianTask[] }) => {
@@ -116,11 +111,8 @@ export const removeTaskAC = (payload: { taskId: string; todolistId: string }) =>
   } as const
 }
 
-export const addTaskAC = (payload: { title: string; todolistId: string }) => {
-  return {
-    type: "ADD-TASK",
-    payload,
-  } as const
+export const addTaskAC = (payload: { task: DomianTask }) => {
+  return { type: "ADD-TASK", payload } as const
 }
 
 export const changeTaskStatusAC = (payload: { taskId: string; isDone: boolean; todolistId: string }) => {
