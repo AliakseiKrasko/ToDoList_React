@@ -38,7 +38,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
           t.id === action.payload.taskId
             ? {
                 ...t,
-                isDone: action.payload.isDone,
+                status: action.payload.status,
               }
             : t,
         ),
@@ -115,7 +115,7 @@ export const addTaskAC = (payload: { task: DomianTask }) => {
   return { type: "ADD-TASK", payload } as const
 }
 
-export const changeTaskStatusAC = (payload: { taskId: string; isDone: boolean; todolistId: string }) => {
+export const changeTaskStatusAC = (payload: { taskId: string; status: TaskStatus; todolistId: string }) => {
   return {
     type: "CHANGE_TASK_STATUS",
     payload,

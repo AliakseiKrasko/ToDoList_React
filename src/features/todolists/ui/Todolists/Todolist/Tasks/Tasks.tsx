@@ -32,8 +32,8 @@ export const Tasks = ({ todolist }: PropsType) => {
   const removeTask = (taskId: string, todolistId: string) => {
     dispatch(removeTaskAC({ taskId, todolistId }))
   }
-  const changeTaskStatus = (taskId: string, taskStatus: boolean, todolistId: string) => {
-    dispatch(changeTaskStatusAC({ taskId, isDone: taskStatus, todolistId }))
+  const changeTaskStatus = (taskId: string, status: TaskStatus, todolistId: string) => {
+    dispatch(changeTaskStatusAC({ taskId, status, todolistId }))
   }
   const updateTask = (todolistId: string, taskId: string, title: string) => {
     dispatch(changeTaskTitleAC({ taskId, title, todolistId }))

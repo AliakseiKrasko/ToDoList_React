@@ -1,11 +1,4 @@
-import {
-  addTaskAC,
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-  tasksReducer,
-  TasksStateType,
-} from "../task-reducer"
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer, TasksStateType } from "../task-reducer"
 import { addTodolistAC, removeTodolistAC } from "../todolists-reducer"
 import { TaskStatus } from "../../lib/enams"
 
@@ -63,7 +56,7 @@ test("status of specified task should be changed", () => {
     startState,
     changeTaskStatusAC({
       taskId: "2",
-      isDone: false,
+      status: TaskStatus.New,
       todolistId: "todolistId2",
     }),
   )
