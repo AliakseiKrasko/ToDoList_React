@@ -1,47 +1,21 @@
-import axios from "axios"
-import { GetTasksResponse, DomianTask, UpdateTaskModel } from "./tasksApi.types"
-import { stat } from "node:fs"
+import { DomainTask, GetTasksResponse, UpdateTaskModel } from "./tasksApi.types"
 import { BaseResponse } from "common/types/types"
-import { TaskStatus } from "../lib/enams"
 import { instance } from "common/instance/instance"
 
 export const tasksApi = {
   getTasks(todolistId: string) {
-    return instance.get<GetTasksResponse>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`)
+    return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
   },
-
-  createTask(age: { title: string; todolistId: string }) {
-    return instance.post<BaseResponse<{ item: DomianTask }>>(
-      `https://social-network.samuraijs.com/api/1.1/todo-lists/${age.todolistId}/tasks`,
-      { title: age.title },
-    )
+  createTask(payload: { title: string; todolistId: string }) {
+    const { title, todolistId } = payload
+    return instance.post<BaseResponse<{ item: DomainTask }>>(`todo-lists/${todolistId}/tasks`, { title })
   },
-
-  removeTasks(age: { taskId: string; todolistId: string }) {
-    return instance.delete(
-      `https://social-network.samuraijs.com/api/1.1/todo-lists/${age.todolistId}/tasks/${age.taskId}`,
-    )
+  deleteTask(payload: { todolistId: string; taskId: string }) {
+    const { taskId, todolistId } = payload
+    return instance.delete<BaseResponse>(`todo-lists/${todolistId}/tasks/${taskId}`)
   },
-
-  changeTaskStatus(task: DomianTask, newStatus: TaskStatus) {
-    const model: UpdateTaskModel = {
-      description: task.description,
-      title: task.title,
-      deadline: task.deadline,
-      priority: task.priority,
-      startDate: task.startDate,
-      status: newStatus,
-    }
-    return instance.put<BaseResponse>(
-      `https://social-network.samuraijs.com/api/1.1/todo-lists/${task.todoListId}/tasks/${task.id}`,
-      model,
-    )
-  },
-
-  changeTaskTitle(todolistId: string, taskId: string, newTitle: string) {
-    return instance.put<BaseResponse>(
-      `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
-      { title: newTitle }, // Теперь title передается правильно
-    )
+  updateTask(payload: { todolistId: string; taskId: string; model: UpdateTaskModel }) {
+    const { taskId, todolistId, model } = payload
+    return instance.put<BaseResponse<{ item: DomainTask }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
   },
 }

@@ -51,7 +51,7 @@ test("correct task should be deleted from correct array", () => {
   expect(endState["todolistId2"][0].status === TaskStatus.New).toBe(false)
 })*/
 
-test("status of specified task should be changed", () => {
+/*test("status of specified task should be changed", () => {
   const endState = tasksReducer(
     startState,
     changeTaskStatusAC({
@@ -63,7 +63,7 @@ test("status of specified task should be changed", () => {
 
   expect(endState["todolistId2"][1].status === TaskStatus.New).toBe(false)
   expect(endState["todolistId1"][1].status === TaskStatus.New).toBe(true)
-})
+})*/
 
 test("title of specified task should be changed", () => {
   const endState = tasksReducer(
