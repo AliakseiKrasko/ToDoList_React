@@ -1,5 +1,10 @@
 {
   "name": "my-app",
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
   "homepage": "https://AliakseiKrasko.github.io/ToDoList_React/",
   "version": "0.1.0",
   "private": true,
