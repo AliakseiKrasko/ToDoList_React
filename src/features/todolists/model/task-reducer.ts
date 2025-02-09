@@ -1,10 +1,7 @@
-import { v1 } from "uuid"
-import { AddTodolistActionType, DomainTodolist, RemoveTodolistActionType } from "./todolists-reducer"
+import { AddTodolistActionType, RemoveTodolistActionType } from "./todolists-reducer"
 import { tasksApi } from "../api/tasksApi"
-import { Dispatch } from "redux"
-import { TaskStatus } from "../lib/enams"
-import { DomainTask, UpdateTaskModel } from "../api/tasksApi.types"
-import { AppDispatch, AppThunk, RootState } from "../../../app/store"
+import { DomainTask } from "../api/tasksApi.types"
+import { AppDispatch, AppThunk } from "../../../app/store"
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
@@ -45,11 +42,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     case "CHANGE_TASK_TITLE": {
       return {
         ...state,
-        [action.payload.todolistId]: state[action.payload.todolistId].map((t) =>
-          t.id === action.payload.taskId
+        [action.payload.task.todoListId]: state[action.payload.task.todoListId].map((t) =>
+          t.id === action.payload.task.id
             ? {
                 ...t,
-                title: action.payload.title,
+                title: action.payload.task.title,
               }
             : t,
         ),
@@ -92,7 +89,7 @@ export const changeTaskStatusAC = (payload: { task: DomainTask }) => {
   } as const
 }
 
-export const changeTaskTitleAC = (payload: { taskId: string; title: string; todolistId: string }) => {
+export const changeTaskTitleAC = (payload: { task: DomainTask }) => {
   return {
     type: "CHANGE_TASK_TITLE",
     payload,
@@ -131,6 +128,16 @@ export const changeTaskStatusTC =
     tasksApi.updateTask({ taskId: task.id, todolistId: task.todoListId, model: task }).then(() => {
       dispatch(changeTaskStatusAC({ task }))
     })
+  }
+
+export const changeTaskTitleTC =
+  (task: DomainTask): AppThunk =>
+  (dispatch) => {
+    tasksApi
+      .updateTask({ taskId: task.id, todolistId: task.todoListId, model: { ...task, title: task.title } })
+      .then(() => {
+        dispatch(changeTaskTitleAC({ task }))
+      })
   }
 
 // Actions types
