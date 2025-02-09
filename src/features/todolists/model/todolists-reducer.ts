@@ -80,6 +80,12 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
   })
 }
 
+export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
+  todolistsApi.deleteTodolist(id).then((res) => {
+    dispatch(removeTodolistAC(id))
+  })
+}
+
 // Actions types
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
