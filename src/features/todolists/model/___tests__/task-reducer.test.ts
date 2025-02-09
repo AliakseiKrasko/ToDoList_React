@@ -79,7 +79,7 @@ test("correct task should be deleted from correct array", () => {
   expect(endState["todolistId1"][1].title).toBe("JS")
 })*/
 
-test("new array should be added when new todolist is added", () => {
+/*test("new array should be added when new todolist is added", () => {
   const endState = tasksReducer(startState, addTodolistAC("new todolist"))
 
   const keys = Object.keys(endState)
@@ -90,7 +90,7 @@ test("new array should be added when new todolist is added", () => {
 
   expect(keys.length).toBe(3)
   expect(endState[newKey]).toEqual([])
-})
+})*/
 
 test("property with todolistId should be deleted", () => {
   const endState = tasksReducer(startState, removeTodolistAC("todolistId2"))

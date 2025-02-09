@@ -1,4 +1,3 @@
-import { v1 } from "uuid"
 import { Todolist } from "../api/todolistsApi.types"
 import { Dispatch } from "redux"
 import { RootState } from "../../../app/store"
@@ -23,8 +22,8 @@ export const todolistsReducer = (state: DomainTodolist[] = initialState, action:
 
     case "ADD-TODOLIST": {
       const newTodolist: DomainTodolist = {
-        id: action.payload.todolistId,
-        title: action.payload.title,
+        id: action.payload.todolist.id,
+        title: action.payload.todolist.title,
         filter: "all",
         addedDate: "",
         order: 0,
@@ -50,8 +49,8 @@ export const removeTodolistAC = (id: string) => {
   return { type: "REMOVE-TODOLIST", payload: { id } } as const
 }
 
-export const addTodolistAC = (title: string) => {
-  return { type: "ADD-TODOLIST", payload: { title, todolistId: v1() } } as const
+export const addTodolistAC = (todolist: Todolist) => {
+  return { type: "ADD-TODOLIST", payload: { todolist } } as const
 }
 
 export const changeTodolistTitleAC = (payload: { id: string; title: string }) => {
@@ -72,6 +71,12 @@ export const fetchTodolistsThunk = (dispatch: Dispatch, getState: () => RootStat
   todolistsApi.getTodolists().then((res) => {
     // и диспатчить экшены (action) или другие санки (thunk)
     dispatch(setTodolistsAC(res.data))
+  })
+}
+
+export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+  todolistsApi.createTodolist(title).then((res) => {
+    dispatch(addTodolistAC(res.data.data.item))
   })
 }
 
