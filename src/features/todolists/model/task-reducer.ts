@@ -1,6 +1,6 @@
 import { AddTodolistActionType, RemoveTodolistActionType } from "./todolists-reducer"
 import { tasksApi } from "../api/tasksApi"
-import { DomainTask } from "../api/tasksApi.types"
+import { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
 import { AppDispatch, AppThunk } from "../../../app/store"
 
 export type TasksStateType = {
@@ -29,24 +29,16 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       return { ...state, [newTask.todoListId]: [newTask, ...state[newTask.todoListId]] }
     }
 
-    case "CHANGE_TASK_STATUS": {
-      const newTask = action.payload.task
+    case "UPDATE_TASK": {
+      const updatedTask = action.payload.task
       return {
         ...state,
-        [newTask.todoListId]: state[newTask.todoListId].map((t) =>
-          t.id === newTask.id ? { ...t, status: newTask.status } : t,
-        ),
-      }
-    }
-
-    case "CHANGE_TASK_TITLE": {
-      return {
-        ...state,
-        [action.payload.task.todoListId]: state[action.payload.task.todoListId].map((t) =>
-          t.id === action.payload.task.id
+        [updatedTask.todoListId]: state[updatedTask.todoListId].map((t) =>
+          t.id === updatedTask.id
             ? {
                 ...t,
-                title: action.payload.task.title,
+                status: updatedTask.status ?? t.status, // ✅ Используем `??`, чтобы не потерять старые данные
+                title: updatedTask.title ?? t.title,
               }
             : t,
         ),
@@ -82,16 +74,9 @@ export const addTaskAC = (payload: { task: DomainTask }) => {
   } as const
 }
 
-export const changeTaskStatusAC = (payload: { task: DomainTask }) => {
+export const updateTaskAC = (payload: { task: DomainTask }) => {
   return {
-    type: "CHANGE_TASK_STATUS",
-    payload,
-  } as const
-}
-
-export const changeTaskTitleAC = (payload: { task: DomainTask }) => {
-  return {
-    type: "CHANGE_TASK_TITLE",
+    type: "UPDATE_TASK",
     payload,
   } as const
 }
@@ -122,29 +107,38 @@ export const addTaskTC = (args: { title: string; todolistId: string }) => (dispa
   })
 }
 
-export const changeTaskStatusTC =
-  (task: DomainTask): AppThunk =>
-  (dispatch) => {
-    tasksApi.updateTask({ taskId: task.id, todolistId: task.todoListId, model: task }).then(() => {
-      dispatch(changeTaskStatusAC({ task }))
-    })
-  }
+export const updateTaskTC =
+  (arg: { taskId: string; todolistId: string; domainModel: UpdateTaskDomainModel }): AppThunk =>
+  (dispatch, getState) => {
+    const state = getState()
+    const task = state.tasks[arg.todolistId]?.find((t) => t.id === arg.taskId)
 
-export const changeTaskTitleTC =
-  (task: DomainTask): AppThunk =>
-  (dispatch) => {
+    if (!task) {
+      console.error(`Task with id ${arg.taskId} not found in todolist ${arg.todolistId}`)
+      return
+    }
+
+    const updatedTask = { ...task, ...arg.domainModel }
+
     tasksApi
-      .updateTask({ taskId: task.id, todolistId: task.todoListId, model: { ...task, title: task.title } })
-      .then(() => {
-        dispatch(changeTaskTitleAC({ task }))
+      .updateTask({ taskId: arg.taskId, todolistId: arg.todolistId, model: updatedTask })
+      .then((res) => {
+        if (res.data.resultCode === 0) {
+          dispatch(updateTaskAC({ task: updatedTask }))
+        } else {
+          console.error(`Failed to update task: ${res.data.messages.join(", ")}`)
+        }
+      })
+      .catch((error) => {
+        console.error(`API error: ${error.message}`)
       })
   }
 
 // Actions types
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
-export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
-export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
+export type ChangeTaskStatusActionType = ReturnType<typeof updateTaskAC>
+export type ChangeTaskTitleActionType = ReturnType<typeof updateTaskAC>
 export type SetTasksActionType = ReturnType<typeof setTasksAC>
 
 type ActionsType =

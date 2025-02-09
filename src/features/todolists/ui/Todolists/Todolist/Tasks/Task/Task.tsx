@@ -1,11 +1,6 @@
 import React, { ChangeEvent } from "react"
 import { Checkbox, IconButton } from "@mui/material"
-import {
-  changeTaskStatusTC,
-  changeTaskTitleAC,
-  changeTaskTitleTC,
-  removeTaskTC,
-} from "../../../../../model/task-reducer"
+import { removeTaskTC, updateTaskTC } from "../../../../../model/task-reducer"
 import ListItem from "@mui/material/ListItem"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { getListItemSx } from "./Task.styles"
@@ -29,11 +24,23 @@ export const Task = ({ task, todolist }: Props) => {
 
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const status = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
-    dispatch(changeTaskStatusTC({ ...task, status }))
+    dispatch(
+      updateTaskTC({
+        taskId: task.id,
+        todolistId: task.todoListId,
+        domainModel: { status },
+      }),
+    )
   }
 
   const changeTaskTitleHandler = (title: string) => {
-    dispatch(changeTaskTitleTC({ ...task, title }))
+    dispatch(
+      updateTaskTC({
+        taskId: task.id,
+        todolistId: task.todoListId,
+        domainModel: { title },
+      }),
+    )
   }
 
   return (
