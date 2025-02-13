@@ -2,6 +2,7 @@ import { Todolist } from "../api/todolistsApi.types"
 import { Dispatch } from "redux"
 import { RootState } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
+import { setAppStatusAC } from "../../../app/app-reducer"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -68,9 +69,11 @@ export const setTodolistsAC = (todolists: Todolist[]) => {
 
 export const fetchTodolistsThunk = (dispatch: Dispatch, getState: () => RootState) => {
   // внутри санки можно делать побочные эффекты (запросы на сервер)
+  dispatch(setAppStatusAC("loading"))
   todolistsApi.getTodolists().then((res) => {
     // и диспатчить экшены (action) или другие санки (thunk)
     dispatch(setTodolistsAC(res.data))
+    dispatch(setAppStatusAC("succeeded"))
   })
 }
 
