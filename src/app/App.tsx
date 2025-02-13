@@ -6,14 +6,14 @@ import { Main } from "./Main"
 import { selectThemeMode } from "./app-selector"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { useEffect } from "react"
-import { fetchTodolistsThunk } from "../features/todolists/model/todolists-reducer"
+import { fetchTodolistsTC } from "../features/todolists/model/todolists-reducer"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 
 function App() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchTodolistsThunk)
+    dispatch(fetchTodolistsTC)
   }, [dispatch])
 
   const themeMode = useAppSelector(selectThemeMode)

@@ -67,7 +67,7 @@ export const setTodolistsAC = (todolists: Todolist[]) => {
 
 //Thunk
 
-export const fetchTodolistsThunk = (dispatch: Dispatch, getState: () => RootState) => {
+export const fetchTodolistsTC = (dispatch: Dispatch, getState: () => RootState) => {
   // внутри санки можно делать побочные эффекты (запросы на сервер)
   dispatch(setAppStatusAC("loading"))
   todolistsApi.getTodolists().then((res) => {
@@ -78,20 +78,26 @@ export const fetchTodolistsThunk = (dispatch: Dispatch, getState: () => RootStat
 }
 
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC("loading"))
   todolistsApi.createTodolist(title).then((res) => {
     dispatch(addTodolistAC(res.data.data.item))
+    dispatch(setAppStatusAC("succeeded"))
   })
 }
 
 export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC("loading"))
   todolistsApi.deleteTodolist(id).then((res) => {
     dispatch(removeTodolistAC(id))
+    dispatch(setAppStatusAC("succeeded"))
   })
 }
 
 export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC("loading"))
   todolistsApi.updateTodolist(arg.id, arg.title)
   dispatch(changeTodolistTitleAC({ id: arg.id, title: arg.title }))
+  dispatch(setAppStatusAC("succeeded"))
 }
 
 // Actions types
