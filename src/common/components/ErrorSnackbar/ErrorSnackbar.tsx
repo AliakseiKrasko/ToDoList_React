@@ -19,7 +19,7 @@ export const ErrorSnackbar = () => {
 
   return (
     <Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="error" variant="filled" sx={{ width: "100%" }}>
+      <Alert onClose={handleClose} severity="error" variant="filled">
         {error}
       </Alert>
     </Snackbar>
