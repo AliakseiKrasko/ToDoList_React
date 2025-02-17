@@ -2,7 +2,9 @@ import { Todolist } from "../api/todolistsApi.types"
 import { Dispatch } from "redux"
 import { RootState } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
-import { setAppStatusAC } from "../../../app/app-reducer"
+import { setAppErrorAC, setAppStatusAC } from "../../../app/app-reducer"
+import { ResultCode } from "../lib/enams"
+import { addTaskAC } from "./task-reducer"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -80,8 +82,13 @@ export const fetchTodolistsTC = (dispatch: Dispatch, getState: () => RootState) 
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC("loading"))
   todolistsApi.createTodolist(title).then((res) => {
-    dispatch(addTodolistAC(res.data.data.item))
-    dispatch(setAppStatusAC("succeeded"))
+    if (res.data.resultCode === ResultCode.Success) {
+      dispatch(addTodolistAC(res.data.data.item))
+      dispatch(setAppStatusAC("succeeded"))
+    } else {
+      dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : "Some error occurred."))
+      dispatch(setAppStatusAC("failed"))
+    }
   })
 }
 
