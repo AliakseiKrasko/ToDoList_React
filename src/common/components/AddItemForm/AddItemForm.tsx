@@ -1,9 +1,11 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react"
 import { IconButton, TextField } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
+import { RequestStatus } from "../../../app/app-reducer"
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void
+  disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -46,9 +48,10 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
         onKeyDown={onKeyDownHandler}
         error={!!error}
         helperText={error}
+        disabled={props.disabled}
       />
 
-      <IconButton onClick={onClickHandler} color={"primary"} style={{ marginTop: "15px" }}>
+      <IconButton onClick={onClickHandler} color={"primary"} style={{ marginTop: "15px" }} disabled={props.disabled}>
         <AddCircleOutline />
       </IconButton>
     </div>
