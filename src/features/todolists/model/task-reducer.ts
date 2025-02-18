@@ -5,6 +5,7 @@ import { AppDispatch, AppThunk } from "../../../app/store"
 import { setAppErrorAC, setAppStatusAC } from "../../../app/app-reducer"
 import { ResultCode } from "../lib/enams"
 import { Dispatch } from "redux"
+import { HandleServerError } from "common/utils"
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
@@ -104,17 +105,24 @@ export const removeTaskTC = (args: { taskId: string; todolistId: string }) => (d
   })
 }
 
-export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: Dispatch) => {
+export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
-  tasksApi.createTask(arg).then((res) => {
-    if (res.data.resultCode === ResultCode.Success) {
-      dispatch(addTaskAC({ task: res.data.data.item }))
-      dispatch(setAppStatusAC("succeeded"))
-    } else {
-      dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : "Some error occurred."))
-      dispatch(setAppStatusAC("failed"))
-    }
-  })
+  tasksApi
+    .createTask(arg)
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(addTaskAC({ task: res.data.data.item }))
+        dispatch(setAppStatusAC("succeeded"))
+      } else {
+        dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : "Some error occurred."))
+        dispatch(setAppStatusAC("failed"))
+      }
+    })
+    .catch((err) => {
+      HandleServerError(dispatch, err.message)
+      /*dispatch(setAppErrorAC(err.message))
+      dispatch(setAppStatusAC("failed"))*/
+    })
 }
 export const updateTaskTC =
   (arg: { taskId: string; todolistId: string; domainModel: UpdateTaskDomainModel }): AppThunk =>
