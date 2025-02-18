@@ -95,15 +95,28 @@ export const setTasksAC = (payload: { todolistId: string; tasks: DomainTask[] })
 
 // Thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
+  dispatch(setAppStatusAC("loading"))
   tasksApi.getTasks(todolistId).then((res) => {
     dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
+    dispatch(setAppStatusAC("succeeded"))
   })
 }
 
 export const removeTaskTC = (args: { taskId: string; todolistId: string }) => (dispatch: AppDispatch) => {
-  tasksApi.deleteTask(args).then(() => {
-    dispatch(removeTaskAC(args))
-  })
+  dispatch(setAppStatusAC("loading"))
+  tasksApi
+    .deleteTask(args)
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(removeTaskAC(args))
+        dispatch(setAppStatusAC("succeeded"))
+      } else {
+        HandleAppError(dispatch, res.data)
+      }
+    })
+    .catch((err) => {
+      HandleServerError(dispatch, err)
+    })
 }
 
 export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: AppDispatch) => {
@@ -134,12 +147,13 @@ export const updateTaskTC =
     }
 
     const updatedTask = { ...task, ...arg.domainModel }
-
+    dispatch(setAppStatusAC("loading"))
     tasksApi
       .updateTask({ taskId: arg.taskId, todolistId: arg.todolistId, model: updatedTask })
       .then((res) => {
         if (res.data.resultCode === 0) {
           dispatch(updateTaskAC({ task: updatedTask }))
+          dispatch(setAppStatusAC("succeeded"))
         } else {
           console.error(`Failed to update task: ${res.data.messages.join(", ")}`)
         }

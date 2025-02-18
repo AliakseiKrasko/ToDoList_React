@@ -104,8 +104,6 @@ export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
     })
     .catch((err) => {
       HandleServerError(dispatch, err)
-      /*dispatch(setAppErrorAC(err.message))
-      dispatch(setAppStatusAC("failed"))*/
     })
 }
 
