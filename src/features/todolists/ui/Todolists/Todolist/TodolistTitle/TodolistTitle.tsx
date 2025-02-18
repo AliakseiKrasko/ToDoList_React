@@ -24,7 +24,7 @@ export const TodolistTitle = ({ todolist }: Props) => {
   return (
     <div className={styles.container}>
       <h3>
-        <EditableSpan value={todolist.title} onChange={updateTodolist} />
+        <EditableSpan value={todolist.title} onChange={updateTodolist} disabled={todolist.entityStatus === "loading"} />
       </h3>
       <IconButton onClick={removeTodolist} disabled={todolist.entityStatus === "loading"}>
         <DeleteIcon />
