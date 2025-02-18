@@ -6,6 +6,7 @@ import { setAppErrorAC, setAppStatusAC } from "../../../app/app-reducer"
 import { ResultCode } from "../lib/enams"
 import { Dispatch } from "redux"
 import { HandleServerError } from "common/utils"
+import { HandleAppError } from "common/utils/handleAppError"
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
@@ -114,14 +115,11 @@ export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispat
         dispatch(addTaskAC({ task: res.data.data.item }))
         dispatch(setAppStatusAC("succeeded"))
       } else {
-        dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : "Some error occurred."))
-        dispatch(setAppStatusAC("failed"))
+        HandleAppError(dispatch, res.data)
       }
     })
     .catch((err) => {
-      HandleServerError(dispatch, err.message)
-      /*dispatch(setAppErrorAC(err.message))
-      dispatch(setAppStatusAC("failed"))*/
+      HandleServerError(dispatch, err)
     })
 }
 export const updateTaskTC =

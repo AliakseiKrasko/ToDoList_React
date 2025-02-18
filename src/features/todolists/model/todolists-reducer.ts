@@ -6,6 +6,7 @@ import { RequestStatus, setAppErrorAC, setAppStatusAC } from "../../../app/app-r
 import { ResultCode } from "../lib/enams"
 import { addTaskAC } from "./task-reducer"
 import { HandleServerError } from "common/utils"
+import { HandleAppError } from "common/utils/handleAppError"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -98,12 +99,11 @@ export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
         dispatch(addTodolistAC(res.data.data.item))
         dispatch(setAppStatusAC("succeeded"))
       } else {
-        dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : "Some error occurred."))
-        dispatch(setAppStatusAC("failed"))
+        HandleAppError(dispatch, res.data)
       }
     })
     .catch((err) => {
-      HandleServerError(dispatch, err.message)
+      HandleServerError(dispatch, err)
       /*dispatch(setAppErrorAC(err.message))
       dispatch(setAppStatusAC("failed"))*/
     })
