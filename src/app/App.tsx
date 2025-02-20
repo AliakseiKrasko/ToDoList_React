@@ -9,6 +9,7 @@ import { useEffect } from "react"
 import { fetchTodolistsTC } from "../features/todolists/model/todolists-reducer"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
+import { Routing } from "common/routing"
 
 function App() {
   const dispatch = useAppDispatch()
@@ -25,7 +26,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Header />
-      <Main />
+      <Routing />
       <ErrorSnackbar />
     </ThemeProvider>
   )
