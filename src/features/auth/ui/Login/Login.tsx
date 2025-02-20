@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { getTheme } from "common/theme/theme"
 import { selectThemeMode } from "../../../../app/app-selector"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "../Login/Login.module.css"
 
 type Inputs = {
@@ -25,11 +25,14 @@ export const Login = () => {
   const {
     register,
     handleSubmit,
+    control,
+    reset,
     formState: { errors },
   } = useForm<Inputs>({ defaultValues: { email: "", password: "", rememberMe: false } })
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data)
+    reset()
   }
 
   return (
@@ -72,7 +75,16 @@ export const Login = () => {
               {errors.email && <span className={s.errorMessage}>{errors.email.message}</span>}
 
               <TextField type="password" label="Password" margin="normal" {...register("password")} />
-              <FormControlLabel label={"Remember me"} control={<Checkbox {...register("rememberMe")} />} />
+              <FormControlLabel
+                label={"Remember me"}
+                control={
+                  <Controller
+                    name={"rememberMe"}
+                    control={control}
+                    render={({ field: { value, ...rest } }) => <Checkbox {...rest} checked={value} />}
+                  />
+                }
+              />
               <Button type={"submit"} variant={"contained"} color={"primary"}>
                 Login
               </Button>
