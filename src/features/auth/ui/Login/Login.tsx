@@ -11,16 +11,17 @@ import { getTheme } from "common/theme/theme"
 import { selectThemeMode } from "../../../../app/app-selector"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "../Login/Login.module.css"
-
-type Inputs = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
+import { LoginArgs } from "../../api/authApi.types"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { loginTC } from "../../model/auth-reducer"
+import { selectIsLoggedIn } from "../../model/authSelectors"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const theme = getTheme(themeMode)
+
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -28,11 +29,14 @@ export const Login = () => {
     control,
     reset,
     formState: { errors },
-  } = useForm<Inputs>({ defaultValues: { email: "", password: "", rememberMe: false } })
+  } = useForm<LoginArgs>({ defaultValues: { email: "", password: "", rememberMe: false } })
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<LoginArgs> = (data) => {
+    dispatch(loginTC(data))
     reset()
+  }
+
+  if (isLoggedIn) {
   }
 
   return (
