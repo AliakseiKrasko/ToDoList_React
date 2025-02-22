@@ -15,6 +15,9 @@ import { LoginArgs } from "../../api/authApi.types"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { loginTC } from "../../model/auth-reducer"
 import { selectIsLoggedIn } from "../../model/authSelectors"
+import { useNavigate } from "react-router"
+import { useEffect } from "react"
+import { Path } from "common/routing/Routing"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -22,6 +25,13 @@ export const Login = () => {
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(Path.Main)
+    }
+  }, [isLoggedIn, navigate])
 
   const {
     register,
@@ -34,9 +44,6 @@ export const Login = () => {
   const onSubmit: SubmitHandler<LoginArgs> = (data) => {
     dispatch(loginTC(data))
     reset()
-  }
-
-  if (isLoggedIn) {
   }
 
   return (
@@ -77,18 +84,19 @@ export const Login = () => {
                 })}
               />
               {errors.email && <span className={s.errorMessage}>{errors.email.message}</span>}
-
               <TextField type="password" label="Password" margin="normal" {...register("password")} />
+
               <FormControlLabel
                 label={"Remember me"}
                 control={
                   <Controller
-                    name={"rememberMe"}
+                    name="rememberMe"
                     control={control}
                     render={({ field: { value, ...rest } }) => <Checkbox {...rest} checked={value} />}
                   />
                 }
               />
+
               <Button type={"submit"} variant={"contained"} color={"primary"}>
                 Login
               </Button>

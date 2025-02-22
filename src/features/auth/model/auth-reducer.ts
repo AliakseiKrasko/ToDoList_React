@@ -12,12 +12,15 @@ type InitialStateType = typeof initialState
 
 const initialState = {
   isLoggedIn: false,
+  isInitialized: false,
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
     case "SET_IS_LOGGED_IN":
       return { ...state, isLoggedIn: action.payload.isLoggedIn }
+    case "SET_IS_INITIALIZED":
+      return { ...state, isInitialized: action.payload.isInitialized }
     default:
       return state
   }
@@ -26,9 +29,12 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 const setIsLoggedInAC = (isLoggedIn: boolean) => {
   return { type: "SET_IS_LOGGED_IN", payload: { isLoggedIn } } as const
 }
+const setIsInitializedAC = (isInitialized: boolean) => {
+  return { type: "SET_IS_INITIALIZED", payload: { isInitialized } } as const
+}
 
 // Actions types
-type ActionsType = ReturnType<typeof setIsLoggedInAC>
+type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setIsInitializedAC>
 
 // thunks
 export const loginTC = (data: LoginArgs) => (dispatch: Dispatch) => {
@@ -39,11 +45,51 @@ export const loginTC = (data: LoginArgs) => (dispatch: Dispatch) => {
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setAppStatusAC("succeeded"))
         dispatch(setIsLoggedInAC(true))
+        localStorage.setItem("sn-token", res.data.data.token)
       } else {
         HandleAppError(dispatch, res.data)
       }
     })
     .catch((err) => {
       HandleServerError(dispatch, err)
+    })
+}
+
+export const logoutTC = () => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC("loading"))
+  authApi
+    .logout()
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC("succeeded"))
+        dispatch(setIsLoggedInAC(false))
+        localStorage.removeItem("sn-token")
+      } else {
+        HandleAppError(dispatch, res.data)
+      }
+    })
+    .catch((error) => {
+      HandleServerError(dispatch, error)
+    })
+}
+
+export const initializeTC = () => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC("loading"))
+  authApi
+    .me()
+    .then((res) => {
+      if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC("succeeded"))
+        dispatch(setIsLoggedInAC(true))
+      } else {
+        debugger
+        HandleAppError(dispatch, res.data)
+      }
+    })
+    .catch((error) => {
+      HandleServerError(dispatch, error)
+    })
+    .finally(() => {
+      dispatch(setIsInitializedAC(true))
     })
 }

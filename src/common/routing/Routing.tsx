@@ -7,6 +7,7 @@ export const Path = {
   Main: "/",
   Login: "login",
   NotFound: "*",
+  Home: "ToDoList_React",
 } as const
 
 export const Routing = () => {
@@ -15,6 +16,7 @@ export const Routing = () => {
       <Route path={Path.Main} element={<Main />} />
       <Route path={Path.Login} element={<Login />} />
       <Route path={Path.NotFound} element={<Page404 />} />
+      <Route path={Path.Home} element={<Main />} />
     </Routes>
   )
 }
