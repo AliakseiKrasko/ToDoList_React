@@ -31,7 +31,7 @@ export const Login = () => {
     if (!isLoggedIn) {
       navigate(Path.Main)
     }
-  }, [isLoggedIn, navigate])
+  }, [isLoggedIn])
 
   const {
     register,
@@ -42,6 +42,7 @@ export const Login = () => {
   } = useForm<LoginArgs>({ defaultValues: { email: "", password: "", rememberMe: false } })
 
   const onSubmit: SubmitHandler<LoginArgs> = (data) => {
+    console.log("Submitted data:", data)
     dispatch(loginTC(data))
     reset()
   }
@@ -78,7 +79,7 @@ export const Login = () => {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
                     message: "Incorrect email address",
                   },
                 })}

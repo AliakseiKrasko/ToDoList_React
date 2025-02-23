@@ -7,6 +7,7 @@ import { HandleAppError } from "common/utils/handleAppError"
 import { HandleServerError } from "common/utils"
 import { removeTaskAC } from "../../todolists/model/task-reducer"
 import { authApi } from "../api/authApi"
+import { AppDispatch } from "../../../app/store"
 
 type InitialStateType = typeof initialState
 
@@ -37,11 +38,12 @@ const setIsInitializedAC = (isInitialized: boolean) => {
 type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setIsInitializedAC>
 
 // thunks
-export const loginTC = (data: LoginArgs) => (dispatch: Dispatch) => {
+export const loginTC = (data: LoginArgs) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   authApi
     .login(data)
     .then((res) => {
+      debugger
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setAppStatusAC("succeeded"))
         dispatch(setIsLoggedInAC(true))
@@ -55,7 +57,7 @@ export const loginTC = (data: LoginArgs) => (dispatch: Dispatch) => {
     })
 }
 
-export const logoutTC = () => (dispatch: Dispatch) => {
+export const logoutTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   authApi
     .logout()
@@ -73,7 +75,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
     })
 }
 
-export const initializeTC = () => (dispatch: Dispatch) => {
+export const initializeTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
   authApi
     .me()

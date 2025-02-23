@@ -4,7 +4,7 @@ import { getTheme } from "common/theme/theme"
 import { Header } from "common/Header/Header"
 import { selectThemeMode } from "./app-selector"
 import { useAppSelector } from "common/hooks/useAppSelector"
-import { useLayoutEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
 import { Routing } from "common/routing"
@@ -19,7 +19,7 @@ function App() {
 
   const dispatch = useAppDispatch()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(initializeTC())
   }, [])
 
