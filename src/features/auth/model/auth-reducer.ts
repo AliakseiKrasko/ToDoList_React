@@ -62,6 +62,7 @@ export const logoutTC = () => (dispatch: AppDispatch) => {
   authApi
     .logout()
     .then((res) => {
+      console.log("Logout response:", res.data)
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setAppStatusAC("succeeded"))
         dispatch(setIsLoggedInAC(false))
@@ -80,11 +81,11 @@ export const initializeTC = () => (dispatch: AppDispatch) => {
   authApi
     .me()
     .then((res) => {
+      debugger
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setAppStatusAC("succeeded"))
         dispatch(setIsLoggedInAC(true))
       } else {
-        debugger
         HandleAppError(dispatch, res.data)
       }
     })

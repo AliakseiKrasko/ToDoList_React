@@ -26,9 +26,10 @@ export const Header = () => {
   }
 
   const logoutHandler = () => {
+    console.log("Logout Clicked")
     dispatch(logoutTC())
   }
-
+  console.log("isLoggedIn after logout:", isLoggedIn)
   return (
     <AppBar position="static" sx={{ mb: "30px" }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>

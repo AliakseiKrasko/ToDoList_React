@@ -1,7 +1,7 @@
 export type LoginArgs = {
   email: string
   password: string
-  rememberMe?: boolean
+  rememberMe: boolean
   captcha?: string
 }
 

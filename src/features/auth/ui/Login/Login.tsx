@@ -18,6 +18,8 @@ import { selectIsLoggedIn } from "../../model/authSelectors"
 import { useNavigate } from "react-router"
 import { useEffect } from "react"
 import { Path } from "common/routing/Routing"
+import { loginSchema } from "../../lib/schemas/liginSchema"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -28,9 +30,10 @@ export const Login = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (isLoggedIn) {
       navigate(Path.Main)
     }
+    debugger
   }, [isLoggedIn])
 
   const {
@@ -39,7 +42,10 @@ export const Login = () => {
     control,
     reset,
     formState: { errors },
-  } = useForm<LoginArgs>({ defaultValues: { email: "", password: "", rememberMe: false } })
+  } = useForm<LoginArgs>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "", rememberMe: false },
+  })
 
   const onSubmit: SubmitHandler<LoginArgs> = (data) => {
     console.log("Submitted data:", data)
@@ -76,12 +82,9 @@ export const Login = () => {
               <TextField
                 label="Email"
                 margin="normal"
+                error={!!errors.email}
                 {...register("email", {
                   required: "Email is required",
-                  pattern: {
-                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-                    message: "Incorrect email address",
-                  },
                 })}
               />
               {errors.email && <span className={s.errorMessage}>{errors.email.message}</span>}
