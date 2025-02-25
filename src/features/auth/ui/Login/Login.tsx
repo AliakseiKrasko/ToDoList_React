@@ -48,7 +48,6 @@ export const Login = () => {
   })
 
   const onSubmit: SubmitHandler<LoginArgs> = (data) => {
-    console.log("Submitted data:", data)
     dispatch(loginTC(data))
     reset()
   }

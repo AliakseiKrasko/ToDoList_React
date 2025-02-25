@@ -93,7 +93,6 @@ export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
       const parsedData = TodolistsResponseSchema.safeParse(res.data)
 
       if (!parsedData.success) {
-        console.error("Invalid response:", parsedData.error)
         dispatch(setAppErrorAC("Invalid server response"))
         dispatch(setAppStatusAC("failed"))
         return
@@ -110,21 +109,6 @@ export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
       HandleServerError(dispatch, error)
     })
 }
-
-/*
-dispatch(setAppStatusAC("succeeded"))
-      dispatch(setTodolistsAC(res.data))
-      return res.data
-    })
-    .then((todos) => {
-      todos.forEach((tl) => {
-        dispatch(fetchTasksTC(tl.id))
-      })
-    })
-    .catch((error) => {
-      HandleServerError(dispatch, error)
-    })
-}*/
 
 export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))

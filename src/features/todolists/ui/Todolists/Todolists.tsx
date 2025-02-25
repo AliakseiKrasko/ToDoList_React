@@ -13,7 +13,6 @@ export const Todolists = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    debugger
     dispatch(fetchTodolistsTC())
   }, [])
 
