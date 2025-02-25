@@ -8,6 +8,7 @@ import { HandleServerError } from "common/utils"
 import { removeTaskAC } from "../../todolists/model/task-reducer"
 import { authApi } from "../api/authApi"
 import { AppDispatch } from "../../../app/store"
+import { clearTodolistsDataAC } from "../../todolists/model/todolists-reducer"
 
 type InitialStateType = typeof initialState
 
@@ -66,6 +67,7 @@ export const logoutTC = () => (dispatch: AppDispatch) => {
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setAppStatusAC("succeeded"))
         dispatch(setIsLoggedInAC(false))
+        dispatch(clearTodolistsDataAC())
         localStorage.removeItem("sn-token")
       } else {
         HandleAppError(dispatch, res.data)

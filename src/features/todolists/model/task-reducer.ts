@@ -1,4 +1,4 @@
-import { AddTodolistActionType, RemoveTodolistActionType } from "./todolists-reducer"
+import { AddTodolistActionType, clearTodolistsDataActionType, RemoveTodolistActionType } from "./todolists-reducer"
 import { tasksApi } from "../api/tasksApi"
 import { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
 import { AppDispatch, AppThunk } from "../../../app/store"
@@ -57,6 +57,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       let copyState = { ...state }
       delete copyState[action.payload.id]
       return copyState
+    }
+    case "CLEAR-DATA": {
+      return {}
     }
 
     default:
@@ -178,3 +181,4 @@ type ActionsType =
   | AddTodolistActionType
   | RemoveTodolistActionType
   | SetTasksActionType
+  | clearTodolistsDataActionType
