@@ -33,7 +33,6 @@ export const Login = () => {
     if (isLoggedIn) {
       navigate(Path.Main)
     }
-    debugger
   }, [isLoggedIn])
 
   const {
