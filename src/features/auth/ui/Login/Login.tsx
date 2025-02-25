@@ -18,7 +18,7 @@ import { selectIsLoggedIn } from "../../model/authSelectors"
 import { useNavigate } from "react-router"
 import { useEffect } from "react"
 import { Path } from "common/routing/Routing"
-import { loginSchema } from "../../lib/schemas/liginSchema"
+import { Inputs, loginSchema } from "../../lib/schemas/liginSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export const Login = () => {
@@ -42,7 +42,7 @@ export const Login = () => {
     control,
     reset,
     formState: { errors },
-  } = useForm<LoginArgs>({
+  } = useForm<Inputs>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", rememberMe: false },
   })

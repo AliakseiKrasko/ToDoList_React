@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
 import { RequestStatus, setAppErrorAC, setAppStatusAC } from "../../../app/app-reducer"
 import { ResultCode } from "../lib/enams"
-import { addTaskAC } from "./task-reducer"
+import { addTaskAC, fetchTasksTC } from "./task-reducer"
 import { HandleServerError } from "common/utils"
 import { HandleAppError } from "common/utils/handleAppError"
 
@@ -80,14 +80,23 @@ export const changeTodolistEntityStatusAC = (payload: { id: string; entityStatus
 }
 //Thunk
 
-export const fetchTodolistsTC = (dispatch: AppDispatch, getState: () => RootState) => {
-  // внутри санки можно делать побочные эффекты (запросы на сервер)
+export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
-  todolistsApi.getTodolists().then((res) => {
-    // и диспатчить экшены (action) или другие санки (thunk)
-    dispatch(setTodolistsAC(res.data))
-    dispatch(setAppStatusAC("succeeded"))
-  })
+  todolistsApi
+    .getTodolists()
+    .then((res) => {
+      dispatch(setAppStatusAC("succeeded"))
+      dispatch(setTodolistsAC(res.data))
+      return res.data
+    })
+    .then((todos) => {
+      todos.forEach((tl) => {
+        dispatch(fetchTasksTC(tl.id))
+      })
+    })
+    .catch((error) => {
+      HandleServerError(dispatch, error)
+    })
 }
 
 export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {

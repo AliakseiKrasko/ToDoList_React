@@ -12,6 +12,9 @@ import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { LinearProgress } from "@mui/material"
 import { selectIsLoggedIn } from "../../features/auth/model/authSelectors"
 import { logoutTC } from "../../features/auth/model/auth-reducer"
+import { Path } from "common/routing/Routing"
+import { useNavigate } from "react-router"
+import { useEffect } from "react"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -21,12 +24,19 @@ export const Header = () => {
 
   const theme = getTheme(themeMode)
 
+  const navigate = useNavigate()
+
   const changeModeHandler = () => {
     dispatch(changeThemeAC(themeMode === "light" ? "dark" : "light"))
   }
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(Path.Login)
+    }
+  }, [isLoggedIn])
+
   const logoutHandler = () => {
-    console.log("Logout Clicked")
     dispatch(logoutTC())
   }
   console.log("isLoggedIn after logout:", isLoggedIn)
