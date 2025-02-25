@@ -1,4 +1,3 @@
-import { Todolist } from "../api/todolistsApi.types"
 import { Dispatch } from "redux"
 import { AppDispatch, RootState } from "../../../app/store"
 import { todolistsApi } from "../api/todolistsApi"
@@ -7,6 +6,7 @@ import { ResultCode } from "../lib/enams"
 import { addTaskAC, fetchTasksTC } from "./task-reducer"
 import { HandleServerError } from "common/utils"
 import { HandleAppError } from "common/utils/handleAppError"
+import { Todolist, TodolistsResponseSchema } from "features/auth/lib/schemas/liginSchema"
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -90,7 +90,29 @@ export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
   todolistsApi
     .getTodolists()
     .then((res) => {
+      const parsedData = TodolistsResponseSchema.safeParse(res.data)
+
+      if (!parsedData.success) {
+        console.error("Invalid response:", parsedData.error)
+        dispatch(setAppErrorAC("Invalid server response"))
+        dispatch(setAppStatusAC("failed"))
+        return
+      }
+
       dispatch(setAppStatusAC("succeeded"))
+      dispatch(setTodolistsAC(parsedData.data))
+
+      parsedData.data.forEach((tl) => {
+        dispatch(fetchTasksTC(tl.id))
+      })
+    })
+    .catch((error) => {
+      HandleServerError(dispatch, error)
+    })
+}
+
+/*
+dispatch(setAppStatusAC("succeeded"))
       dispatch(setTodolistsAC(res.data))
       return res.data
     })
@@ -102,7 +124,7 @@ export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
     .catch((error) => {
       HandleServerError(dispatch, error)
     })
-}
+}*/
 
 export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatusAC("loading"))
