@@ -4,7 +4,7 @@ import { todolistsReducer } from "features/todolists/model/todolists-reducer"
 import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk"
 import { appReducer } from "./app-reducer"
 import { tasksReducer } from "../features/todolists/model/task-reducer"
-import { authReducer } from "../features/auth/model/auth-reducer"
+import { authReducer } from "../features/auth/model/authSlice"
 import { configureStore } from "@reduxjs/toolkit"
 
 const rootReducer = combineReducers({

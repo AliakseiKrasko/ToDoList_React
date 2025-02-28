@@ -6,7 +6,7 @@ import { HandleServerError } from "common/utils"
 import { authApi } from "../api/authApi"
 import { AppDispatch } from "../../../app/store"
 import { clearTodolistsDataAC } from "../../todolists/model/todolists-reducer"
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 
 export const authSlice = createSlice({
   name: "auth",
@@ -14,14 +14,14 @@ export const authSlice = createSlice({
     isLoggedIn: false,
     isInitialized: false,
   },
-  reducers: {
-    setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
+  reducers: (create) => ({
+    setIsLoggedIn: create.reducer<{ isLoggedIn: boolean }>((state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn
-    },
-    setIsInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
+    }),
+    setIsInitialized: create.reducer<{ isInitialized: boolean }>((state, action) => {
       state.isInitialized = action.payload.isInitialized
-    },
-  },
+    }),
+  }),
 })
 
 export const authReducer = authSlice.reducer
