@@ -1,7 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react"
 import { IconButton, TextField } from "@mui/material"
 import { AddCircleOutline } from "@mui/icons-material"
-import { RequestStatus } from "../../../app/app-reducer"
+import { RequestStatus } from "../../../app/appSlice"
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void

@@ -4,7 +4,7 @@ import Snackbar from "@mui/material/Snackbar"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { selectError } from "../../../app/app-selector"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
-import { setAppErrorAC } from "../../../app/app-reducer"
+import { setAppError } from "../../../app/appSlice"
 
 export const ErrorSnackbar = () => {
   const dispatch = useAppDispatch()
@@ -14,7 +14,7 @@ export const ErrorSnackbar = () => {
     if (reason === "clickaway") {
       return
     }
-    dispatch(setAppErrorAC(null)) // Сброс ошибки при закрытии
+    dispatch(setAppError({ error: null })) // Сброс ошибки при закрытии
   }
 
   return (

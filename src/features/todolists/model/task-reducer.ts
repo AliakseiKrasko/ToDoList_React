@@ -2,11 +2,10 @@ import { AddTodolistActionType, clearTodolistsDataActionType, RemoveTodolistActi
 import { tasksApi } from "../api/tasksApi"
 import { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
 import { AppDispatch, AppThunk } from "../../../app/store"
-import { setAppErrorAC, setAppStatusAC } from "../../../app/app-reducer"
 import { ResultCode } from "../lib/enams"
-import { Dispatch } from "redux"
 import { HandleServerError } from "common/utils"
 import { HandleAppError } from "common/utils/handleAppError"
+import { setAppStatus } from "../../../app/appSlice"
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
@@ -98,21 +97,21 @@ export const setTasksAC = (payload: { todolistId: string; tasks: DomainTask[] })
 
 // Thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
-  dispatch(setAppStatusAC("loading"))
+  dispatch(setAppStatus({ status: "loading" }))
   tasksApi.getTasks(todolistId).then((res) => {
     dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
-    dispatch(setAppStatusAC("succeeded"))
+    dispatch(setAppStatus({ status: "succeeded" }))
   })
 }
 
 export const removeTaskTC = (args: { taskId: string; todolistId: string }) => (dispatch: AppDispatch) => {
-  dispatch(setAppStatusAC("loading"))
+  dispatch(setAppStatus({ status: "loading" }))
   tasksApi
     .deleteTask(args)
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(removeTaskAC(args))
-        dispatch(setAppStatusAC("succeeded"))
+        dispatch(setAppStatus({ status: "succeeded" }))
       } else {
         HandleAppError(dispatch, res.data)
       }
@@ -123,13 +122,13 @@ export const removeTaskTC = (args: { taskId: string; todolistId: string }) => (d
 }
 
 export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispatch: AppDispatch) => {
-  dispatch(setAppStatusAC("loading"))
+  dispatch(setAppStatus({ status: "loading" }))
   tasksApi
     .createTask(arg)
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(addTaskAC({ task: res.data.data.item }))
-        dispatch(setAppStatusAC("succeeded"))
+        dispatch(setAppStatus({ status: "succeeded" }))
       } else {
         HandleAppError(dispatch, res.data)
       }
@@ -150,13 +149,13 @@ export const updateTaskTC =
     }
 
     const updatedTask = { ...task, ...arg.domainModel }
-    dispatch(setAppStatusAC("loading"))
+    dispatch(setAppStatus({ status: "loading" }))
     tasksApi
       .updateTask({ taskId: arg.taskId, todolistId: arg.todolistId, model: updatedTask })
       .then((res) => {
         if (res.data.resultCode === 0) {
           dispatch(updateTaskAC({ task: updatedTask }))
-          dispatch(setAppStatusAC("succeeded"))
+          dispatch(setAppStatus({ status: "succeeded" }))
         } else {
           console.error(`Failed to update task: ${res.data.messages.join(", ")}`)
         }

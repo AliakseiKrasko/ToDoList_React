@@ -3,7 +3,6 @@ import AppBar from "@mui/material/AppBar"
 import IconButton from "@mui/material/IconButton"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
-import { changeThemeAC } from "../../app/app-reducer"
 import { selectStatus, selectThemeMode } from "../../app/app-selector"
 import { getTheme } from "../theme/theme"
 import { MenuButton } from "../Button/MenuButton"
@@ -15,6 +14,7 @@ import { logoutTC } from "../../features/auth/model/authSlice"
 import { Path } from "common/routing/Routing"
 import { useNavigate } from "react-router"
 import { useEffect } from "react"
+import { changeTheme } from "../../app/appSlice"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -27,7 +27,7 @@ export const Header = () => {
   const navigate = useNavigate()
 
   const changeModeHandler = () => {
-    dispatch(changeThemeAC(themeMode === "light" ? "dark" : "light"))
+    dispatch(changeTheme({ themeMode: themeMode === "light" ? "dark" : "light" }))
   }
 
   useEffect(() => {
