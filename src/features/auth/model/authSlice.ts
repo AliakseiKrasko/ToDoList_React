@@ -5,7 +5,7 @@ import { HandleAppError } from "common/utils/handleAppError"
 import { HandleServerError } from "common/utils"
 import { authApi } from "../api/authApi"
 import { AppDispatch } from "../../../app/store"
-import { clearTodolistsDataAC } from "../../todolists/model/todolistsSlice"
+import { clearTodolists } from "../../todolists/model/todolistsSlice"
 import { createSlice } from "@reduxjs/toolkit"
 
 export const authSlice = createSlice({
@@ -54,7 +54,7 @@ export const logoutTC = () => (dispatch: AppDispatch) => {
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setAppStatus({ status: "succeeded" }))
         dispatch(setIsLoggedIn({ isLoggedIn: false }))
-        dispatch(clearTodolistsDataAC())
+        dispatch(clearTodolists())
         localStorage.removeItem("sn-token")
       } else {
         HandleAppError(dispatch, res.data)

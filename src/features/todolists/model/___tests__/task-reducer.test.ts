@@ -1,6 +1,6 @@
 import { removeTaskAC, tasksReducer, TasksStateType, addTaskAC, updateTaskAC } from "../task-reducer"
-import { addTodolistAC, removeTodolistAC } from "../todolistsSlice"
 import { TaskPriority, TaskStatus } from "../../lib/enams"
+import { addTodolist, removeTodolist } from "../todolistsSlice"
 
 let startState: TasksStateType
 
@@ -100,14 +100,14 @@ test("new array should be added when new todolist is added", () => {
     addedDate: "",
     order: 0,
   }
-  const endState = tasksReducer(startState, addTodolistAC(newTodolist))
+  const endState = tasksReducer(startState, addTodolist({ todolist: newTodolist }))
 
   expect(Object.keys(endState).length).toBe(3)
   expect(endState["todolistId3"]).toEqual([])
 })
 
 test("property with todolistId should be deleted", () => {
-  const endState = tasksReducer(startState, removeTodolistAC("todolistId2"))
+  const endState = tasksReducer(startState, removeTodolist({ id: "todolistId2" }))
 
   expect(Object.keys(endState).length).toBe(1)
   expect(endState["todolistId2"]).toBeUndefined()

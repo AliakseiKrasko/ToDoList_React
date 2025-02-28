@@ -1,7 +1,7 @@
 import React from "react"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
-import { changeTodolistFilterAC, DomainTodolist, FilterValuesType } from "../../../../model/todolistsSlice"
+import { changeTodolistFilter, DomainTodolist, FilterValuesType } from "../../../../model/todolistsSlice"
 import { filterButtonsContainerSx } from "./FilterButtons.styles"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 
@@ -12,7 +12,7 @@ type FilterButtonsType = {
 export const FilterButtons = ({ todolist }: FilterButtonsType) => {
   const dispatch = useAppDispatch()
   const changeFilter = (filter: FilterValuesType) => {
-    dispatch(changeTodolistFilterAC({ id: todolist.id, filter }))
+    dispatch(changeTodolistFilter({ id: todolist.id, filter }))
   }
 
   return (
