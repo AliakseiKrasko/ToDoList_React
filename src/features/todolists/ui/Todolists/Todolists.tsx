@@ -5,7 +5,7 @@ import { Todolist } from "./Todolist/Todolist"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { useEffect } from "react"
 import { todolistsApi } from "../../api/todolistsApi"
-import { fetchTodolistsTC, setTodolistsAC } from "../../model/todolists-reducer"
+import { fetchTodolistsTC, setTodolistsAC } from "../../model/todolistsSlice"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 
 export const Todolists = () => {

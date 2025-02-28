@@ -5,7 +5,7 @@ import { HandleAppError } from "common/utils/handleAppError"
 import { HandleServerError } from "common/utils"
 import { authApi } from "../api/authApi"
 import { AppDispatch } from "../../../app/store"
-import { clearTodolistsDataAC } from "../../todolists/model/todolists-reducer"
+import { clearTodolistsDataAC } from "../../todolists/model/todolistsSlice"
 import { createSlice } from "@reduxjs/toolkit"
 
 export const authSlice = createSlice({

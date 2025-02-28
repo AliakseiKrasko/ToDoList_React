@@ -8,7 +8,7 @@ import { EditableSpan } from "common/components/EditableSpan"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { DomainTask } from "../../../../../api/tasksApi.types"
 import { TaskStatus } from "../../../../../lib/enams"
-import { DomainTodolist } from "../../../../../model/todolists-reducer"
+import { DomainTodolist } from "../../../../../model/todolistsSlice"
 
 type Props = {
   task: DomainTask
