@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react"
 import { Checkbox, IconButton } from "@mui/material"
-import { removeTaskTC, updateTaskTC } from "../../../../../model/task-reducer"
+import { removeTaskTC, updateTaskTC } from "../../../../../model/taskSlice"
 import ListItem from "@mui/material/ListItem"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { getListItemSx } from "./Task.styles"

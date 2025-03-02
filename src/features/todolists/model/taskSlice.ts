@@ -5,14 +5,32 @@ import { ResultCode } from "../lib/enams"
 import { HandleServerError } from "common/utils"
 import { HandleAppError } from "common/utils/handleAppError"
 import { setAppStatus } from "../../../app/appSlice"
+import { createSlice } from "@reduxjs/toolkit"
+import { addTodolist, removeTodolist } from "./todolistsSlice"
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
 }
 
-const initialState: TasksStateType = {}
+export const tasksSlice = createSlice({
+  name: "tasks",
+  initialState: {} as TasksStateType,
+  reducers: (create) => ({}),
+  extraReducers: (builder) => {
+    builder
+      .addCase(addTodolist, (state, action) => {
+        state[action.payload.todolist.id] = []
+      })
+      .addCase(removeTodolist, (state, action) => {
+        delete state[action.payload.id]
+      })
+  },
+})
 
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
+export const {} = tasksSlice.actions
+export const tasksReducer = tasksSlice.reducer
+
+export const _tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
   switch (action.type) {
     case "SET-TASKS": {
       const stateCopy = { ...state }
@@ -47,9 +65,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         ),
       }
     }
-
-    case "ADD-TODOLIST":
-      return { ...state, [action.payload.todolist.id]: [] }
 
     case "REMOVE-TODOLIST": {
       let copyState = { ...state }

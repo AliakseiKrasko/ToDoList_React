@@ -3,7 +3,7 @@ import { TodolistTitle } from "./TodolistTitle/TodolistTitle"
 import { DomainTodolist } from "../../../model/todolistsSlice"
 import { FilterButtons } from "./FilterButtons/FilterButtons"
 import { Tasks } from "./Tasks/Tasks"
-import { addTaskAC, addTaskTC } from "../../../model/task-reducer"
+import { addTaskAC, addTaskTC } from "../../../model/taskSlice"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 
 type PropsType = {

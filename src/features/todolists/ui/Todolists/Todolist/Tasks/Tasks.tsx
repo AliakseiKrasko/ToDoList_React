@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { fetchTasksTC } from "../../../../model/task-reducer"
+import { fetchTasksTC } from "../../../../model/taskSlice"
 import { DomainTodolist } from "../../../../model/todolistsSlice"
 import List from "@mui/material/List"
 import { selectTasks } from "../../../../model/tasks-selectors"

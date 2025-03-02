@@ -1,4 +1,4 @@
-import { removeTaskAC, tasksReducer, TasksStateType, addTaskAC, updateTaskAC } from "../task-reducer"
+import { removeTaskAC, tasksReducer, TasksStateType, addTaskAC, updateTaskAC } from "../taskSlice"
 import { TaskPriority, TaskStatus } from "../../lib/enams"
 import { addTodolist, removeTodolist } from "../todolistsSlice"
 
