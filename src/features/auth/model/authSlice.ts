@@ -4,7 +4,7 @@ import { ResultCode } from "../../todolists/lib/enams"
 import { HandleAppError } from "common/utils/handleAppError"
 import { HandleServerError } from "common/utils"
 import { authApi } from "../api/authApi"
-import { AppDispatch } from "../../../app/store"
+import { AppDispatch, type RootState } from "../../../app/store"
 import { clearTodolists } from "../../todolists/model/todolistsSlice"
 import { createSlice } from "@reduxjs/toolkit"
 import { clearTasks } from "../../todolists/model/taskSlice"
@@ -23,10 +23,15 @@ export const authSlice = createSlice({
       state.isInitialized = action.payload.isInitialized
     }),
   }),
+  selectors: {
+    selectIsLoggedIn: (state) => state.isLoggedIn,
+    selectIsInitialized: (state) => state.isInitialized,
+  },
 })
 
 export const authReducer = authSlice.reducer
 export const { setIsLoggedIn, setIsInitialized } = authSlice.actions
+export const { selectIsLoggedIn, selectIsInitialized } = authSlice.selectors
 
 // thunks
 export const loginTC = (data: LoginArgs) => (dispatch: AppDispatch) => {

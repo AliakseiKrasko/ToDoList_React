@@ -1,21 +1,21 @@
 import { applyMiddleware, combineReducers, legacy_createStore, UnknownAction } from "redux"
 
-import { todolistsReducer } from "../features/todolists/model/todolistsSlice"
+import { todolistsReducer, todolistsSlice } from "../features/todolists/model/todolistsSlice"
 import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk"
-import { appReducer } from "./appSlice"
-import { tasksReducer } from "../features/todolists/model/taskSlice"
-import { authReducer } from "../features/auth/model/authSlice"
+import { appReducer, appSlice } from "./appSlice"
+import { tasksReducer, tasksSlice } from "../features/todolists/model/taskSlice"
+import { authReducer, authSlice } from "../features/auth/model/authSlice"
 import { configureStore } from "@reduxjs/toolkit"
 
-const rootReducer = combineReducers({
-  tasks: tasksReducer,
-  todolists: todolistsReducer,
-  app: appReducer,
-  auth: authReducer,
-})
-
 // export const store = legacy_createStore(rootReducer, {}, applyMiddleware(thunk))
-export const store = configureStore({ reducer: rootReducer })
+export const store = configureStore({
+  reducer: {
+    [tasksSlice.name]: tasksReducer,
+    [todolistsSlice.name]: todolistsReducer,
+    [appSlice.name]: appReducer,
+    [authSlice.name]: authReducer,
+  },
+})
 
 // определить автоматически тип всего объекта состояния
 export type RootState = ReturnType<typeof store.getState>

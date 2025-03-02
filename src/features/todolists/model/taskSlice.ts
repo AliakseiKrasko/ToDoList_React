@@ -1,5 +1,5 @@
 import { tasksApi } from "../api/tasksApi"
-import { DomainTask, UpdateTaskDomainModel } from "../api/tasksApi.types"
+import { DomainTask, UpdateTaskModel } from "../api/tasksApi.types"
 import { AppDispatch, AppThunk } from "../../../app/store"
 import { ResultCode } from "../lib/enams"
 import { HandleServerError } from "common/utils"
@@ -30,7 +30,7 @@ export const tasksSlice = createSlice({
       const tasks = state[action.payload.task.todoListId]
       tasks.unshift(action.payload.task)
     }),
-    updateTask: create.reducer<{ taskId: string; todolistId: string; domainModel: UpdateTaskDomainModel }>(
+    updateTask: create.reducer<{ taskId: string; todolistId: string; domainModel: Partial<UpdateTaskModel> }>(
       (state, action) => {
         const tasks = state[action.payload.todolistId]
         const index = tasks.findIndex((t) => t.id === action.payload.taskId)
@@ -100,7 +100,7 @@ export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispat
     })
 }
 export const updateTaskTC =
-  (arg: { taskId: string; todolistId: string; domainModel: UpdateTaskDomainModel }): AppThunk =>
+  (arg: { taskId: string; todolistId: string; domainModel: Partial<UpdateTaskModel> }): AppThunk =>
   (dispatch, getState) => {
     const state = getState()
     const task = state.tasks[arg.todolistId]?.find((t) => t.id === arg.taskId)

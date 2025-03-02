@@ -8,8 +8,8 @@ import { useEffect, useLayoutEffect } from "react"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
 import { Routing } from "common/routing"
-import { selectIsInitialized } from "../features/auth/model/authSelectors"
-import { initializeTC } from "../features/auth/model/authSlice"
+
+import { initializeTC, selectIsInitialized } from "../features/auth/model/authSlice"
 import { CircularProgress } from "@mui/material"
 import s from "./App.module.css"
 
