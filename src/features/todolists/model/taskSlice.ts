@@ -54,14 +54,14 @@ export const tasksSlice = createSlice({
   },
 })
 
-export const {} = tasksSlice.actions
+export const { setTasks, addTask, clearTasks, updateTask, removeTask } = tasksSlice.actions
 export const tasksReducer = tasksSlice.reducer
 
 // Thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
   tasksApi.getTasks(todolistId).then((res) => {
-    dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
+    dispatch(setTasks({ tasks: res.data.items, todolistId }))
     dispatch(setAppStatus({ status: "succeeded" }))
   })
 }
@@ -72,7 +72,7 @@ export const removeTaskTC = (args: { taskId: string; todolistId: string }) => (d
     .deleteTask(args)
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
-        dispatch(removeTaskAC(args))
+        dispatch(removeTask(args))
         dispatch(setAppStatus({ status: "succeeded" }))
       } else {
         HandleAppError(dispatch, res.data)
@@ -89,7 +89,7 @@ export const addTaskTC = (arg: { title: string; todolistId: string }) => (dispat
     .createTask(arg)
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
-        dispatch(addTaskAC({ task: res.data.data.item }))
+        dispatch(addTask({ task: res.data.data.item }))
         dispatch(setAppStatus({ status: "succeeded" }))
       } else {
         HandleAppError(dispatch, res.data)
@@ -116,7 +116,7 @@ export const updateTaskTC =
       .updateTask({ taskId: arg.taskId, todolistId: arg.todolistId, model: updatedTask })
       .then((res) => {
         if (res.data.resultCode === 0) {
-          dispatch(updateTaskAC({ task: updatedTask }))
+          dispatch(updateTask(arg))
           dispatch(setAppStatus({ status: "succeeded" }))
         } else {
           console.error(`Failed to update task: ${res.data.messages.join(", ")}`)

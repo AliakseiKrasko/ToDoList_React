@@ -1,4 +1,4 @@
-import { removeTaskAC, tasksReducer, TasksStateType, addTaskAC, updateTaskAC } from "../taskSlice"
+import { addTask, removeTask, tasksReducer, TasksStateType, updateTask } from "../taskSlice"
 import { TaskPriority, TaskStatus } from "../../lib/enams"
 import { addTodolist, removeTodolist } from "../todolistsSlice"
 
@@ -50,7 +50,7 @@ beforeEach(() => {
 })
 
 test("correct task should be deleted from correct array", () => {
-  const endState = tasksReducer(startState, removeTaskAC({ taskId: "2", todolistId: "todolistId1" }))
+  const endState = tasksReducer(startState, removeTask({ taskId: "2", todolistId: "todolistId1" }))
 
   expect(endState["todolistId1"].length).toBe(1)
   expect(endState["todolistId1"].some((task) => task.id === "2")).toBe(false)
@@ -69,7 +69,7 @@ test("correct task should be added to correct array", () => {
     order: 0,
     addedDate: "",
   }
-  const endState = tasksReducer(startState, addTaskAC({ task: newTask }))
+  const endState = tasksReducer(startState, addTask({ task: newTask }))
 
   expect(endState["todolistId1"].length).toBe(3)
   expect(endState["todolistId1"].some((task) => task.title === "juice")).toBe(true)
@@ -78,21 +78,28 @@ test("correct task should be added to correct array", () => {
 test("status of specified task should be changed", () => {
   const endState = tasksReducer(
     startState,
-    updateTaskAC({ task: { ...startState["todolistId1"][1], status: TaskStatus.Completed } }),
+    updateTask({
+      taskId: "2",
+      todolistId: "todolistId1",
+      domainModel: { status: TaskStatus.Completed },
+    }),
   )
 
   expect(endState["todolistId1"].find((task) => task.id === "2")?.status).toBe(TaskStatus.Completed)
 })
 
-test("title of specified task should be changed", () => {
+test("status of specified task should be changed", () => {
   const endState = tasksReducer(
     startState,
-    updateTaskAC({ task: { ...startState["todolistId1"][1], title: "coffee" } }),
+    updateTask({
+      taskId: "2",
+      todolistId: "todolistId1",
+      domainModel: { status: TaskStatus.Completed },
+    }),
   )
 
-  expect(endState["todolistId1"].find((task) => task.id === "2")?.title).toBe("coffee")
+  expect(endState["todolistId1"].find((task) => task.id === "2")?.status).toBe(TaskStatus.Completed)
 })
-
 test("new array should be added when new todolist is added", () => {
   const newTodolist = {
     id: "todolistId3",
