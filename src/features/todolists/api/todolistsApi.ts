@@ -11,18 +11,29 @@ export const todolistsApi = createApi({
     prepareHeaders: (headers) => {
       headers.set("API-KEY", `${process.env.REACT_APP_API_KEY}`)
       headers.set("Authorization", `Bearer ${localStorage.getItem("sn-token")}`)
+      return headers
     },
   }),
-  endpoints: (build) => {
-    return {
-      getTodolists: build.query<DomainTodolist[], void>({
-        query: () => "todo-lists",
-        transformResponse(todolists: Todolist[]): DomainTodolist[] {
-          return todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }))
-        },
+  endpoints: (build) => ({
+    getTodolists: build.query<DomainTodolist[], void>({
+      query: () => "todo-lists",
+      transformResponse(todolists: Todolist[]): DomainTodolist[] {
+        return todolists.map((tl) => ({
+          ...tl,
+          filter: "all",
+          entityStatus: "idle",
+        }))
+      },
+    }),
+
+    addTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
+      query: (title) => ({
+        url: "todo-lists",
+        method: "POST",
+        body: { title },
       }),
-    }
-  },
+    }),
+  }),
 })
 
 export const { useGetTodolistsQuery } = todolistsApi
