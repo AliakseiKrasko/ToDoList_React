@@ -27,16 +27,18 @@ export const todolistsApi = createApi({
     }),
 
     addTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
-      query: (title) => ({
-        url: "todo-lists",
-        method: "POST",
-        body: { title },
-      }),
+      query: (title) => {
+        return {
+          url: "todo-lists",
+          method: "POST",
+          body: { title },
+        }
+      },
     }),
   }),
 })
 
-export const { useGetTodolistsQuery } = todolistsApi
+export const { useGetTodolistsQuery, useAddTodolistMutation } = todolistsApi
 
 export const _todolistsApi = {
   getTodolists() {
