@@ -46,6 +46,7 @@ export const todolistsApi = createApi({
           url: `todo-lists/${id}`,
         }
       },
+      invalidatesTags: ["Todolist"],
     }),
     updateTodolistTitle: build.mutation<BaseResponse, { id: string; title: string }>({
       query: ({ id, title }) => {
@@ -57,6 +58,7 @@ export const todolistsApi = createApi({
           },
         }
       },
+      invalidatesTags: ["Todolist"],
     }),
   }),
 })
