@@ -3,24 +3,23 @@ import AppBar from "@mui/material/AppBar"
 import IconButton from "@mui/material/IconButton"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
-import { selectStatus, selectThemeMode } from "../../app/app-selector"
 import { getTheme } from "../theme/theme"
 import { MenuButton } from "../Button/MenuButton"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { LinearProgress } from "@mui/material"
 
-import { logoutTC, selectIsLoggedIn } from "../../features/auth/model/authSlice"
 import { Path } from "common/routing/Routing"
 import { useNavigate } from "react-router"
 import { useEffect } from "react"
-import { changeTheme } from "../../app/appSlice"
+import { changeTheme, logoutTC, selectAppStatus, selectIsLoggedIn, selectThemeMode } from "../../app/appSlice"
 
 export const Header = () => {
-  const themeMode = useAppSelector(selectThemeMode)
-  const status = useAppSelector(selectStatus)
-  const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
+
+  const themeMode = useAppSelector(selectThemeMode)
+  const status = useAppSelector(selectAppStatus)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
   const theme = getTheme(themeMode)
 

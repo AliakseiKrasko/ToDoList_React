@@ -4,9 +4,9 @@ import { AddItemForm } from "common/components/AddItemForm/AddItemForm"
 import { Todolists } from "../features/todolists/ui/Todolists/Todolists"
 import { useAddTodolistMutation } from "../features/todolists/api/todolistsApi"
 import { useAppSelector } from "common/hooks/useAppSelector"
-import { selectIsLoggedIn } from "../features/auth/model/authSlice"
 import { Navigate } from "react-router"
 import { Path } from "common/routing/Routing"
+import { selectIsLoggedIn } from "./appSlice"
 
 export const Main = () => {
   const [addTodolist] = useAddTodolistMutation()

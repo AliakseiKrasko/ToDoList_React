@@ -13,13 +13,12 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import s from "../Login/Login.module.css"
 import { LoginArgs } from "../../api/authApi.types"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
-import { loginTC, selectIsLoggedIn } from "../../model/authSlice"
-
 import { useNavigate } from "react-router"
 import { useEffect } from "react"
 import { Path } from "common/routing/Routing"
 import { Inputs, loginSchema } from "../../lib/schemas/liginSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { loginTC, selectIsLoggedIn } from "../../../../app/appSlice"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)

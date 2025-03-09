@@ -2,13 +2,12 @@ import { SyntheticEvent, useState } from "react"
 import Alert from "@mui/material/Alert"
 import Snackbar from "@mui/material/Snackbar"
 import { useAppSelector } from "common/hooks/useAppSelector"
-import { selectError } from "../../../app/app-selector"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
-import { setAppError } from "../../../app/appSlice"
+import { selectAppError, setAppError } from "../../../app/appSlice"
 
 export const ErrorSnackbar = () => {
   const dispatch = useAppDispatch()
-  const error = useAppSelector(selectError)
+  const error = useAppSelector(selectAppError)
 
   const handleClose = (_: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
