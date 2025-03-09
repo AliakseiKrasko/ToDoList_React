@@ -5,7 +5,6 @@ import { useGetTodolistsQuery } from "../../api/todolistsApi"
 
 export const Todolists = () => {
   const { data: todolist } = useGetTodolistsQuery()
-  console.log({ todolist })
 
   return (
     <>
