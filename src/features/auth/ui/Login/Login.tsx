@@ -18,7 +18,9 @@ import { useEffect } from "react"
 import { Path } from "common/routing/Routing"
 import { Inputs, loginSchema } from "../../lib/schemas/liginSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loginTC, selectIsLoggedIn } from "../../../../app/appSlice"
+import { selectIsLoggedIn, setAppStatus, setIsLoggedIn } from "../../../../app/appSlice"
+import { useLoginMutation } from "../../api/authApi"
+import { ResultCode } from "../../../todolists/lib/enams"
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -27,6 +29,8 @@ export const Login = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
+  const [login] = useLoginMutation()
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -46,8 +50,14 @@ export const Login = () => {
   })
 
   const onSubmit: SubmitHandler<LoginArgs> = (data) => {
-    dispatch(loginTC(data))
-    reset()
+    login(data).then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        dispatch(setAppStatus({ status: "succeeded" }))
+        dispatch(setIsLoggedIn({ isLoggedIn: true }))
+        localStorage.setItem("sn-token", res.data.data.token)
+        reset()
+      }
+    })
   }
 
   return (

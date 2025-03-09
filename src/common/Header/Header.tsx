@@ -12,7 +12,18 @@ import { LinearProgress } from "@mui/material"
 import { Path } from "common/routing/Routing"
 import { useNavigate } from "react-router"
 import { useEffect } from "react"
-import { changeTheme, logoutTC, selectAppStatus, selectIsLoggedIn, selectThemeMode } from "../../app/appSlice"
+import {
+  changeTheme,
+  selectAppStatus,
+  selectIsLoggedIn,
+  selectThemeMode,
+  setAppStatus,
+  setIsLoggedIn,
+} from "../../app/appSlice"
+import { useLogoutMutation } from "../../features/auth/api/authApi"
+import { ResultCode } from "../../features/todolists/lib/enams"
+import { clearTasks } from "../../features/todolists/model/taskSlice"
+import { clearTodolists } from "../../features/todolists/model/todolistsSlice"
 
 export const Header = () => {
   const dispatch = useAppDispatch()
@@ -25,9 +36,9 @@ export const Header = () => {
 
   const navigate = useNavigate()
 
-  const changeModeHandler = () => {
-    dispatch(changeTheme({ themeMode: themeMode === "light" ? "dark" : "light" }))
-  }
+  const [logout] = useLogoutMutation()
+
+  const changeModeHandler = () => {}
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -36,7 +47,14 @@ export const Header = () => {
   }, [isLoggedIn])
 
   const logoutHandler = () => {
-    dispatch(logoutTC())
+    logout().then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedIn({ isLoggedIn: false }))
+        dispatch(clearTasks())
+        dispatch(clearTodolists())
+        localStorage.removeItem("sn-token")
+      }
+    })
   }
 
   return (

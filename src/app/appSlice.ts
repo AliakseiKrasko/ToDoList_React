@@ -1,12 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { LoginArgs } from "../features/auth/api/authApi.types"
-import { AppDispatch } from "./store"
-import { _authApi } from "../features/auth/api/authApi"
-import { ResultCode } from "../features/todolists/lib/enams"
-import { HandleAppError } from "common/utils/handleAppError"
-import { HandleServerError } from "common/utils"
-import { clearTasks } from "../features/todolists/model/taskSlice"
-import { clearTodolists } from "../features/todolists/model/todolistsSlice"
 
 export type ThemeMode = "dark" | "light"
 export type RequestStatus = "idle" | "loading" | "succeeded" | "failed"
@@ -41,68 +33,6 @@ export const appSlice = createSlice({
   },
 })
 
-export const { changeTheme, setAppError, setAppStatus } = appSlice.actions
-export const { selectAppStatus, selectAppError, selectThemeMode } = appSlice.selectors
+export const { changeTheme, setAppError, setAppStatus, setIsLoggedIn } = appSlice.actions
+export const { selectAppStatus, selectAppError, selectThemeMode, selectIsLoggedIn } = appSlice.selectors
 export const appReducer = appSlice.reducer
-
-// thunks
-export const loginTC = (data: LoginArgs) => (dispatch: AppDispatch) => {
-  dispatch(setAppStatus({ status: "loading" }))
-  _authApi
-    .login(data)
-    .then((res) => {
-      if (res.data.resultCode === ResultCode.Success) {
-        dispatch(setAppStatus({ status: "succeeded" }))
-        dispatch(setIsLoggedIn({ isLoggedIn: true }))
-        localStorage.setItem("sn-token", res.data.data.token)
-      } else {
-        HandleAppError(dispatch, res.data)
-      }
-    })
-    .catch((err) => {
-      HandleServerError(dispatch, err)
-    })
-}
-
-export const logoutTC = () => (dispatch: AppDispatch) => {
-  dispatch(setAppStatus({ status: "loading" }))
-  _authApi
-    .logout()
-    .then((res) => {
-      if (res.data.resultCode === ResultCode.Success) {
-        dispatch(setAppStatus({ status: "succeeded" }))
-        dispatch(setIsLoggedIn({ isLoggedIn: false }))
-        dispatch(clearTasks())
-        dispatch(clearTodolists())
-        localStorage.removeItem("sn-token")
-      } else {
-        HandleAppError(dispatch, res.data)
-      }
-    })
-    .catch((error) => {
-      HandleServerError(dispatch, error)
-    })
-}
-
-export const initializeTC = () => (dispatch: AppDispatch) => {
-  dispatch(setAppStatus({ status: "loading" }))
-  _authApi
-    .me()
-    .then((res) => {
-      if (res.data.resultCode === ResultCode.Success) {
-        dispatch(setAppStatus({ status: "succeeded" }))
-        dispatch(setIsLoggedIn({ isLoggedIn: true }))
-      } else {
-        HandleAppError(dispatch, res.data)
-      }
-    })
-    .catch((error) => {
-      HandleServerError(dispatch, error)
-    })
-    .finally(() => {
-      // dispatch(setIsInitialized({ isInitialized: true }))
-    })
-}
-
-export const { setIsLoggedIn } = appSlice.actions
-export const { selectIsLoggedIn } = appSlice.selectors
