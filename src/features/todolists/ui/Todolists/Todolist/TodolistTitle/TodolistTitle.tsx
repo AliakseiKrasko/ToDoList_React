@@ -4,16 +4,19 @@ import { DomainTodolist, removeTodolistTC, updateTodolistTitleTC } from "../../.
 import { EditableSpan } from "common/components/EditableSpan"
 import styles from "./TodolistTitle.module.css"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { useRemoveTodolistMutation } from "../../../../api/todolistsApi"
 
 type Props = {
   todolist: DomainTodolist
 }
 
 export const TodolistTitle = ({ todolist }: Props) => {
+  const [removeTodolist] = useRemoveTodolistMutation()
   const dispatch = useAppDispatch()
 
-  const removeTodolist = () => {
-    dispatch(removeTodolistTC(todolist.id))
+  const removeTodolistHandler = () => {
+    removeTodolist(todolist.id)
+    // dispatch(removeTodolistTC(todolist.id))
   }
 
   const updateTodolist = (title: string) => {
@@ -25,7 +28,7 @@ export const TodolistTitle = ({ todolist }: Props) => {
       <h3>
         <EditableSpan value={todolist.title} onChange={updateTodolist} disabled={todolist.entityStatus === "loading"} />
       </h3>
-      <IconButton onClick={removeTodolist} disabled={todolist.entityStatus === "loading"}>
+      <IconButton onClick={removeTodolistHandler} disabled={todolist.entityStatus === "loading"}>
         <DeleteIcon />
       </IconButton>
     </div>
