@@ -1,5 +1,5 @@
 import { AppDispatch } from "../../../app/store"
-import { todolistsApi } from "../api/todolistsApi"
+import { _todolistsApi } from "../api/todolistsApi"
 import { RequestStatus, setAppError, setAppStatus } from "../../../app/appSlice"
 import { ResultCode } from "../lib/enams"
 import { fetchTasksTC } from "./taskSlice"
@@ -84,7 +84,7 @@ export const {
 
 export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
-  todolistsApi
+  _todolistsApi
     .getTodolists()
     .then((res) => {
       const parsedData = TodolistsResponseSchema.safeParse(res.data)
@@ -109,7 +109,7 @@ export const fetchTodolistsTC = () => (dispatch: AppDispatch) => {
 
 export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
-  todolistsApi
+  _todolistsApi
     .createTodolist(title)
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
@@ -127,7 +127,7 @@ export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
 export const removeTodolistTC = (id: string) => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
   dispatch(changeTodolistEntityStatus({ id, entityStatus: "loading" }))
-  todolistsApi.deleteTodolist(id).then((res) => {
+  _todolistsApi.deleteTodolist(id).then((res) => {
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(setAppStatus({ status: "succeeded" }))
       dispatch(removeTodolist({ id }))
@@ -141,7 +141,7 @@ export const removeTodolistTC = (id: string) => (dispatch: AppDispatch) => {
 
 export const updateTodolistTitleTC = (arg: { id: string; title: string }) => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
-  todolistsApi.updateTodolist(arg.id, arg.title)
+  _todolistsApi.updateTodolist(arg.id, arg.title)
   dispatch(changeTodolistTitle({ id: arg.id, title: arg.title }))
   dispatch(setAppStatus({ status: "succeeded" }))
 }
