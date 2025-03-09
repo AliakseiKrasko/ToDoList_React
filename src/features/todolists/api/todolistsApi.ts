@@ -2,6 +2,7 @@ import { instance } from "../../../common/instance/instance"
 import { BaseResponse } from "common/types/types"
 import { Todolist } from "./todolistsApi.types"
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { DomainTodolist } from "../model/todolistsSlice"
 
 export const todolistsApi = createApi({
   reducerPath: "todolistsApi",
@@ -14,12 +15,10 @@ export const todolistsApi = createApi({
   }),
   endpoints: (build) => {
     return {
-      getTodolists: build.query<any[], void>({
-        query: () => {
-          return {
-            url: "todo-lists",
-            method: "GET",
-          }
+      getTodolists: build.query<DomainTodolist[], void>({
+        query: () => "todo-lists",
+        transformResponse(todolists: Todolist[]): DomainTodolist[] {
+          return todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }))
         },
       }),
     }
