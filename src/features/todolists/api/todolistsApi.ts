@@ -26,6 +26,8 @@ export const todolistsApi = createApi({
   },
 })
 
+export const { useGetTodolistsQuery } = todolistsApi
+
 export const _todolistsApi = {
   getTodolists() {
     return instance.get<Todolist[]>("todo-lists")

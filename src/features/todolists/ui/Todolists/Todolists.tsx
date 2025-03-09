@@ -6,18 +6,15 @@ import { useAppSelector } from "common/hooks/useAppSelector"
 import { useEffect } from "react"
 import { fetchTodolistsTC } from "../../model/todolistsSlice"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { useGetTodolistsQuery } from "../../api/todolistsApi"
 
 export const Todolists = () => {
-  const todolists = useAppSelector(selectTodolists)
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(fetchTodolistsTC())
-  }, [])
+  const data = useGetTodolistsQuery()
+  console.log(data)
 
   return (
     <>
-      {todolists.map((tl) => {
+      {data.data?.map((tl: any) => {
         return (
           <Grid2 key={tl.id}>
             <Paper sx={{ p: "0 20px 20px 20px" }}>

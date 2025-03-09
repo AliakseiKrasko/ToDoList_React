@@ -20,7 +20,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(todolistsApi.middleware),
 })
-// setupListeners(store.dispatch)
+setupListeners(store.dispatch)
 
 // определить автоматически тип всего объекта состояния
 export type RootState = ReturnType<typeof store.getState>
