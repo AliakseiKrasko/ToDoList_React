@@ -3,7 +3,7 @@ import { setAppStatus } from "../../../app/appSlice"
 import { ResultCode } from "../../todolists/lib/enams"
 import { HandleAppError } from "common/utils/handleAppError"
 import { HandleServerError } from "common/utils"
-import { authApi } from "../api/authApi"
+import { _authApi } from "../api/authApi"
 import { AppDispatch, type RootState } from "../../../app/store"
 import { clearTodolists } from "../../todolists/model/todolistsSlice"
 import { createSlice } from "@reduxjs/toolkit"
@@ -36,7 +36,7 @@ export const { selectIsLoggedIn, selectIsInitialized } = authSlice.selectors
 // thunks
 export const loginTC = (data: LoginArgs) => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
-  authApi
+  _authApi
     .login(data)
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
@@ -54,7 +54,7 @@ export const loginTC = (data: LoginArgs) => (dispatch: AppDispatch) => {
 
 export const logoutTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
-  authApi
+  _authApi
     .logout()
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
@@ -74,7 +74,7 @@ export const logoutTC = () => (dispatch: AppDispatch) => {
 
 export const initializeTC = () => (dispatch: AppDispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
-  authApi
+  _authApi
     .me()
     .then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
