@@ -6,6 +6,7 @@ import { DomainTodolist } from "../model/todolistsSlice"
 
 export const todolistsApi = createApi({
   reducerPath: "todolistsApi",
+  tagTypes: ["Todolist"],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BASE_URL,
     prepareHeaders: (headers) => {
@@ -25,6 +26,7 @@ export const todolistsApi = createApi({
           entityStatus: "idle",
         }))
       },
+      providesTags: ["Todolist"],
     }),
 
     addTodolist: build.mutation<BaseResponse<{ item: Todolist }>, string>({
@@ -35,6 +37,7 @@ export const todolistsApi = createApi({
           body: { title },
         }
       },
+      invalidatesTags: ["Todolist"],
     }),
     removeTodolist: build.mutation<BaseResponse, string>({
       query: (id) => {
